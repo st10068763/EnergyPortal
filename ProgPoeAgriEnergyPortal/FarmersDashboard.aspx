@@ -12,7 +12,7 @@
 
 
     <!-- Add modern CSS framework link here, like Bootstrap or Tailwind CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/CSS/mySheet.css"/>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -48,9 +48,13 @@
                             </asp:DropDownList>
                     </div>
                     <div class="form-group">
-                        <label for="productionDate">Production Date:</label>
+                        <label for="productDate">Product Date:</label>
                         <input type="date" id="productionDate" class="form-control" runat="server" />
                     </div>
+                     <div class="form-group">
+                         <label for="productImage">Product image:</label>
+                         <asp:TextBox ID="txtProductImage" runat="server" CssClass="form-control"  placeholder="Enter your image URL here"></asp:TextBox>
+                     </div>
                     <asp:Button ID="btnAddProduct" runat="server" CssClass="btn btn-primary btn-block" Text="Add Product" OnClick="btnAddProduct_Click" />
                 </div>
             </div>
@@ -72,8 +76,9 @@
             </div>
         </div>
     </form>
+    <!---------------------------------Scripts----------------------------->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
 
-<script>   
-</script>
+
