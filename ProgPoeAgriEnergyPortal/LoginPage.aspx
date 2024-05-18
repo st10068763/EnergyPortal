@@ -6,10 +6,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Agri-Energy Connect Portal</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+
+   <%-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />--%>
+
+    <link rel="stylesheet" href="~/CSS/mySheet.css"/>
+
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color:gray;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,9 +29,15 @@
             margin-bottom: 1rem;
             text-align: center;
         }
+        .loginBT {
+            -ms-align-content: center;
+            -webkit-align-content: center;
+            align-content: center;
+        }
     </style>
 </head>
 <body>
+    <!-------------------------------------------------Login form------------------------------------------------------------>
     <form id="form1" runat="server">
         <div class="login-container">
             <h2>Login</h2>
@@ -39,11 +49,22 @@
                 <label for="password">Password</label>
                 <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" placeholder="Enter your password"></asp:TextBox>
             </div>
-            <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-primary btn-block" Text="Login" OnClick="btnLogin_Click" />
+            <!--Open div-->
+            <div> </div>
+            <div class="loginBT">
+                <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-primary btn-block" Text="Login" OnClick="btnLogin_Click" style="left: 0px; top: 0px; width: 83px" />
+            </div>
+            
         </div>
     </form>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <!-------------------------------------------------Login form------------------------------------------------------------>
+
+    <!-------------------------------------------------Scripts------------------------------------------------------------>
+   <%-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>--%>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 </html>

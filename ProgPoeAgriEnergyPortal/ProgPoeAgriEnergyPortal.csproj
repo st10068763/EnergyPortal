@@ -68,6 +68,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CreateAccountPage.aspx" />
+    <Content Include="CSS\mySheet.css" />
+    <Content Include="FarmersDashboard.aspx" />
     <Content Include="LoginPage.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -78,6 +80,13 @@
     </Compile>
     <Compile Include="CreateAccountPage.aspx.designer.cs">
       <DependentUpon>CreateAccountPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FarmersDashboard.aspx.cs">
+      <DependentUpon>FarmersDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FarmersDashboard.aspx.designer.cs">
+      <DependentUpon>FarmersDashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="LoginPage.aspx.cs">
       <DependentUpon>LoginPage.aspx</DependentUpon>
