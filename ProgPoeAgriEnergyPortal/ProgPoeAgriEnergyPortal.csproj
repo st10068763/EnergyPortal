@@ -69,9 +69,11 @@
   <ItemGroup>
     <Content Include="CreateAccountPage.aspx" />
     <Content Include="CSS\mySheet.css" />
+    <Content Include="DashboardPage.aspx" />
     <Content Include="EmployeesDashboard.aspx" />
     <Content Include="FarmersDashboard.aspx" />
     <Content Include="LoginPage.aspx" />
+    <Content Include="TransactionsPage.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +83,13 @@
     </Compile>
     <Compile Include="CreateAccountPage.aspx.designer.cs">
       <DependentUpon>CreateAccountPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DashboardPage.aspx.cs">
+      <DependentUpon>DashboardPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DashboardPage.aspx.designer.cs">
+      <DependentUpon>DashboardPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="EmployeesDashboard.aspx.cs">
       <DependentUpon>EmployeesDashboard.aspx</DependentUpon>
@@ -110,6 +119,13 @@
     </Compile>
     <Compile Include="Site1.Master.designer.cs">
       <DependentUpon>Site1.Master</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionsPage.aspx.cs">
+      <DependentUpon>TransactionsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TransactionsPage.aspx.designer.cs">
+      <DependentUpon>TransactionsPage.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

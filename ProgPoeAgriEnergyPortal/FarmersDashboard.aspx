@@ -7,15 +7,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Farmers Dashboard</title>
-
-
-
-
     <!-- Add modern CSS framework link here, like Bootstrap or Tailwind CSS -->
     <link rel="stylesheet" href="~/CSS/mySheet.css"/>
 </head>
 <body>
     <form id="form1" runat="server">
+<!-- -------------------------------Navbar----------------------------->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="DashboardPage.aspx">Agri-Energy Portal</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="TransactionsPage.aspx">Transactions</a>
+              </li>     
+               <li class="nav-item">
+                   <a class="nav-link" href="LoginPage.aspx">Logout</a>
+               </li>     
+          </ul>
+      </div>
+  </nav>
+
+
         <div class="container mt-5">
             <h1>Welcome to the Farmers Dashboard</h1>
             
