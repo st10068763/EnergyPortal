@@ -22,8 +22,6 @@ namespace ProgPoeAgriEnergyPortal
             string contact = txtFarmerContact.Text;
             string location = txtFarmerLocation.Text;
 
-            // add new farmer to the database
-
             // Clear the input fields
             txtFarmerName.Text = "";
             txtFarmerContact.Text = "";
@@ -51,18 +49,26 @@ namespace ProgPoeAgriEnergyPortal
             GridViewFarmers.DataSource = farmers;
             GridViewFarmers.DataBind();
         }
-
+        //------------------------------SEARCH METHODS-----------------------------------//
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         private DataTable SearchProducts(string query)
         {
             // Implement product search logic here and return a DataTable
             // For demo purposes, returning an empty DataTable
             return new DataTable();
         }
-
+        /// <summary>
+        /// Method to search for farmers in the database
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         private DataTable SearchFarmers(string query)
         {
-            // Implement farmer search logic here and return a DataTable
-            // For demo purposes, returning an empty DataTable
+           
             return new DataTable();
         }
     }

@@ -85,6 +85,9 @@
                             <asp:BoundField DataField="ProductName" HeaderText="Product Name" />
                             <asp:BoundField DataField="Category" HeaderText="Category" />
                             <asp:BoundField DataField="ProductionDate" HeaderText="Production Date" />
+                            <asp:BoundField DataField="ProductQuantity" HeaderText="Product Quantity" />
+                            <asp:BoundField DataField="ProductImage" HeaderText="Product Image" />
+
                         </Columns>
                     </asp:GridView>
                 </div>

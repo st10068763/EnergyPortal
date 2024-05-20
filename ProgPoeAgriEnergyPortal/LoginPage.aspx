@@ -6,9 +6,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Agri-Energy Connect Portal</title>
-
-   <%-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />--%>
-
+   
+    <!-------------------Link of the local CSS page--------------------------- -->
     <link rel="stylesheet" href="~/CSS/mySheet.css"/>
 
     <style>
@@ -59,10 +58,9 @@
                 <a href="CreateAccountPage.aspx">Create an account</a>            
         </div>
     </form>
-    <!-------------------------------------------------Login form------------------------------------------------------------>
+    <!------------------------------------------------------------------------------------------------------------->
 
-    <!-------------------------------------------------Scripts------------------------------------------------------------>
-  
+    <!-------------------------------------------------Scripts------------------------------------------------------------>  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>

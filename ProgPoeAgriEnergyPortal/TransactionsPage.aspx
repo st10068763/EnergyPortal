@@ -14,24 +14,19 @@
     <form id="form1" runat="server">
         <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Agri-Energy Portal</a>
+            <a class="navbar-brand" href="DashboardPage.aspx">Agri-Energy Portal</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Dashboard</a>
+                        <a class="nav-link" href="DashboardPage.aspx">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Add Farmer</a>
+                        <a class="nav-link" href="LoginPage.aspx">Logout</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Search Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Search Farmers</a>
-                    </li>
+                   
                 </ul>
             </div>
         </nav>
@@ -40,7 +35,7 @@
             <h1>Transaction Details</h1>
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title">Product Information</h3>
+                    <h3 class="card-title" aria-orientation="horizontal">Product Information</h3>
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="ProductName">Product Name</label>

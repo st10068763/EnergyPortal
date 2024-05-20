@@ -44,10 +44,11 @@
                             </div>
                             <asp:Button ID="btnCreateAccount" runat="server" CssClass="btn btn-primary btn-block" Text="Create Account" OnClick="btnCreateAccount_Click" style="left: 0px; top: 0px" />
                         </div>
-                        <!-- link to login page -->
+                        <!------------------------- link to login page -------------------------->
                         <div class="card-footer text-center">
                             <a href="LoginPage.aspx">Already have an account? Login</a>
-                            </div>
+                          </div>
+
                     </div>
                 </div>
             </div>

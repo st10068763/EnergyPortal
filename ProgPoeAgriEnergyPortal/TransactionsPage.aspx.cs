@@ -13,10 +13,15 @@ namespace ProgPoeAgriEnergyPortal
         {
 
         }
-
+        /// <summary>
+        /// confirm the purchase and adds the transaction to the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnConfirmPurchase_Click(object sender, EventArgs e)
         {
-
+          
         }
+
     }
 }

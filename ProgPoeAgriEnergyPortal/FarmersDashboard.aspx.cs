@@ -41,7 +41,6 @@ namespace ProgPoeAgriEnergyPortal
                 int rowsAffected = cmd.ExecuteNonQuery();
                 isSuccess = rowsAffected > 0;
             }
-
             return isSuccess;
         }
     }

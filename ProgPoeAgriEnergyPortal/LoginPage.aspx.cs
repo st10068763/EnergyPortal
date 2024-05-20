@@ -27,7 +27,7 @@ namespace ProgPoeAgriEnergyPortal
             string password = txtPassword.Text;
 
             string role = VerifyUser(email, password);
-
+            // Redirects the user to the appropriate page based on the role
             if (!string.IsNullOrEmpty(role))
             {
                 if (role == "Farmer")
@@ -54,7 +54,8 @@ namespace ProgPoeAgriEnergyPortal
         private string VerifyUser(string email, string password)
         {
             string role = null;
-            string connectionString = "your_connection_string"; // Replace with your actual connection string
+            // connection string to connect to the database
+            string connectionString = " "; 
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -70,10 +71,8 @@ namespace ProgPoeAgriEnergyPortal
                 {
                     role = reader["Role"].ToString();
                 }
-
                 reader.Close();
             }
-
             return role;
         }
        //---------------------------------------END VERIFY USER------------------------------------------------//
