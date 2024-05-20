@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Agri-Energy Connect Portal</title>
    
-    <!-------------------Link of the local CSS page--------------------------- -->
+    <!----------------------Link of the local CSS page----------------------->
     <link rel="stylesheet" href="~/CSS/mySheet.css"/>
 
     <style>
         body {
-            background-color:gray;
+            background-color:aliceblue;
             display: flex;
             justify-content: center;
             align-items: center;

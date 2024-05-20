@@ -35,12 +35,20 @@
                                 <label for="txtPassword">Password</label>
                                 <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" placeholder="Password"></asp:TextBox>
                             </div>
+                             <div class="form-group">
+                                 <label for="txtLocation">Location</label>
+                                 <asp:TextBox ID="txtLocation" runat="server" CssClass="form-control" placeholder="Enter your location"></asp:TextBox>
+                             </div>
                             <div class="form-group">
                                 <label for="ddlRole">Role</label>
                                 <asp:DropDownList ID="ddlRole" runat="server" CssClass="form-control">
                                     <asp:ListItem Text="Farmer" Value="Farmer"></asp:ListItem>
                                     <asp:ListItem Text="Employee" Value="Employee"></asp:ListItem>
                                 </asp:DropDownList>
+                            </div>
+                            <!------------------------- message label -------------------------->
+                            <div>
+                                <asp:Label ID="lblMessage" runat="server" Text=""></asp:Label>
                             </div>
                             <asp:Button ID="btnCreateAccount" runat="server" CssClass="btn btn-primary btn-block" Text="Create Account" OnClick="btnCreateAccount_Click" style="left: 0px; top: 0px" />
                         </div>

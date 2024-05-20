@@ -25,7 +25,7 @@ namespace ProgPoeAgriEnergyPortal
             // Check if the user is a farmer or an employee based on the email entered by the user if the user id has the email and the role is farmer then redirect to the farmers page
             string email = txtEmail.Text;
             string password = txtPassword.Text;
-
+            // Calls the VerifyUser method to check if the user exists in the database
             string role = VerifyUser(email, password);
             // Redirects the user to the appropriate page based on the role
             if (!string.IsNullOrEmpty(role))
@@ -36,7 +36,7 @@ namespace ProgPoeAgriEnergyPortal
                 }
                 else if (role == "Employee")
                 {
-                    Response.Redirect("EmployeeDashboard.aspx");
+                    Response.Redirect("EmployeesDashboard.aspx");
                 }
             }
             else
@@ -55,8 +55,7 @@ namespace ProgPoeAgriEnergyPortal
         {
             string role = null;
             // connection string to connect to the database
-            string connectionString = " "; 
-
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT Role FROM Users WHERE Email = @Email AND Password = @Password";
