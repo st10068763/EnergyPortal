@@ -92,15 +92,28 @@
                         <Columns>
                             <asp:BoundField DataField="ProductName" HeaderText="Product Name" />
                             <asp:BoundField DataField="Category" HeaderText="Category" />
-                            <asp:BoundField DataField="ProductionDate" HeaderText="Production Date" />
-                            <asp:BoundField DataField="ProductQuantity" HeaderText="Product Quantity" />
-                            <asp:BoundField DataField="ProductImage" HeaderText="Product Image" />
-                            <asp:BoundField DataField="ProductPrice" HeaderText="Product Price" />
+                            <asp:BoundField DataField="ProductDate" HeaderText="Production Date" />
+                            <asp:BoundField DataField="Quantity" HeaderText="Product Quantity" />
+                            <asp:BoundField DataField="Product_Image" HeaderText="Product Image" />
+                            <asp:BoundField DataField="Product_Price" HeaderText="Product Price" />
                             <asp:BoundField DataField="Description" HeaderText="Description" />
-
                         </Columns>
                     </asp:GridView>
                 </div>
+            </div>
+            <div class ="card mt-5">
+
+                <asp:Table ID="ProductsTable" runat="server" CssClass="table table-striped">
+                    <asp:TableHeaderRow>
+                        <asp:TableHeaderCell>Product Name</asp:TableHeaderCell>
+                        <asp:TableHeaderCell>Description</asp:TableHeaderCell>
+                        <asp:TableHeaderCell>Price</asp:TableHeaderCell>
+                        <asp:TableHeaderCell>Quantity</asp:TableHeaderCell>
+                        <asp:TableHeaderCell>Category</asp:TableHeaderCell>
+                        <asp:TableHeaderCell>Product Date</asp:TableHeaderCell>
+                        <asp:TableHeaderCell>Product Image</asp:TableHeaderCell>
+                    </asp:TableHeaderRow>
+                </asp:Table>
             </div>
         </div>
     </form>

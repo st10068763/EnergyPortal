@@ -13,7 +13,15 @@ namespace ProgPoeAgriEnergyPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            // Check if the user is logged in
+            if (Session["FarmerID"] == null)
+            {
+                Response.Redirect("LoginPage.aspx");
+            }
+            // Get the farmer id from the session (Singleton object)
+            int farmerId = Convert.ToInt32(Session["FarmerID"]);
+            // Display the farmer's products
+            DisplayProducts(farmerId);
         }
 
         protected void btnAddProduct_Click(object sender, EventArgs e)
@@ -22,16 +30,48 @@ namespace ProgPoeAgriEnergyPortal
             string name = txtProductName.Text;
             string category = CategoryDL.SelectedValue;
             string description = txtDescription.Text;
-            string price = txtProductPrice.Text;
-            string quantity = txtProductQuantity.Text;
-            DateTime productDate = productionDate.Value;
-            string product_image = txtProductImage.Text;
-            int farmer_id = 1;
+            decimal price;
+            int quantity;
+            DateTime productDate;
+            string productImage = txtProductImage.Text;
+            
+            if (!decimal.TryParse(txtProductPrice.Text, out price))
+            {
+                DisplayMessage("Please enter a valid price");
+                return;
+            }
+            if (!int.TryParse(txtProductQuantity.Text, out quantity))
+            {
+                DisplayMessage("Please enter a valid quantity");
+                return;
+            }
+            if(!DateTime.TryParse(productionDate.Value, out productDate))
+            {
+                DisplayMessage("Please enter a valid date");
+                return;
+            }
 
+            // Get the farmer id from the session (Singleton object)
+            int farmerId = Convert.ToInt32(Session["FarmerID"]);
+
+            // Call the AddProduct method to add the product to the database
+            if (AddProduct(name, category, description, price, quantity, productDate, productImage, farmerId))
+            {
+                // Display message to the user
+                DisplayMessage("A new product has been added successfully");
+                //***************Method to display the product list after new product has been added********************
+                // cleans all the form fields
+                txtProductName.Text = "";
+                txtDescription.Text = "";
+                txtProductPrice.Text = "";
+                txtProductQuantity.Text = "";
+                productionDate.Value = "";
+                txtProductImage.Text = "";
+            }           
         }
         //-----------------------------------------ADD PRODUCT------------------------------------------------//
         // method to add product to the database
-        private bool AddProduct(string name,string category, string description, string price, string quantity,DateTime productDate, string product_image, int farmer_id)
+        private bool AddProduct(string name,string category, string description, decimal price, int quantity,DateTime productDate, string productImage, int farmerId)
         {
             // connection string to connect to the database
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007"; 
@@ -42,7 +82,7 @@ namespace ProgPoeAgriEnergyPortal
                     // open the connection
                     conn.Open();
                     // query to insert the product into the database
-                    string query = "INSERT INTO Products (ProductName, Description, Price, Quantity, Category, ProductDate, Product_Image, Farmer_ID) VALUES (@Name, @Description, @Price, @Quantity, @ProductDate, @Product_Image, @Farmer_ID)";
+                    string query = "INSERT INTO Products (ProductName, Description, Product_Price, Quantity, Category, ProductDate, Product_Image, Farmer_ID) VALUES (@Name, @Description, @Price, @Category, @Quantity, @ProductDate, @Product_Image, @Farmer_ID)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Name", name);
@@ -51,34 +91,60 @@ namespace ProgPoeAgriEnergyPortal
                         cmd.Parameters.AddWithValue("@Quantity", quantity);
                         cmd.Parameters.AddWithValue("@Category", category);
                         cmd.Parameters.AddWithValue("@ProductDate", productDate);
-                        cmd.Parameters.AddWithValue("@Product_Image", product_image);
-                        cmd.Parameters.AddWithValue("@Farmer_ID", farmer_id);
+                        cmd.Parameters.AddWithValue("@Product_Image", productImage);
+                        cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
-
+                        return rowsAffected > 0;
                     }  
-                    // Display message to the user
-                    DisplayMessage("A new product has been added successfully");
-                    //***************Method to display the product list after new product has been added********************
-                    // cleans all the form fields
-                    txtProductName.Text = "";
-                    txtDescription.Text = "";
-                    txtProductPrice.Text = "";
-                    txtProductQuantity.Text = "";
-                    productionDate.Value = "";
-                    txtProductImage.Text = "";
-
                 }
                 catch (Exception ex)
                 {
-                    DisplayMessage("Error: " + ex);
+                    DisplayMessage("Error: " + ex.Message);
+                    return false;
+                }  
+                finally
+                {
+                    conn.Close();
                 }
-                
-            }
-            return false;
+            }            
         } 
-
         //------------------------------------------------------------------------------------------//
+
+        //-----------------------------------------DISPLAY PRODUCTS------------------------------------------------//
+        // Method to display the farmer's products
+        private void DisplayProducts(int farmerId)
+        {
+            // connection string to connect to the database
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                // query to get the farmer's products
+                string query = "SELECT * FROM Products WHERE Farmer_ID = @Farmer_ID";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        // loop through the products and display them
+                        while (reader.Read())
+                        {
+                            TableRow row = new TableRow();
+                            row.Cells.Add(new TableCell { Text = reader["ProductName"].ToString() });
+                            row.Cells.Add(new TableCell { Text = reader["Description"].ToString() });
+                            row.Cells.Add(new TableCell { Text = reader["Product_Price"].ToString() });
+                            row.Cells.Add(new TableCell { Text = reader["Quantity"].ToString() });
+                            row.Cells.Add(new TableCell { Text = reader["Category"].ToString() });
+                            row.Cells.Add(new TableCell { Text = reader["ProductDate"].ToString() });
+                            row.Cells.Add(new TableCell { Text = reader["Product_Image"].ToString() });
+
+                            ProductsTable.Rows.Add(row);
+                        }
+                    }
+                }
+            }
+        }
 
         // Method to display message to the user
         private void DisplayMessage(string message)

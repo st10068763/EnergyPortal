@@ -36,6 +36,16 @@ namespace ProgPoeAgriEnergyPortal
             }
         }
 
+        /// <summary>
+        /// Creates a new user account in the database and inserts the user details in farmers table or employees table based on the role chosen
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="email"></param>
+        /// <param name="phone"></param>
+        /// <param name="password"></param>
+        /// <param name="role"></param>
+        /// <param name="location"></param>
+        /// <returns></returns>
         private bool CreateUserAccount(string name, string email, string phone, string password, string role, string location)
         {
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007"; 
@@ -45,14 +55,36 @@ namespace ProgPoeAgriEnergyPortal
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "INSERT INTO Users (UserName, Email, PhoneNumber, Password, Role, Location) VALUES (@Name, @Email, @Phone, @Password, @Role, @Location)";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Name", name);
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Phone", phone);
-                    cmd.Parameters.AddWithValue("@Password", password);
-                    cmd.Parameters.AddWithValue("@Role", role);
-                    cmd.Parameters.AddWithValue("@Location", location);
+                    
+                    string query = string.Empty;
+                    SqlCommand cmd = new SqlCommand();
+
+                    if (role == "Farmer")
+                    {
+                        query = "INSERT INTO Farmer (FarmerName, Email, CellphoneNumber, Password, Location, Role) VALUES (@Name, @Email, @Phone, @Password, @Location, @Role)";
+                        cmd = new SqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@Name", name);
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        cmd.Parameters.AddWithValue("@Phone", phone);
+                        cmd.Parameters.AddWithValue("@Password", password);
+                        cmd.Parameters.AddWithValue("@Location", location);
+                        cmd.Parameters.AddWithValue("@Role", role);
+
+                    }
+                    else if (role == "Employee")
+                    {                        
+                        query = "INSERT INTO Employees (EmployeeName, Email, PhoneNumber, Password, Location) VALUES (@Name, @Email, @Phone, @Password, @Location)";
+                        cmd = new SqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@Name", name);
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        cmd.Parameters.AddWithValue("@Phone", phone);
+                        cmd.Parameters.AddWithValue("@Password", password);
+                        cmd.Parameters.AddWithValue("@Location", location);
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('Invalid role selected');</script>");
+                    }                  
 
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -65,9 +97,7 @@ namespace ProgPoeAgriEnergyPortal
             {
                 Response.Write("<script>alert('Error: " + ex.Message + "' ;</script>");                
             }
-
-            return isSuccess;
-           
+            return isSuccess;           
         }
     }
 }
