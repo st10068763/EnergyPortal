@@ -42,6 +42,24 @@ namespace ProgPoeAgriEnergyPortal
         protected global::System.Web.UI.WebControls.TextBox txtProductQuantity;
 
         /// <summary>
+        /// txtProductPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtProductPrice;
+
+        /// <summary>
+        /// CategoryDL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList CategoryDL;
+
+        /// <summary>
         /// productionDate control.
         /// </summary>
         /// <remarks>
@@ -58,6 +76,15 @@ namespace ProgPoeAgriEnergyPortal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtProductImage;
+
+        /// <summary>
+        /// txtDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
         /// btnAddProduct control.

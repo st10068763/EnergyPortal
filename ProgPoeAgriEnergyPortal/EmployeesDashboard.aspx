@@ -56,7 +56,7 @@
                 </div>
                 <div class="form-group">
                     <label for="txtpassword">Password</label>
-                    <asp:TextBox ID="txtpassword" runat="server" CssClass="form-control" TextMode="Password" placeholder="Enter farmer password"></asp:TextBox>
+                    <asp:TextBox ID="txtFarmerPassword" runat="server" CssClass="form-control" TextMode="Password" placeholder="Enter farmer password"></asp:TextBox>
                 </div>
                 <asp:Button ID="btnAddFarmer" runat="server" Text="Add Farmer" CssClass="btn btn-primary" OnClick="btnAddFarmer_Click" />
             </div>
@@ -88,8 +88,9 @@
                 <asp:GridView ID="GridViewFarmers" runat="server" AutoGenerateColumns="false" CssClass="table table-striped">
                     <Columns>
                         <asp:BoundField DataField="FarmerName" HeaderText="Farmer Name" />
-                        <asp:BoundField DataField="Contact" HeaderText="Contact" />
+                        <asp:BoundField DataField="CellphoneNumber" HeaderText="Contact" />
                         <asp:BoundField DataField="Location" HeaderText="Location" />
+                        <asp:BoundField DataField="Email" HeaderText="Email" />
                     </Columns>
                 </asp:GridView>
             </div>

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -14,20 +16,103 @@ namespace ProgPoeAgriEnergyPortal
         {
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnAddFarmer_Click(object sender, EventArgs e)
         {
-            // Logic to add a new farmer
+            // variables to store the input values for the farmer
             string name = txtFarmerName.Text;
             string contact = txtFarmerContact.Text;
             string location = txtFarmerLocation.Text;
+            string email = txtFarmerEmail.Text;
+            string password = txtFarmerPassword.Text;
 
-            // Clear the input fields
-            txtFarmerName.Text = "";
-            txtFarmerContact.Text = "";
-            txtFarmerLocation.Text = "";
+            // Calls the AddFarmer method to add the farmer to the database
+            AddFarmer(name, contact, location, email, password);
         }
+        //----------------------------------ADD NEW FARMER--------------------------------------//
+        // Method to add a new farmer to the database
+        private bool AddFarmer(string name, string contact, string location, string email, string password)
+        {
+           // connection string to connect to the database
+           string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
 
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                // using a transaction to ensure that the data is added to the database 
+                SqlTransaction transaction = null;
+                // using try catch block to catch any exceptions that may occur when adding a new farmer in the database
+                try
+                {
+                    // open the connection to the database
+                    conn.Open();
+                    // Begin a transaction
+                     transaction = conn.BeginTransaction();
+                    // Sql query to insert the new farmer into the database
+                    string query = "INSERT INTO Farmer (FarmerName, CellphoneNumber, Location, Email, Password) VALUES (@Name, @CellphoneNumber, @Location, @Email, @Password)";
+                    using (SqlCommand command = new SqlCommand(query, conn, transaction))
+                    {
+                        command.Parameters.AddWithValue("@Name", name);
+                        command.Parameters.AddWithValue("@CellphoneNumber", contact);
+                        command.Parameters.AddWithValue("@Location", location);
+                        command.Parameters.AddWithValue("@Email", email);
+                        command.Parameters.AddWithValue("@Password", password);
+                        // execute the query
+                        int rowsAffected = command.ExecuteNonQuery();                       
+                    }
+
+                    // SQL query to insert the new user into the Users table
+                    string userQuery = "INSERT INTO Users (UserName, Email, PhoneNumber, Password, Role, Location) VALUES (@UserName, @Email, @PhoneNumber, @Password, @Role, @Location)";
+                    using (SqlCommand userCommand = new SqlCommand(userQuery, conn, transaction))
+                    {
+                        userCommand.Parameters.AddWithValue("@UserName", name);
+                        userCommand.Parameters.AddWithValue("@Email", email);
+                        userCommand.Parameters.AddWithValue("@PhoneNumber", contact);
+                        userCommand.Parameters.AddWithValue("@Password", password);
+                        userCommand.Parameters.AddWithValue("@Role", "Farmer");
+                        userCommand.Parameters.AddWithValue("@Location", location);
+                        // Execute the query
+                        userCommand.ExecuteNonQuery();
+                    }
+
+                    // Commit the transaction
+                    transaction.Commit();
+                    // Message to display that the farmer has been added successfully
+                    ShowSuccess("A new farmer has been added in the database");
+                    // cleans the forms
+                    txtFarmerContact.Text = "";
+                    txtFarmerEmail.Text = "";
+                    txtFarmerLocation.Text = "";
+                    txtFarmerName.Text = "";
+                    txtFarmerPassword.Text = "";
+                    // Method that will display the farmers added by the employee based on the employee id
+                    //********LATER********//
+                }
+                // Will display a message if any error occurs
+                catch (Exception ex)
+                {
+                    // Rollback the transaction if an error occurs
+                    transaction.Rollback();
+                    // Display the error message
+                  ShowSuccess("Error: " + ex.Message);
+                }
+                // closes the connection to the database
+                finally
+                {
+                    conn.Close();
+                }                
+            }
+            // returns true if the farmer has been added successfully
+            return true;          
+        }
+        /// <summary>
+        /// Search button to search for products in the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnSearchProduct_Click(object sender, EventArgs e)
         {
             // Logic to search products
@@ -38,7 +123,11 @@ namespace ProgPoeAgriEnergyPortal
             GridViewProducts.DataSource = products;
             GridViewProducts.DataBind();
         }
-
+        /// <summary>
+        /// search button to search for farmers in the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnSearchFarmer_Click(object sender, EventArgs e)
         {
             // Logic to search farmers
@@ -57,8 +146,27 @@ namespace ProgPoeAgriEnergyPortal
         /// <returns></returns>
         private DataTable SearchProducts(string query)
         {
-            // Implement product search logic here and return a DataTable
-            // For demo purposes, returning an empty DataTable
+            var searchQuery = query;
+            // connection string to connect to the database
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                // open the connection to the database
+                conn.Open();
+                // Sql query to search for products in the database
+                string sqlQuery = "SELECT * FROM Products WHERE Name LIKE @SearchQuery OR Description LIKE @SearchQuery";
+                using (SqlCommand command = new SqlCommand(sqlQuery, conn))
+                {
+                    command.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+                    // execute the query
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        DataTable products = new DataTable();
+                        adapter.Fill(products);
+                        //return products;
+                    }
+                }
+            }
             return new DataTable();
         }
         /// <summary>
@@ -68,8 +176,41 @@ namespace ProgPoeAgriEnergyPortal
         /// <returns></returns>
         private DataTable SearchFarmers(string query)
         {
-           
-            return new DataTable();
+            // the % are used to search for the query in the database
+            var searchQuery = "%" + query + "%";
+            // connection string to connect to the database
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                // open the connection to the database
+                conn.Open();
+                // Sql query to search for products in the database
+                string sqlQuery = "SELECT FarmerName, Email, CellphoneNumber, Location FROM Farmer " +
+                    "WHERE FarmerName LIKE @SearchQuery OR Email LIKE @SearchQuery OR CellphoneNumber LIKE @SearchQuery" +
+                    " OR Location LIKE @SearchQuery";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, conn))
+                {
+                    // Add the search query to the parameters
+                    command.Parameters.AddWithValue("@SearchQuery",searchQuery);
+                    // execute the query
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        // create a new data table to store the results of the search query
+                        DataTable farmer = new DataTable();
+                        adapter.Fill(farmer);
+                        return farmer;
+                    }
+                }
+            }
+           // return new DataTable();
+        }
+
+        // Method to display the success message
+        private void ShowSuccess(string message)
+        {
+            // Display the success message
+            ClientScript.RegisterStartupScript(this.GetType(), "MyAlert", "alert('" + message + "');", true);
         }
     }
 }

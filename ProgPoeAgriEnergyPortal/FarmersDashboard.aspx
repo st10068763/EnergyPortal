@@ -48,11 +48,15 @@
                          <label for="ProductQuantity">Product Quantity:</label>                         
                          <asp:TextBox ID="txtProductQuantity" runat="server" CssClass="form-control" placeholder="Enter the product quantity here"></asp:TextBox>
                          </div>
+                     <div class="form-group">
+                         <label for="Product_Price">Product Price per unit:</label>                         
+                         <asp:TextBox ID="txtProductPrice" runat="server" CssClass="form-control" placeholder="Enter the product price per unit here"></asp:TextBox>
+                         </div>
                     <div class="form-group">
                         <label for="category">Category:</label>                       
                     </div>
                     <div class="form-group">
-                         <asp:DropDownList runat="server">
+                         <asp:DropDownList ID="CategoryDL" runat="server" CssClass="form-control">
                            <asp:ListItem Text="Vegetables" />
                            <asp:ListItem Text="Live stock" />
                            <asp:ListItem Text="Fertelizers" />
@@ -69,6 +73,10 @@
                      <div class="form-group">
                          <label for="productImage">Product image:</label>
                          <asp:TextBox ID="txtProductImage" runat="server" CssClass="form-control"  placeholder="Enter your image URL here"></asp:TextBox>
+                     </div>
+                     <div class="form-group">
+                         <label for="productDescription">Product Description:</label>
+                         <asp:TextBox ID="txtDescription" runat="server" CssClass="form-control"  placeholder="Enter description for your product."></asp:TextBox>
                      </div>
                     <asp:Button ID="btnAddProduct" runat="server" CssClass="btn btn-primary btn-block" Text="Add Product" OnClick="btnAddProduct_Click" />
                 </div>
@@ -87,6 +95,8 @@
                             <asp:BoundField DataField="ProductionDate" HeaderText="Production Date" />
                             <asp:BoundField DataField="ProductQuantity" HeaderText="Product Quantity" />
                             <asp:BoundField DataField="ProductImage" HeaderText="Product Image" />
+                            <asp:BoundField DataField="ProductPrice" HeaderText="Product Price" />
+                            <asp:BoundField DataField="Description" HeaderText="Description" />
 
                         </Columns>
                     </asp:GridView>

@@ -60,13 +60,13 @@ namespace ProgPoeAgriEnergyPortal
         protected global::System.Web.UI.WebControls.TextBox txtFarmerEmail;
 
         /// <summary>
-        /// txtpassword control.
+        /// txtFarmerPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtpassword;
+        protected global::System.Web.UI.WebControls.TextBox txtFarmerPassword;
 
         /// <summary>
         /// btnAddFarmer control.
