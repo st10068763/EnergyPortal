@@ -27,11 +27,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="LoginPage.aspx">Logout</a>
                     </li>
-                   
                 </ul>
             </div>
         </nav>
-        <!-------------------------------------------------------------------------->
+
         <div class="container mt-5">
             <h1>Transaction Details</h1>
             <div class="card">
@@ -71,6 +70,15 @@
                         <label for="BuyerAddress">Shipping Address</label>
                         <asp:TextBox ID="txtBuyerAddress" runat="server" CssClass="form-control" placeholder="Enter your address"></asp:TextBox>
                     </div>
+                    <div class="form-group">
+                        <label for="CardNumber">Card Number</label>
+                        <asp:TextBox ID="txtcardNumber" runat="server" CssClass="form-control" placeholder="Enter your visa card number"></asp:TextBox>
+                    </div>
+
+                     <div class="form-group">
+                         <label for="CVV">Card CVV</label>
+                         <asp:TextBox ID="txtCVV" runat="server" CssClass="form-control" placeholder="XXX"></asp:TextBox>
+                     </div>
                     <asp:Button ID="btnConfirmPurchase" runat="server" CssClass="btn btn-primary btn-block" Text="Confirm Purchase" OnClick="btnConfirmPurchase_Click" />
                 </div>
             </div>

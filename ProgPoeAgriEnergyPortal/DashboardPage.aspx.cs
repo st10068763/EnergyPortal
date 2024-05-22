@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -20,15 +21,15 @@ namespace ProgPoeAgriEnergyPortal
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Products";
+                conn.Open();
+                string query = "SELECT Product_ID, ProductName, Quantity, Category, Product_Price, Product_Image, Description, ProductDate FROM Products";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    conn.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        ProductsRepeater.DataSource = reader;
-                        ProductsRepeater.DataBind();
-                    }
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    ProductsRepeater.DataSource = dt;
+                    ProductsRepeater.DataBind();
                 }
             }
         }
@@ -36,15 +37,32 @@ namespace ProgPoeAgriEnergyPortal
         protected void btnBuy_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            int productId = Convert.ToInt32(btn.CommandArgument);
+            string productId = btn.CommandArgument;
 
-            // Logic to handle the purchase can be added here
-            DisplayMessage("Product with ID " + productId + " purchased successfully.");
+            string query = $"SELECT Product_ID, ProductName, Category, ProductDate FROM Products WHERE Product_ID = @ProductId";
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@ProductId", productId);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string productName = reader["ProductName"].ToString();
+                            string category = reader["Category"].ToString();
+                            string productionDate = reader["ProductDate"].ToString();
+
+                            Response.Redirect($"TransactionsPage.aspx?productId={productId}&productName={productName}&category={category}&productionDate={productionDate}");
+                        }
+                    }
+                }
+            }
         }
 
-        private void DisplayMessage(string message)
-        {
-            Response.Write("<script>alert('" + message + "');</script>");
-        }
     }
 }
