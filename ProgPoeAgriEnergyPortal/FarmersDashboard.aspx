@@ -44,14 +44,6 @@
                         <label for="productName">Product Name:</label>
                         <asp:TextBox ID="txtProductName" runat="server" CssClass="form-control" placeholder="Enter product name"></asp:TextBox>
                     </div>
-                     <div class="form-group">
-                         <label for="ProductQuantity">Product Quantity:</label>                         
-                         <asp:TextBox ID="txtProductQuantity" runat="server" CssClass="form-control" placeholder="Enter the product quantity here"></asp:TextBox>
-                         </div>
-                     <div class="form-group">
-                         <label for="Product_Price">Product Price per unit:</label>                         
-                         <asp:TextBox ID="txtProductPrice" runat="server" CssClass="form-control" placeholder="Enter the product price per unit here"></asp:TextBox>
-                         </div>
                     <div class="form-group">
                         <label for="category">Category:</label>                       
                     </div>
@@ -66,6 +58,20 @@
                            <asp:ListItem Text="Flowers" />
                             </asp:DropDownList>
                     </div>
+
+                     <div class="form-group">
+                             <label for="productDescription">Product Description:</label>
+                             <asp:TextBox ID="txtDescription" runat="server" CssClass="form-control"  placeholder="Enter description for your product."></asp:TextBox>
+                     </div>
+
+                      <div class="form-group">
+                          <label for="Product_Price">Product Price per unit:</label>                         
+                          <asp:TextBox ID="txtProductPrice" runat="server" CssClass="form-control" placeholder="Enter the product price per unit here"></asp:TextBox>
+                          </div>
+                    <div class="form-group">
+                         <label for="ProductQuantity">Product Quantity:</label>                         
+                         <asp:TextBox ID="txtProductQuantity" runat="server" CssClass="form-control" placeholder="Enter the product quantity here"></asp:TextBox>
+                         </div>                    
                     <div class="form-group">
                         <label for="productDate">Product Date:</label>
                         <input type="date" id="productionDate" class="form-control" runat="server" />
@@ -74,10 +80,7 @@
                          <label for="productImage">Product image:</label>
                          <asp:TextBox ID="txtProductImage" runat="server" CssClass="form-control"  placeholder="Enter your image URL here"></asp:TextBox>
                      </div>
-                     <div class="form-group">
-                         <label for="productDescription">Product Description:</label>
-                         <asp:TextBox ID="txtDescription" runat="server" CssClass="form-control"  placeholder="Enter description for your product."></asp:TextBox>
-                     </div>
+                    
                     <asp:Button ID="btnAddProduct" runat="server" CssClass="btn btn-primary btn-block" Text="Add Product" OnClick="btnAddProduct_Click" />
                 </div>
             </div>

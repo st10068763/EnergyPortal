@@ -6,13 +6,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agri-Energy Portal Dashboard</title>
-    <!-- Add modern CSS framework link here, like Bootstrap or Tailwind CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/CSS/mySheet.css" />
 </head>
 <body>
     <form id="form1" runat="server">
-        <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Agri-Energy Portal</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,21 +21,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="TransactionsPage.aspx">Transactions</a>
                     </li>     
-                     <li class="nav-item">
-                         <a class="nav-link" href="LoginPage.aspx">Logout</a>
-                     </li>     
+                    <li class="nav-item">
+                        <a class="nav-link" href="LoginPage.aspx">Logout</a>
+                    </li>     
                 </ul>
             </div>
         </nav>
         
-        <!-- Dashboard Header -->
         <div class="container mt-5">
             <div class="jumbotron">
                 <h1 class="display-4">Welcome to the Agri-Energy Dashboard</h1>
                 <p class="lead">Overview of all activities and metrics related to the Agri-Energy Portal.</p>
             </div>
             
-            <!-- Summary Cards -->
             <div class="row text-center">
                 <div class="col-md-3">
                     <div class="card">
@@ -73,13 +69,11 @@
                 </div>
             </div>
             
-            <!-- Charts and Graphs -->
             <div class="mt-5">
                 <h2>Performance Overview</h2>
                 <canvas id="performanceChart"></canvas>
             </div>
             
-            <!-- Recent Activities -->
             <div class="mt-5">
                 <h2>Recent Activities</h2>
                 <ul class="list-group">
@@ -87,6 +81,32 @@
                     <li class="list-group-item">Transaction of $200 completed by Jane Doe</li>
                     <li class="list-group-item">New farmer profile created for Farmer Amy</li>
                 </ul>
+            </div>
+            
+            <div class="mt-5">
+                <h2>Available Products</h2>
+                <asp:Repeater ID="ProductsRepeater" runat="server">
+                    <ItemTemplate>
+                        <div class="card mb-3">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    <img src='<%# Eval("Product_Image") %>' class="card-img" alt="Product Image">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%# Eval("ProductName") %></h5>
+                                        <p class="card-text"><%# Eval("Description") %></p>
+                                        <p class="card-text"><small class="text-muted">Category: <%# Eval("Category") %></small></p>
+                                        <p class="card-text">Price: R<%# Eval("Product_Price") %></p>
+                                        <p class="card-text">Stock available: <%# Eval("Quantity") %></p>
+                                        <p class="card-text">Production Date: <%# Eval("ProductDate") %></p>
+                                        <asp:Button ID="btnBuy" runat="server" Text="Buy" CommandArgument='<%# Eval("Product_ID") %>' OnClick="btnBuy_Click" CssClass="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
             </div>
         </div>
     </form>

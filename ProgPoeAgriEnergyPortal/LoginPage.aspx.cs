@@ -25,55 +25,85 @@ namespace ProgPoeAgriEnergyPortal
             // Check if the user is a farmer or an employee based on the email entered by the user if the user id has the email and the role is farmer then redirect to the farmers page
             string email = txtEmail.Text;
             string password = txtPassword.Text;
+
             // Calls the VerifyUser method to check if the user exists in the database
-            string role = VerifyUser(email, password);
+           var userInfo = VerifyUser(email, password);
+
             // Redirects the user to the appropriate page based on the role
-            if (!string.IsNullOrEmpty(role))
+           if (userInfo != null)
             {
-                if (role == "Farmer")
+                if (userInfo.Value.Role == "Farmer")
                 {
+                    Session["Farmer_ID"] = userInfo.Value.UserID;
                     Response.Redirect("FarmersDashboard.aspx");
                 }
-                else if (role == "Employee")
+                else if (userInfo.Value.Role == "Employee")
                 {
+                    Session["Employee_ID"] = userInfo.Value.UserID;
                     Response.Redirect("EmployeesDashboard.aspx");
                 }
             }
             else
             {
-                Response.Write("<script>alert('Invalid login attempt');</script>");
+                Response.Write("<script>alert('Invalid email or password');</script>");
             }
         }
         //---------------------------------------VERIFY USER------------------------------------------------//
-        /// <summary>
-        /// Method to verify the user based on the email and password entered by the user
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        private string VerifyUser(string email, string password)
+        private (string UserID, string Role)? VerifyUser(string email, string password)
         {
-            string role = null;
-            // connection string to connect to the database
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            (string UserID, string Role)? userInfo = null;
+
+            try
             {
-                string query = "SELECT Role FROM Users WHERE Email = @Email AND Password = @Password";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Password", password);
-
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
+                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    role = reader["Role"].ToString();
+                    conn.Open();
+                    // checks in the farmers table if the user exists
+                    string farmerQuery = "SELECT Farmer_ID AS UserID, 'Farmer' AS Role FROM Farmer WHERE Email = @Email AND Password = @Password";
+                    using (SqlCommand farmerCmd = new SqlCommand(farmerQuery, conn))
+                    {
+                        farmerCmd.Parameters.AddWithValue("@Email", email);
+                        farmerCmd.Parameters.AddWithValue("@Password", password);
+
+                        using (SqlDataReader farmerReader = farmerCmd.ExecuteReader())
+                        {
+                            if (farmerReader.Read())
+                            {
+                                userInfo = (farmerReader["UserID"].ToString(), farmerReader["Role"].ToString());
+                                return userInfo;
+                            }
+                        }
+                    }
+
+                    // checks in the employees table if the user exists
+                    string employeeQuery = "SELECT Employee_ID AS UserID, 'Employee' AS Role FROM Employee WHERE Email = @Email AND Password = @Password";
+                    using (SqlCommand employeeCmd = new SqlCommand(employeeQuery, conn))
+                    {
+                        employeeCmd.Parameters.AddWithValue("@Email", email);
+                        employeeCmd.Parameters.AddWithValue("@Password", password);
+
+                        using (SqlDataReader employeeReader = employeeCmd.ExecuteReader())
+                        {
+                            if (employeeReader.Read())
+                            {
+                                userInfo = (employeeReader["UserID"].ToString(), employeeReader["Role"].ToString());
+
+                            }
+                        }
+                    }
+
                 }
-                reader.Close();
             }
-            return role;
-        }
+            catch (Exception ex)
+            {
+               // displays an error message if an error occurs
+                Response.Write("<script>alert('Error: " + ex.Message + "');</script>");
+
+            }            
+            return userInfo;
+            
+        }        
        //---------------------------------------END VERIFY USER------------------------------------------------//
     }
 }//-------------------------------------------***dingDONG END OF CODE***-----------------------------------------//

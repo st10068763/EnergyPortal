@@ -33,13 +33,22 @@ namespace ProgPoeAgriEnergyPortal
         protected global::System.Web.UI.WebControls.TextBox txtProductName;
 
         /// <summary>
-        /// txtProductQuantity control.
+        /// CategoryDL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProductQuantity;
+        protected global::System.Web.UI.WebControls.DropDownList CategoryDL;
+
+        /// <summary>
+        /// txtDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
         /// txtProductPrice control.
@@ -51,13 +60,13 @@ namespace ProgPoeAgriEnergyPortal
         protected global::System.Web.UI.WebControls.TextBox txtProductPrice;
 
         /// <summary>
-        /// CategoryDL control.
+        /// txtProductQuantity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList CategoryDL;
+        protected global::System.Web.UI.WebControls.TextBox txtProductQuantity;
 
         /// <summary>
         /// productionDate control.
@@ -76,15 +85,6 @@ namespace ProgPoeAgriEnergyPortal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtProductImage;
-
-        /// <summary>
-        /// txtDescription control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
         /// btnAddProduct control.
