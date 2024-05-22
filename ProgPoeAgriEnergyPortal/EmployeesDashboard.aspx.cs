@@ -117,7 +117,6 @@ namespace ProgPoeAgriEnergyPortal
         {
             // Logic to search products
             string query = txtSearchProduct.Text;
-
             // Perform search and bind results to GridViewProducts
             DataTable products = SearchProducts(query);
             GridViewProducts.DataSource = products;
@@ -146,7 +145,7 @@ namespace ProgPoeAgriEnergyPortal
         /// <returns></returns>
         private DataTable SearchProducts(string query)
         {
-            var searchQuery = query;
+            var searchQuery = "%" + query + "%";
             // connection string to connect to the database
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -154,20 +153,23 @@ namespace ProgPoeAgriEnergyPortal
                 // open the connection to the database
                 conn.Open();
                 // Sql query to search for products in the database
-                string sqlQuery = "SELECT * FROM Products WHERE Name LIKE @SearchQuery OR Description LIKE @SearchQuery";
+                // string sqlQuery = "SELECT * FROM Products WHERE ProductName LIKE @SearchQuery OR Description LIKE @SearchQuery";
+
+                string sqlQuery = "SELECT ProductName, Quantity, Category, Product_Price, Product_Image, Description FROM Products " +
+                                  "WHERE ProductName LIKE @SearchQuery OR Quantity LIKE @SearchQuery OR Category LIKE @SearchQuery " +
+                                  "OR Description LIKE @SearchQuery";
                 using (SqlCommand command = new SqlCommand(sqlQuery, conn))
                 {
-                    command.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+                    command.Parameters.AddWithValue("@SearchQuery", searchQuery);
                     // execute the query
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                     {
                         DataTable products = new DataTable();
                         adapter.Fill(products);
-                        //return products;
+                        return products;
                     }
                 }
-            }
-            return new DataTable();
+            }           
         }
         /// <summary>
         /// Method to search for farmers in the database

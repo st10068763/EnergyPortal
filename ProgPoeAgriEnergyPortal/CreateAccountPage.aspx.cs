@@ -73,13 +73,14 @@ namespace ProgPoeAgriEnergyPortal
                     }
                     else if (role == "Employee")
                     {                        
-                        query = "INSERT INTO Employees (EmployeeName, Email, PhoneNumber, Password, Location) VALUES (@Name, @Email, @Phone, @Password, @Location)";
+                        query = "INSERT INTO Employee (EmployeeName, Email, PhoneNumber, Password, Location, Role) VALUES (@Name, @Email, @Phone, @Password, @Location, @Role)";
                         cmd = new SqlCommand(query, conn);
                         cmd.Parameters.AddWithValue("@Name", name);
                         cmd.Parameters.AddWithValue("@Email", email);
                         cmd.Parameters.AddWithValue("@Phone", phone);
                         cmd.Parameters.AddWithValue("@Password", password);
                         cmd.Parameters.AddWithValue("@Location", location);
+                        cmd.Parameters.AddWithValue("@Role", role);
                     }
                     else
                     {

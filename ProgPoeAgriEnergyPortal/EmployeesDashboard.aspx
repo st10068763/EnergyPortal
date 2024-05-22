@@ -60,7 +60,7 @@
                 </div>
                 <asp:Button ID="btnAddFarmer" runat="server" Text="Add Farmer" CssClass="btn btn-primary" OnClick="btnAddFarmer_Click" />
             </div>
-
+            <!--Product table binds the data from the database to the employee table -->
             <div class="section mb-4">
                 <h2>Search Products</h2>
                 <div class="form-group">
@@ -71,9 +71,11 @@
                 <asp:GridView ID="GridViewProducts" runat="server" AutoGenerateColumns="false" CssClass="table table-striped">
                     <Columns>
                         <asp:BoundField DataField="ProductName" HeaderText="Product Name" />
+                        <asp:BoundField DataField="Quantity" HeaderText="Stock Available" />
                         <asp:BoundField DataField="Category" HeaderText="Category" />
-                        <asp:BoundField DataField="ProductionDate" HeaderText="Production Date" />
-                        <asp:BoundField DataField="FarmerName" HeaderText="Farmer" />
+                        <asp:BoundField DataField="Product_Price" HeaderText="Price" />
+                        <asp:BoundField DataField="Product_Image" HeaderText="Product Image" />
+                        <asp:BoundField DataField="Description" HeaderText="Product Description" />
                     </Columns>
                 </asp:GridView>
             </div>
