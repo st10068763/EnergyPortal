@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Security.Cryptography;
 
 namespace ProgPoeAgriEnergyPortal
 {
@@ -23,8 +24,10 @@ namespace ProgPoeAgriEnergyPortal
             string location = txtLocation.Text;
             string password = txtPassword.Text;
             string role = ddlRole.SelectedValue;
+            // this will hash the password before storing it in the database, it passes the password to the HashPassword method in the DataEncryptionClass
+            string hashedPassword = DataEncryptionClass.HashPassword(password);
 
-            if (CreateUserAccount(name, email, phone, password, role, location))
+            if (CreateUserAccount(name, email, phone, hashedPassword, role, location))
             {
                 Response.Write("<script>alert('Account created successfully');</script>");
                 // Redirect to the login page
@@ -61,14 +64,17 @@ namespace ProgPoeAgriEnergyPortal
 
                     if (role == "Farmer")
                     {
-                        query = "INSERT INTO Farmer (FarmerName, Email, CellphoneNumber, Password, Location, Role) VALUES (@Name, @Email, @Phone, @Password, @Location, @Role)";
-                        cmd = new SqlCommand(query, conn);
-                        cmd.Parameters.AddWithValue("@Name", name);
-                        cmd.Parameters.AddWithValue("@Email", email);
-                        cmd.Parameters.AddWithValue("@Phone", phone);
-                        cmd.Parameters.AddWithValue("@Password", password);
-                        cmd.Parameters.AddWithValue("@Location", location);
-                        cmd.Parameters.AddWithValue("@Role", role);
+                        // Only employees can create accounts for farmers
+                        Response.Write("<script>alert(' Only employees can create accounts for farmers');</script>");
+
+                        //query = "INSERT INTO Farmer (FarmerName, Email, CellphoneNumber, Password, Location, Role) VALUES (@Name, @Email, @Phone, @Password, @Location, @Role)";
+                        //cmd = new SqlCommand(query, conn);
+                        //cmd.Parameters.AddWithValue("@Name", name);
+                        //cmd.Parameters.AddWithValue("@Email", email);
+                        //cmd.Parameters.AddWithValue("@Phone", phone);
+                        //cmd.Parameters.AddWithValue("@Password", password);
+                        //cmd.Parameters.AddWithValue("@Location", location);
+                        //cmd.Parameters.AddWithValue("@Role", role);
 
                     }
                     else if (role == "Employee")
@@ -90,9 +96,7 @@ namespace ProgPoeAgriEnergyPortal
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
                     isSuccess = rowsAffected > 0;
-                }
-
-                
+                }                
             }
             catch (Exception ex)
             {

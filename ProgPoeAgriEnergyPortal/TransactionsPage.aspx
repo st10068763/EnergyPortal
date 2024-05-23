@@ -77,10 +77,45 @@
 
                      <div class="form-group">
                          <label for="CVV">Card CVV</label>
-                         <asp:TextBox ID="txtCVV" runat="server" CssClass="form-control" placeholder="XXX"></asp:TextBox>
+                         <asp:TextBox ID="txtCVV" runat="server" CssClass="form-control" TextMode="Password" placeholder="XXX"></asp:TextBox>
                      </div>
                     <asp:Button ID="btnConfirmPurchase" runat="server" CssClass="btn btn-primary btn-block" Text="Confirm Purchase" OnClick="btnConfirmPurchase_Click" />
                 </div>
+            </div>
+
+            <!-- Displays the past transactions -->
+            <div class="mt-5">
+                <h2>Past Transactions</h2>
+                <asp:Repeater ID="PastTransactionsRepeater" runat="server">
+                    <HeaderTemplate>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Production Date</th>
+                                    <th>Buyer Name</th>
+                                    <th>Transaction Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <tr>
+                            <td><%# Eval("TransactionID") %></td>
+                            <td><%# Eval("ProductName") %></td>
+                            <td><%# Eval("Category") %></td>
+                            <td><%# Eval("ProductionDate", "{0:yyyy-MM-dd}") %></td>
+                            <td><%# Eval("BuyerName") %></td>
+                            <td><%# Eval("TransactionDate", "{0:yyyy-MM-dd HH:mm:ss}") %></td>
+                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                            </tbody>
+                        </table>
+                    </FooterTemplate>
+                </asp:Repeater>
             </div>
         </div>
     </form>

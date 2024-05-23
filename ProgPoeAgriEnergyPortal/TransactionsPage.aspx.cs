@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Security.Cryptography;
 
 namespace ProgPoeAgriEnergyPortal
 {
@@ -15,6 +17,8 @@ namespace ProgPoeAgriEnergyPortal
             if (!IsPostBack)
             {
                 BindProductDetails();
+                // Display the transaction history
+                TransactionsHistory();
             }
 
         }
@@ -27,12 +31,14 @@ namespace ProgPoeAgriEnergyPortal
             string productName = Request.QueryString["productName"];
             string category = Request.QueryString["category"];
             string productionDate = Request.QueryString["productionDate"];
+            string FarmerName = Request.QueryString["FarmerName"];
             // Display the product details
             if (!string.IsNullOrEmpty(productId))
             {
                 txtProductName.Text = productName;
                 txtCategory.Text = category;
                 txtProductionDate.Text = productionDate;
+                txtFarmerName.Text = FarmerName;
             }
         }
 
@@ -46,12 +52,15 @@ namespace ProgPoeAgriEnergyPortal
             string productId = Request.QueryString["productId"];
             string productName = txtProductName.Text;
             string category = txtCategory.Text;
+            string farmerName = txtFarmerName.Text;
             string productionDate = txtProductionDate.Text;
             string buyerName = txtBuyerName.Text;
             string buyerEmail = txtBuyerEmail.Text;
             string buyerAddress = txtBuyerAddress.Text;
             string cardNumber = txtcardNumber.Text;
             string cvv = txtCVV.Text;
+            // Encrypt the card number before storing it in the database
+            string encryptedCardNumber = DataEncryptionClass.EncryptCardNumber(cardNumber);
 
             // validates the card number and cvv
             if (cardNumber.Length != 16)
@@ -66,18 +75,31 @@ namespace ProgPoeAgriEnergyPortal
             }
 
             // Add the transaction to the database
-            if (AddTransaction(productId, productName, category, productionDate, buyerName, buyerEmail, buyerAddress, cardNumber, cvv))
+            if (AddTransaction(productId, productName, category,farmerName, productionDate, buyerName, buyerEmail, buyerAddress, cardNumber, cvv))
             {
-                Response.Write("<script>alert('Transaction successful');</script>");
+                Response.Write("<script>alert('Thanks for shopping with us :)');</script>");
+                //Clear the form fields
+                ClearFormFields();
             }
             else
             {
                 Response.Write("<script>alert('Failed to complete transaction');</script>");
             }
         }
-
-        //Add the transaction to the database
-        private bool AddTransaction(string productId, string productName, string category, string productionDate, string buyerName, string buyerEmail, string buyerAddress, string cardNumber, string cvv)
+        /// <summary>
+        /// Add the transaction to the database
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="productName"></param>
+        /// <param name="category"></param>
+        /// <param name="productionDate"></param>
+        /// <param name="buyerName"></param>
+        /// <param name="buyerEmail"></param>
+        /// <param name="buyerAddress"></param>
+        /// <param name="cardNumber"></param>
+        /// <param name="cvv"></param>
+        /// <returns></returns>
+        private bool AddTransaction(string productId, string productName, string category, string farmerName,string productionDate, string buyerName, string buyerEmail, string buyerAddress, string cardNumber, string cvv)
         {
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             bool isSuccess = false;
@@ -112,6 +134,47 @@ namespace ProgPoeAgriEnergyPortal
                 Response.Write(ex);
             }
             return isSuccess;
+        }
+
+        // method to display transaction history
+        private void TransactionsHistory()
+        {
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            // Get the logged-in user's ID
+            int userId = GetLoggedInUserId(); 
+            
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM Transactions WHERE User_ID = @UserID";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserID", userId);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                PastTransactionsRepeater.DataSource = reader;
+                PastTransactionsRepeater.DataBind();
+            }
+        }
+        // cleans the form fields
+        private void ClearFormFields()
+        {
+            txtProductName.Text = string.Empty;
+            txtCategory.Text = string.Empty;
+            txtProductionDate.Text = string.Empty;
+            txtFarmerName.Text = string.Empty;
+            txtBuyerName.Text = string.Empty;
+            txtBuyerEmail.Text = string.Empty;
+            txtBuyerAddress.Text = string.Empty;
+            txtcardNumber.Text = string.Empty;
+            txtCVV.Text = string.Empty;
+        }
+
+        /// <summary>
+        /// Gets the ID of the logged-in user
+        /// </summary>
+        /// <returns></returns>
+        private int GetLoggedInUserId()
+        {
+            return Convert.ToInt32(Session["User_ID"]);
         }
 
     }

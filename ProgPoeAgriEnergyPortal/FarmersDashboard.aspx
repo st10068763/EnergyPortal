@@ -76,6 +76,11 @@
                         <label for="productDate">Product Date:</label>
                         <input type="date" id="productionDate" class="form-control" runat="server" />
                     </div>
+
+                     <div class="form-group">
+                         <label for="FarmerName">Farmer Name:</label>
+                         <asp:TextBox ID="txtFarmerName" runat="server" CssClass="form-control"  placeholder="Enter Farmer name here"></asp:TextBox>
+                     </div>
                      <div class="form-group">
                          <label for="productImage">Product image:</label>
                          <asp:TextBox ID="txtProductImage" runat="server" CssClass="form-control"  placeholder="Enter your image URL here"></asp:TextBox>

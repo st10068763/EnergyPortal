@@ -100,6 +100,7 @@
                                         <p class="card-text">Price: R<%# Eval("Product_Price") %></p>
                                         <p class="card-text">Stock available: <%# Eval("Quantity") %></p>
                                         <p class="card-text">Production Date: <%# Eval("ProductDate") %></p>
+                                        <p class="card-text">Farmer Name: <%# Eval("FarmerName") %></p>
                                         <asp:Button ID="btnBuy" runat="server" Text="Buy" CommandArgument='<%# Eval("Product_ID") %>' OnClick="btnBuy_Click" CssClass="btn btn-primary" />
                                     </div>
                                 </div>

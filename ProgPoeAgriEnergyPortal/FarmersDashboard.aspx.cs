@@ -28,6 +28,7 @@ namespace ProgPoeAgriEnergyPortal
             string name = txtProductName.Text;
             string category = CategoryDL.SelectedValue;
             string description = txtDescription.Text;
+            string farmerName = txtFarmerName.Text;
             decimal price;
             int quantity;
             DateTime productDate;
@@ -51,7 +52,7 @@ namespace ProgPoeAgriEnergyPortal
 
             int farmerId = Convert.ToInt32(Session["Farmer_ID"]);
 
-            if (AddProduct(name, category, description, price, quantity, productDate, productImage, farmerId))
+            if (AddProduct(name, category, description, farmerName, price, quantity, productDate, productImage, farmerId))
             {
                 DisplayMessage("A new product has been added successfully");
                 ClearFormFields();
@@ -63,7 +64,7 @@ namespace ProgPoeAgriEnergyPortal
             }
         }
 
-        private bool AddProduct(string name, string category, string description, decimal price, int quantity, DateTime productDate, string productImage, int farmerId)
+        private bool AddProduct(string name, string category, string description, string farmerName, decimal price, int quantity, DateTime productDate, string productImage, int farmerId)
         {
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -71,17 +72,19 @@ namespace ProgPoeAgriEnergyPortal
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO Products (ProductName, Description, Product_Price, Quantity, Category, ProductDate, Product_Image, Farmer_ID) VALUES (@Name, @Description, @Price, @Quantity, @Category, @ProductDate, @Product_Image, @Farmer_ID)";
+                    string query = "INSERT INTO Products (ProductName, Description, FarmerName, Product_Price, Quantity, Category, ProductDate, Product_Image, Farmer_ID) " +
+                        "VALUES (@Name, @Description, @FarmerName, @Price, @Quantity, @Category, @ProductDate, @Product_Image, @Farmer_ID)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Name", name);
                         cmd.Parameters.AddWithValue("@Description", description);
+                        cmd.Parameters.AddWithValue("@FarmerName", farmerName);
                         cmd.Parameters.AddWithValue("@Price", price);
                         cmd.Parameters.AddWithValue("@Quantity", quantity);
                         cmd.Parameters.AddWithValue("@Category", category);
                         cmd.Parameters.AddWithValue("@ProductDate", productDate);
                         cmd.Parameters.AddWithValue("@Product_Image", productImage);
-                        cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
+                        cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);                        
 
                         int rowsAffected = cmd.ExecuteNonQuery();
                         return rowsAffected > 0;
@@ -122,6 +125,7 @@ namespace ProgPoeAgriEnergyPortal
                             row.Cells.Add(new TableCell { Text = reader["Category"].ToString() });
                             row.Cells.Add(new TableCell { Text = reader["ProductDate"].ToString() });
                             row.Cells.Add(new TableCell { Text = reader["Product_Image"].ToString() });
+                            row.Cells.Add(new TableCell { Text = reader["FarmerName"].ToString() });
                             ProductsTable.Rows.Add(row);
                         }
                     }
@@ -142,6 +146,7 @@ namespace ProgPoeAgriEnergyPortal
             txtProductQuantity.Text = "";
             productionDate.Value = "";
             txtProductImage.Text = "";
+            txtFarmerName.Text = "";
         }
     }
 }

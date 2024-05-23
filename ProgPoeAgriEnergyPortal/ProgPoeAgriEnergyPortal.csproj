@@ -91,6 +91,7 @@
     <Compile Include="DashboardPage.aspx.designer.cs">
       <DependentUpon>DashboardPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DataEncryptionClass.cs" />
     <Compile Include="EmployeesDashboard.aspx.cs">
       <DependentUpon>EmployeesDashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
