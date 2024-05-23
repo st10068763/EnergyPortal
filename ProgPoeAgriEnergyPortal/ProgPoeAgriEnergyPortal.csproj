@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CommunicationHub.aspx" />
     <Content Include="CreateAccountPage.aspx" />
     <Content Include="CSS\mySheet.css" />
     <Content Include="DashboardPage.aspx" />
@@ -77,6 +78,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommunicationHub.aspx.cs">
+      <DependentUpon>CommunicationHub.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommunicationHub.aspx.designer.cs">
+      <DependentUpon>CommunicationHub.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CreateAccountPage.aspx.cs">
       <DependentUpon>CreateAccountPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
