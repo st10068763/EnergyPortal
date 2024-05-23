@@ -84,27 +84,24 @@
                         </li>
                         <!-------------------------------------->
                         <li class="nav-item">
-                                <a class="nav-link" href="FarmHub.aspx">Transactions</a>
+                                <a class="nav-link" href="FarmingHub.aspx">Farming Hub</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="GreenEnergyMarket.aspx">Chat</a>
+                                <a class="nav-link" href="MarketPlace.aspx">Green Market</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="Education.aspx">Logout</a>
+                                <a class="nav-link" href="EducationHub.aspx">Education Hub</a>
                             </li>
                         <li class="nav-item">
-                                <a class="nav-link" href="Education.aspx">Logout</a>
+                                <a class="nav-link" href="ProjectsAndFunds.aspx">Projects & Funds</a>
                             </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Education.aspx">Logout</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="LoginPage.aspx">Logout</a>
                         </li>
                     </ul>
                 </div>
             </nav>
-
+            </div>
             <div class="container mt-5">
                 <div class="jumbotron">
                     <h1 class="display-4">Welcome to the Agri-Energy Dashboard</h1>
