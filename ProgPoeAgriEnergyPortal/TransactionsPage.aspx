@@ -24,6 +24,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="DashboardPage.aspx">Dashboard</a>
                     </li>
+                     <li class="nav-item">
+                       <a class="nav-link" href="CommunicationHub.aspx">Chat</a>
+                   </li> 
                     <li class="nav-item">
                         <a class="nav-link" href="LoginPage.aspx">Logout</a>
                     </li>

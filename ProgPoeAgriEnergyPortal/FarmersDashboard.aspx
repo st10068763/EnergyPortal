@@ -22,7 +22,10 @@
           <ul class="navbar-nav ml-auto">
               <li class="nav-item">
                   <a class="nav-link" href="TransactionsPage.aspx">Transactions</a>
-              </li>     
+              </li>  
+              <li class="nav-item">
+                    <a class="nav-link" href="CommunicationHub.aspx">Chat</a>
+                </li>  
                <li class="nav-item">
                    <a class="nav-link" href="LoginPage.aspx">Logout</a>
                </li>     

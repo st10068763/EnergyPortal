@@ -1,40 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace ProgPoeAgriEnergyPortal
 {
-    public partial class CommunicationHub : System.Web.UI.Page
+    public partial class CommunicationHub : Page
     {
+        private string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // Check if the user is logged in
-                if (Session["Employee_ID"] == null)
+                // Check if either an employee or a farmer is logged in
+                if (Session["Employee_ID"] == null && Session["Farmer_ID"] == null)
                 {
                     Response.Redirect("LoginPage.aspx");
                 }
                 else
                 {
                     LoadMessages();
+                    LoadUsers();
                 }
             }
-
         }
+
         /// <summary>
-        /// save the message to the database
+        /// This method loads all the available users in the system into the dropdown list so the sender can select a receiver
+        /// </summary>
+        private void LoadUsers()
+        {
+            string query = @"SELECT Employee_ID AS UserID, EmployeeName AS UserName FROM Employee
+                UNION
+                SELECT Farmer_ID AS UserID, FarmerName AS UserName FROM Farmer";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        ddlReceiver.Items.Clear();
+
+                        while (reader.Read())
+                        {
+                            string userId = reader["UserID"].ToString();
+                            string userName = reader["UserName"].ToString();
+                            ddlReceiver.Items.Add(new ListItem(userName, userId));
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// This will save the message in the database
         /// </summary>
         /// <param name="senderId"></param>
         /// <param name="receiverId"></param>
         /// <param name="message"></param>
         private void SaveMessage(string senderId, string receiverId, string message)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "INSERT INTO Messages (SenderId, ReceiverId, MessageText, Timestamp) VALUES (@SenderId, @ReceiverId, @MessageText, @Timestamp)";
@@ -48,36 +76,37 @@ namespace ProgPoeAgriEnergyPortal
                 cmd.ExecuteNonQuery();
             }
         }
+
         /// <summary>
-        /// Load the messages from the database
+        /// Method to load all the messages from the database in the chat box so that employees and farmers can communicate and see the messages from each other
         /// </summary>
         private void LoadMessages()
         {
-
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT SenderId, MessageText, Timestamp FROM Messages ORDER BY Timestamp";
+                // Query to get all the messages from the database and order them by time it was sent
+                string query = @"SELECT m.MessageText, m.Timestamp, u.UserName AS SenderName FROM Messages m JOIN Users u ON m.SenderId = u.User_ID
+                                 ORDER BY m.Timestamp";
                 SqlCommand cmd = new SqlCommand(query, conn);
-
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 List<string> messages = new List<string>();
 
+                // Loop through the messages and display them in the chat box
                 while (reader.Read())
                 {
-                    string senderId = reader["SenderId"].ToString();
+                    string senderName = reader["SenderName"].ToString();
                     string messageText = reader["MessageText"].ToString();
                     string timestamp = Convert.ToDateTime(reader["Timestamp"]).ToString("yyyy-MM-dd HH:mm:ss");
 
-                    messages.Add($"<b>{senderId}</b>: {messageText} <i>({timestamp})</i>");
+                    messages.Add($"<b>{senderName}</b>: {messageText} <i>({timestamp})</i>");
                 }
-
                 chatBox.InnerHtml = string.Join("<br />", messages);
             }
         }
+
         /// <summary>
-        /// button to send the message
+        /// Button click event to send the message
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -85,10 +114,10 @@ namespace ProgPoeAgriEnergyPortal
         {
             // Get the message from the text box
             string message = txtMessage.Text.Trim();
-            // Get the sender and receiver IDs from the session
-            string senderId = Session["Employee_ID"].ToString(); 
-            string receiverId = Session["Farmer_ID"].ToString(); 
-            
+            // Get the sender ID from the session (either Employee_ID or Farmer_ID)
+            string senderId = Session["Employee_ID"] != null ? Session["Employee_ID"].ToString() : Session["Farmer_ID"].ToString();
+            string receiverId = ddlReceiver.SelectedValue;
+            // Check if the message is not empty if its not empty save the message in the database and displays it in the chat box
             if (!string.IsNullOrEmpty(message))
             {
                 SaveMessage(senderId, receiverId, message);

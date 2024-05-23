@@ -6,16 +6,49 @@ using System.Web.UI.WebControls;
 
 namespace ProgPoeAgriEnergyPortal
 {
+    
     public partial class DashboardPage : System.Web.UI.Page
     {
+        string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                LoadDashoardData();
                 BindProducts();
             }
         }
 
+        private void LoadDashoardData()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT (SELECT COUNT(*) FROM Farmer) AS TotalFarmers, (SELECT COUNT(*) FROM Products) AS TotalProducts", conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtTotalFarmers.Text = reader["TotalFarmers"].ToString();
+                                txtTotalProducts.Text = reader["TotalProducts"].ToString();                                
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("Error: "+ex);
+            }
+        }
+
+        /// <summary>
+        /// Binds the products to the repeater, this will display all the products in the database
+        /// </summary>
         private void BindProducts()
         {
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
