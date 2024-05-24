@@ -64,11 +64,7 @@
                 <p class="lead">A marketplace for green energy solutions tailored to agricultural needs.</p>
             </div>
 
-            <!-- Add Product Button -->
-            <div class="text-center mb-4">
-                <a href="AddProduct.aspx" class="btn btn-primary">Add New Product</a>
-            </div>
-
+           
             <!-- Product Listings -->
             <div class="row" id="productList">
                 <!-- Product Item -->

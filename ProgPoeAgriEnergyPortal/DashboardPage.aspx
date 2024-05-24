@@ -55,7 +55,7 @@
 <body>
     <form id="form1" runat="server">
         <!-- Toggle Button -->
-        <button type="button" class="btn btn-primary toggle-btn" id="toggleSidebar">></button>
+        <button type="button" class="btn btn-primary toggle-btn" id="toggleSidebar" aria-dropeffect="popup" aria-hidden="True">></button>
 
         <!-- Side Navigation Bar -->
         <div class="sidebar" id="sidebar">

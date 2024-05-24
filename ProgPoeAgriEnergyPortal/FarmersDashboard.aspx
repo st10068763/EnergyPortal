@@ -92,8 +92,11 @@
                     <asp:Button ID="btnAddProduct" runat="server" CssClass="btn btn-primary btn-block" Text="Add Product" OnClick="btnAddProduct_Click" />
                 </div>
             </div>
+
+         </div>
            
             <!-- Display existing products in a grid view -->
+       
             <div class="card mt-5">
                 <div class="card-header">
                     Products List
@@ -112,8 +115,8 @@
                     </asp:GridView>
                 </div>
             </div>
+            <!-- Display existing green products in a grid view -->
             <div class ="card mt-5">
-
                 <asp:Table ID="ProductsTable" runat="server" CssClass="table table-striped">
                     <asp:TableHeaderRow>
                         <asp:TableHeaderCell>Product Name</asp:TableHeaderCell>
@@ -126,7 +129,74 @@
                     </asp:TableHeaderRow>
                 </asp:Table>
             </div>
-        </div>
+        
+
+               <!-----------------------------Form to add green products---------------------------------->
+     
+               <div class="card mt-4">
+              <div class="container">
+                Add New  green Product
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="productName">Product Name:</label>
+                    <asp:TextBox ID="txtGreenProductName" runat="server" CssClass="form-control" placeholder="Enter the green product name"></asp:TextBox>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>                       
+                </div>
+                <div class="form-group">
+                     <asp:DropDownList ID="GreenProductDL" runat="server" CssClass="form-control">
+                       <asp:ListItem Text="Solar power system" />
+                       <asp:ListItem Text="Wind turbines" />
+                       <asp:ListItem Text="Biogas energy" />                
+                        </asp:DropDownList>
+                </div>
+             </div>
+
+                 <div class="form-group">
+                         <label for="productDescription">Product Description:</label>
+                         <asp:TextBox ID="GreenProductDescription" runat="server" CssClass="form-control"  placeholder="Enter description for your green productproduct."></asp:TextBox>
+                 </div>
+
+                  <div class="form-group">
+                      <label for="Product_Price">Product Price:</label>                         
+                      <asp:TextBox ID="GreenProduct_Price" runat="server" CssClass="form-control" placeholder="Enter the product price per unit here"></asp:TextBox>
+                      </div>
+                <div class="form-group">
+                     <label for="ProductQuantity">Product Quantity:</label>                         
+                     <asp:TextBox ID="GreenProductQuantity" runat="server" CssClass="form-control" placeholder="Enter the product quantity here"></asp:TextBox>
+                     </div>                    
+
+                 <div class="form-group">
+                     <label for="FarmerName">Farmer Name:</label>
+                     <asp:TextBox ID="GreenFarmerName" runat="server" CssClass="form-control"  placeholder="Enter Farmer name here"></asp:TextBox>
+                 </div>
+                 <div class="form-group">
+                     <label for="productImage">Product image:</label>
+                     <asp:TextBox ID="GreenproductImage" runat="server" CssClass="form-control"  placeholder="Enter your image URL here"></asp:TextBox>
+                 </div>         
+                <asp:Button ID="btnAddGreenProduct" runat="server" CssClass="btn btn-primary btn-block" Text="Add Product" OnClick="btnAddGreenProduct_Click" />
+            </div>
+                   <div>
+
+           <!-- Display existing green products in a grid view -->
+       <div class ="card mt-5">
+           <asp:Table ID="Table1" runat="server" CssClass="table table-striped">
+               <asp:TableHeaderRow>
+                   <asp:TableHeaderCell>Product Name</asp:TableHeaderCell>
+                   <asp:TableHeaderCell>Description</asp:TableHeaderCell>
+                   <asp:TableHeaderCell>Price</asp:TableHeaderCell>
+                   <asp:TableHeaderCell>Quantity</asp:TableHeaderCell>
+                   <asp:TableHeaderCell>Category</asp:TableHeaderCell>
+                   <asp:TableHeaderCell>Product Date</asp:TableHeaderCell>
+                   <asp:TableHeaderCell>Product Image</asp:TableHeaderCell>
+               </asp:TableHeaderRow>
+           </asp:Table>
+       </div>
+
+       </div>
+
     </form>
     <!---------------------------------Scripts----------------------------->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
