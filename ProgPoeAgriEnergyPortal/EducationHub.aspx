@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Education Hub</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-     <link rel="stylesheet" href="~/CSS/mySheet.css" />
+    <link rel="stylesheet" href="~/CSS/mySheet.css" />
     <style>
         .jumbotron {
             background-color: #f8f9fa;
@@ -50,30 +50,58 @@
             </div>
         </nav>
 
-        <!-- Education Hub Content -->
+        <!--------------------------------- Education Hub Content---------------------------------->
         <div class="container mt-5">
             <div class="jumbotron text-center">
                 <h1 class="display-4">Education Hub</h1>
                 <p class="lead">Explore and register for courses, webinars, and workshops.</p>
             </div>
 
-            <!-- Educational Events Listings -->
-            <div class="row" id="eventList">
-                <!-- Course Item -->
-                <%-- Repeat this block for each course, webinar, or workshop --%>
-                <div class="col-md-4">
+            <!-- Event Creation Form for Farmers -->
+            <div class="row mb-4">
+                <div class="col-md-6 offset-md-3">
                     <div class="card">
+                        <div class="card-header">Create New Event</div>
                         <div class="card-body">
-                            <h5 class="card-title">EventName</h5>
-                            <p class="card-text">EventDescription</p>
-                            <p class="card-text"><small class="text-muted">Type: EventType</small></p>
-                            <p class="card-text"><small class="text-muted">Date: EventDate</small></p>
-                            <a href="EventDetails.aspx?eventId=EventID" class="btn btn-primary">View Details</a>
-                            <a href="RegisterEvent.aspx?eventId=EventID" class="btn btn-success">Register</a>
+                            <asp:Label ID="lblMessage" runat="server" Text="" CssClass="text-danger"></asp:Label>
+                            <asp:TextBox ID="txtEventName" runat="server" CssClass="form-control" Placeholder="Event Name"></asp:TextBox><br />
+                            <asp:TextBox ID="txtEventDescription" runat="server" CssClass="form-control" Placeholder="Event Description"></asp:TextBox><br />
+                            <asp:DropDownList ID="ddlEventType" runat="server" CssClass="form-control">
+                                <asp:ListItem Text="Select Event Type" Value="" />
+                                <asp:ListItem Text="Online Course" Value="Online Course" />
+                                <asp:ListItem Text="Webinar" Value="Webinar" />
+                                <asp:ListItem Text="Workshop" Value="Workshop" />
+                            </asp:DropDownList><br />
+                            <asp:TextBox ID="txtEventDate" runat="server" type="date" CssClass="form-control" Placeholder="Event Date (YYYY-MM-DD)"></asp:TextBox><br />
+                            <asp:TextBox ID="txtEventImage" runat="server" CssClass="form-control" Placeholder="Event Image URL"></asp:TextBox><br />
+                            <asp:TextBox ID="txtPrice" runat="server" CssClass="form-control" Placeholder="Enter the price for the event"></asp:TextBox><br />
+                            <asp:TextBox ID="txtLectureName" runat="server" CssClass="form-control" Placeholder="Enter the lecture name here"></asp:TextBox><br />
+                            <asp:Button ID="btnCreateEvent" runat="server" Text="Create Event" CssClass="btn btn-primary" OnClick="btnCreateEvent_Click" />
                         </div>
                     </div>
                 </div>
-                <%-- End Repeat --%>
+            </div>
+
+            <!-- Educational Events Listings -->
+            <div class="row" id="eventList">
+                <asp:Repeater ID="rptEvents" runat="server">
+                    <ItemTemplate>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img src='<%# Eval("Event_Image") %>' class="card-img-top" alt="Event Image" />
+                                <div class="card-body">
+                                    <h5 class="card-title"><%# Eval("Event_Name") %></h5>
+                                    <p class="card-text"><%# Eval("Description") %></p>
+                                    <p class="card-text"><small class="text-muted">Type: <%# Eval("Category") %></small></p>
+                                    <p class="card-text"><small class="text-muted">Date: <%# Eval("EventDate") %></small></p>
+                                    <p class="card-text"><%# Eval("Product_Price") %></p>
+                                    <p class="card-text"><%# Eval("FarmerName") %></p>
+                                    <a href="RegisterEvent.aspx?eventId=<%# Eval("EventID") %>" class="btn btn-success">Register</a>
+                                </div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
             </div>
         </div>
     </form>

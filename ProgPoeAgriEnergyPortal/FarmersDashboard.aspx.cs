@@ -140,7 +140,8 @@ namespace ProgPoeAgriEnergyPortal
             {
                 // Add the product to the database
                 string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-                string query = "INSERT INTO GreenMarket (Product_Name, Quantity, Category, Product_Price, Farmer_ID, Product_Image, Description, FarmerName) VALUES (@Product_Name, @Quantity, @Category, @Product_Price, @Farmer_ID, @Product_Image, @Description, @FarmerName)";
+                string query = "INSERT INTO GreenMarket (Product_Name, Quantity, Category, Product_Price, Farmer_ID, Product_Image, Description, FarmerName)" +
+                    " VALUES (@Product_Name, @Quantity, @Category, @Product_Price, @Farmer_ID, @Product_Image, @Description, @FarmerName)";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {

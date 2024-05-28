@@ -42,6 +42,15 @@ namespace ProgPoeAgriEnergyPortal
         protected global::System.Web.UI.WebControls.TextBox txtTotalProducts;
 
         /// <summary>
+        /// txtTotalGreenProducts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTotalGreenProducts;
+
+        /// <summary>
         /// ProductsRepeater control.
         /// </summary>
         /// <remarks>
@@ -49,5 +58,14 @@ namespace ProgPoeAgriEnergyPortal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater ProductsRepeater;
+
+        /// <summary>
+        /// GreenRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater GreenRepeater;
     }
 }

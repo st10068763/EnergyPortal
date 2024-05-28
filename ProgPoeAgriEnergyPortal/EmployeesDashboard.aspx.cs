@@ -131,7 +131,6 @@ namespace ProgPoeAgriEnergyPortal
         {
             // Logic to search farmers
             string query = txtSearchFarmer.Text;
-
             // Perform search and bind results to GridViewFarmers
             DataTable farmers = SearchFarmers(query);
             GridViewFarmers.DataSource = farmers;

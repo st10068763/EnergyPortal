@@ -6,71 +6,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agri-Energy Portal Dashboard</title>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/CSS/mySheet.css" />
     <style>
         body {
             display: flex;
         }
-        .sidebar {
-            height: 100vh;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #f8f9fa;
-            padding-top: 20px;
-            transition: transform 0.3s ease;
-        }
-        .sidebar a {
-            padding: 10px 15px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #343a40;
-            display: block;
-        }
-        .sidebar a:hover {
-            background-color: #ddd;
-            color: #343a40;
-        }
-        .sidebar-hidden {
-            transform: translateX(-100%);
-        }
-        .content {
-            margin-left: 260px;
-            padding: 20px;
-            transition: margin-left 0.3s ease;
-        }
-        .content-full {
-            margin-left: 10px;
-        }
-        .toggle-btn {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 100;
-        }
+       
+        
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <!-- Toggle Button -->
-        <button type="button" class="btn btn-primary toggle-btn" id="toggleSidebar" aria-dropeffect="popup" aria-hidden="True">></button>
-
-        <!-- Side Navigation Bar -->
-        <div class="sidebar" id="sidebar">
-            <a href="#">Dashboard</a>
-            <a href="FarmHub.aspx">Farm Hub</a>
-            <a href="GreenEnergyMarket.aspx">Green Energy Market</a>
-            <a href="Education.aspx">Education</a>
-            <a href="Funding.aspx">Funding</a>
-            <a href="Collaboration.aspx">Collaboration</a>
-        </div>
-
+       
         <div class="content" id="content">
             <!-- Navigation Bar -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Agri-Energy Portal</a>
+                <a class="navbar-brand" href="DashboardPage.aspx">Agri-Energy Portal</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -82,7 +35,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="CommunicationHub.aspx">Chat</a>
                         </li>
-                        <!-------------------------------------->
                         <li class="nav-item">
                                 <a class="nav-link" href="FarmingHub.aspx">Farming Hub</a>
                             </li>
@@ -98,6 +50,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="LoginPage.aspx">Logout</a>
                         </li>
+                         <!-------------------------------------->
                     </ul>
                 </div>
             </nav>
@@ -125,6 +78,14 @@
                             </div>
                         </div>
                     </div>
+                 <div class="col-md-3">
+                     <div class="card">
+                         <div class="card-body">
+                             <h5 class="card-title">Total Green Products</h5>
+                             <asp:TextBox ID="txtTotalGreenProducts" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+                         </div>
+                     </div>
+                 </div>
                 </div>
 
                 <div class="mt-5">
@@ -171,8 +132,37 @@
                             </div>
                         </div>
                     </ItemTemplate>
-                </asp:Repeater>
+                </asp:Repeater>                   
             </div>
+               <!-------------------------------Repeater for the green products----------------------------------> 
+            <div class="accordion-body"> 
+                  <h2 style="color: #008000; font-style: normal; font-weight: bolder; font-size: 25px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-decoration: underline overline blink; font-variant: normal; text-transform: uppercase; position: absolute">Green Energy Market</h2>
+                     <asp:Repeater ID="GreenRepeater" runat="server">
+                        <ItemTemplate>
+                                <div class="card mb-3">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            <img src='<%# Eval("Product_Image") %>' class="card-img" alt="Product Image">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%# Eval("Product_Name") %></h5>
+                                                <p class="card-text">Stock available: <%# Eval("Quantity") %></p>
+                                                <p class="card-text"><small class="text-muted">Category: <%# Eval("Category") %></small></p>
+                                                <p class="card-text">Price: R<%# Eval("Product_Price") %></p>
+                                                <p class="card-text"><%# Eval("Description") %></p>
+                                                <p class="card-text">Farmer Name: <%# Eval("FarmerName") %></p>
+                                                <asp:Button ID="btnBuyGreen" runat="server" Text="Buy" CommandArgument='<%# Eval("GreenMarket_ID") %>' OnClick="btnBuyGreen_Click" CssClass="btn btn-primary" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
+                <!-- end of green products repeater -->
+
         </div>
     </form>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -180,12 +170,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         $(document).ready(function () {
-            // Toggle sidebar
-            $('#toggleSidebar').click(function () {
-                $('#sidebar').toggleClass('sidebar-hidden');
-                $('#content').toggleClass('content-full');
-            });
-
             // Fetch performance data dynamically from the server
             $.ajax({
                 type: "GET",

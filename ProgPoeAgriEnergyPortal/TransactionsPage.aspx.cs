@@ -17,6 +17,7 @@ namespace ProgPoeAgriEnergyPortal
             if (!IsPostBack)
             {
                 BindProductDetails();
+                BindGreenProductDetails();
                 // Display the transaction history
                 TransactionsHistory();
             }
@@ -38,6 +39,22 @@ namespace ProgPoeAgriEnergyPortal
                 txtProductName.Text = productName;
                 txtCategory.Text = category;
                 txtProductionDate.Text = productionDate;
+                txtFarmerName.Text = FarmerName;
+            }
+        }
+
+        // Binds the green products details to the textboxes
+        private void BindGreenProductDetails()
+        {
+            string productId = Request.QueryString["GreenMarket_ID"];
+            string product_Name = Request.QueryString["Product_Name"];
+            string category = Request.QueryString["Category"];
+            string FarmerName = Request.QueryString["FarmerName"];
+            // Display the product details
+            if (!string.IsNullOrEmpty(productId))
+            {
+                txtProductName.Text = product_Name;
+                txtCategory.Text = category;
                 txtFarmerName.Text = FarmerName;
             }
         }
