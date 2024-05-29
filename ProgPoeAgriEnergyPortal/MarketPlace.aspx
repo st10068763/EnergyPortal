@@ -5,7 +5,7 @@
 <head runat="server">
     <title>Green Energy Marketplace</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-     <link rel="stylesheet" href="~/CSS/mySheet.css" />
+    <link rel="stylesheet" href="~/CSS/mySheet.css" />
     <style>
         .jumbotron {
             background-color: #f8f9fa;
@@ -64,26 +64,62 @@
                 <p class="lead">A marketplace for green energy solutions tailored to agricultural needs.</p>
             </div>
 
-           
             <!-- Product Listings -->
             <div class="row" id="productList">
-                <!-- Product Item -->
-                <%-- Repeat this block for each product --%>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="ProductImageURL" class="card-img-top product-img" alt="Product Image"/>
-                        <div class="card-body">
-                            <h5 class="card-title">ProductName</h5>
-                            <p class="card-text">ProductDescription</p>
-                            <p class="card-text"><small class="text-muted">Category: ProductCategory</small></p>
-                            <p class="card-text"><strong>Price: RProductPrice</strong></p>
-                            <a href="ProductDetails.aspx?productId=ProductID" class="btn btn-primary">View Details</a>
-                            <a href="BuyProduct.aspx?productId=ProductID" class="btn btn-success">Buy</a>
-                        </div>
-                    </div>
-                </div>
-                <%-- End Repeat --%>
+                <%--------------------_____________Repeater_____________----------------------%>
+                    <asp:Repeater ID="ProductsRepeater" runat="server">
+                            <ItemTemplate>
+                                <div class="card mb-3">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            <img src='<%# Eval("Product_Image") %>' class="card-img" alt="Product Image">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%# Eval("ProductName") %></h5>
+                                                <p class="card-text"><%# Eval("Description") %></p>
+                                                <p class="card-text"><small class="text-muted">Category: <%# Eval("Category") %></small></p>
+                                                <p class="card-text">Price: R<%# Eval("Product_Price") %></p>
+                                                <p class="card-text">Stock available: <%# Eval("Quantity") %></p>
+                                                <p class="card-text">Production Date: <%# Eval("ProductDate") %></p>
+                                                <p class="card-text">Farmer Name: <%# Eval("FarmerName") %></p>
+                                                <asp:Button ID="btnBuy" runat="server" Text="Buy" CommandArgument='<%# Eval("Product_ID") %>' OnClick="btnBuy_Click" CssClass="btn btn-primary" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ItemTemplate>
+                    </asp:Repeater>  
+                <%--=======================End Repeat=================--%>
             </div>
+
+            <!-------------------------------Repeater for the green products----------------------------------> 
+            <div class="mt-5"> 
+                <h2>Green Products</h2>                 
+                <asp:Repeater ID="GreenRepeater" runat="server">
+                    <ItemTemplate>
+                        <div class="card mb-3">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    <img src='<%# Eval("Product_Image") %>' class="card-img" alt="Product Image">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%# Eval("Product_Name") %></h5>
+                                        <p class="card-text">Stock available: <%# Eval("Quantity") %></p>
+                                        <p class="card-text"><small class="text-muted">Category: <%# Eval("Category") %></small></p>
+                                        <p class="card-text">Price: R<%# Eval("Product_Price") %></p>
+                                        <p class="card-text"><%# Eval("Description") %></p>
+                                        <p class="card-text">Farmer Name: <%# Eval("FarmerName") %></p>
+                                        <asp:Button ID="btnBuyGreen" runat="server" Text="Buy" CommandArgument='<%# Eval("GreenMarket_ID") %>' OnClick="btnBuyGreen_Click" CssClass="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
+            <!-- end of green products repeater -->
         </div>
     </form>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -44,7 +44,7 @@
                         <div class="card-body">
                             <asp:Label ID="lblMessage" runat="server" Text="" CssClass="text-danger"></asp:Label>
                             <asp:TextBox ID="txtPostTitle" runat="server" CssClass="form-control" Placeholder="Post Title"></asp:TextBox><br />
-                            <asp:TextBox ID="txtPostContent" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="5" Placeholder="Post Content"></asp:TextBox><br />
+                            <asp:TextBox ID="txtPostContent" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="5" Placeholder="Enter the post content here..."></asp:TextBox><br />
                             <asp:Button ID="btnCreatePost" runat="server" Text="Create Post" CssClass="btn btn-primary" OnClick="btnCreatePost_Click" />
                         </div>
                     </div>
@@ -57,11 +57,14 @@
                     <h2 class="text-center">Latest Posts</h2>
                     <asp:Repeater ID="PostsRepeater" runat="server">
                         <ItemTemplate>
-                            <div class="forum-post">
+                             <div class="forum-post">
                                 <h3 class="post-title"><%# Eval("Title") %></h3>
                                 <p class="post-content"><%# Eval("Content") %></p>
                                 <p class="post-date">Created on: <%# Eval("DateCreated", "{0:MMMM dd, yyyy}") %></p>
+                                <p class="post-content">Posted by: <%# Eval("CreatedBy")%></p>
                                 <p class="post-reply"><%# Eval("ReplyCount") %> replies</p>
+                                <asp:TextBox ID="txtReply" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" Placeholder="Reply..."></asp:TextBox>
+                                <asp:Button ID="btnReply" runat="server" Text="Reply" CssClass="btn btn-primary" CommandArgument='<%# Eval("PostID") %>' OnClick="btnReply_Click" />
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>

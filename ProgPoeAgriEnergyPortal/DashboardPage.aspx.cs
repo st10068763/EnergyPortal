@@ -53,8 +53,10 @@ namespace ProgPoeAgriEnergyPortal
             };
         }
     
-
-    private void LoadDashoardData()
+        /// <summary>
+        /// loads the dashboard data, this will display the total number of farmers, products and green products in the database
+        /// </summary>
+        private void LoadDashoardData()
         {
             try
             {

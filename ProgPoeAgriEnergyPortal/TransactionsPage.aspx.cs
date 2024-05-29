@@ -46,9 +46,9 @@ namespace ProgPoeAgriEnergyPortal
         // Binds the green products details to the textboxes
         private void BindGreenProductDetails()
         {
-            string productId = Request.QueryString["GreenMarket_ID"];
-            string product_Name = Request.QueryString["Product_Name"];
-            string category = Request.QueryString["Category"];
+            string productId = Request.QueryString["greenmarketID"];
+            string product_Name = Request.QueryString["product_name"];
+            string category = Request.QueryString["category"];
             string FarmerName = Request.QueryString["FarmerName"];
             // Display the product details
             if (!string.IsNullOrEmpty(productId))
@@ -67,6 +67,7 @@ namespace ProgPoeAgriEnergyPortal
         protected void btnConfirmPurchase_Click(object sender, EventArgs e)
         {
             string productId = Request.QueryString["productId"];
+            string greenMarketId = Request.QueryString["greenMarketID"];
             string productName = txtProductName.Text;
             string category = txtCategory.Text;
             string farmerName = txtFarmerName.Text;
@@ -92,7 +93,7 @@ namespace ProgPoeAgriEnergyPortal
             }
 
             // Add the transaction to the database
-            if (AddTransaction(productId, productName, category,farmerName, productionDate, buyerName, buyerEmail, buyerAddress, cardNumber, cvv))
+            if (AddTransaction(productId, greenMarketId, productName, category,farmerName, productionDate, buyerName, buyerEmail, buyerAddress, cardNumber, cvv))
             {
                 Response.Write("<script>alert('Thanks for shopping with us :)');</script>");
                 //Clear the form fields
@@ -116,8 +117,14 @@ namespace ProgPoeAgriEnergyPortal
         /// <param name="cardNumber"></param>
         /// <param name="cvv"></param>
         /// <returns></returns>
-        private bool AddTransaction(string productId, string productName, string category, string farmerName,string productionDate, string buyerName, string buyerEmail, string buyerAddress, string cardNumber, string cvv)
+        private bool AddTransaction(string productId, string greenMarketId, string productName, string category, string farmerName, string productionDate, string buyerName, string buyerEmail, string buyerAddress, string cardNumber, string cvv)
         {
+            // Check if either productId or greenMarketId is provided
+            if (string.IsNullOrEmpty(productId) && string.IsNullOrEmpty(greenMarketId))
+            {
+                return false;
+            }
+
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             bool isSuccess = false;
 
@@ -126,14 +133,18 @@ namespace ProgPoeAgriEnergyPortal
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "INSERT INTO Transactions (ProductID, ProductName, Category, ProductionDate, BuyerName, BuyerEmail, BuyerAddress, CardNumber, CVV) " +
-                                "VALUES (@ProductID, @ProductName, @Category, @ProductionDate, @BuyerName, @BuyerEmail, @BuyerAddress, @CardNumber, @CVV)";
+                    string query = "INSERT INTO Transactions (ProductID, GreenMarketID, ProductName, Category, FarmerName, ProductionDate, BuyerName, BuyerEmail, BuyerAddress, CardNumber, CVV) " +
+                                   "VALUES (@ProductID, @GreenMarketID, @ProductName, @Category, @FarmerName, @ProductionDate, @BuyerName, @BuyerEmail, @BuyerAddress, @CardNumber, @CVV)";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@ProductID", productId);
+                        // Add parameters for ProductID and GreenMarketID
+                        cmd.Parameters.AddWithValue("@ProductID", string.IsNullOrEmpty(productId) ? DBNull.Value : (object)productId);
+                        cmd.Parameters.AddWithValue("@GreenMarketID", string.IsNullOrEmpty(greenMarketId) ? DBNull.Value : (object)greenMarketId);
+                        // Add other parameters
                         cmd.Parameters.AddWithValue("@ProductName", productName);
                         cmd.Parameters.AddWithValue("@Category", category);
+                        cmd.Parameters.AddWithValue("@FarmerName", farmerName);
                         cmd.Parameters.AddWithValue("@ProductionDate", productionDate);
                         cmd.Parameters.AddWithValue("@BuyerName", buyerName);
                         cmd.Parameters.AddWithValue("@BuyerEmail", buyerEmail);
@@ -148,10 +159,12 @@ namespace ProgPoeAgriEnergyPortal
             }
             catch (Exception ex)
             {
+                // Handle the exception
                 Response.Write(ex);
             }
             return isSuccess;
         }
+
 
         // method to display transaction history
         private void TransactionsHistory()
