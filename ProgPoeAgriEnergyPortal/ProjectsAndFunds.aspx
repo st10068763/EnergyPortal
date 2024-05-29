@@ -76,9 +76,12 @@
             <!-- Add Project Section -->
             <div class="mb-5">
                 <h2>Add New Project</h2>
-                <asp:Label ID="lblMessage" runat="server" CssClass="text-danger" />
                 <div class="card">
                     <div class="card-body">
+                        <div>
+                             <!-- Message for error-->
+                            <asp:Label ID="lblErrorMessage" runat="server" CssClass="text-danger" />
+                        </div>
                         <div class="form-group">
                             <label for="ProjectName">Project Name</label>
                             <asp:TextBox ID="txtProjectName" runat="server" CssClass="form-control" />
@@ -89,51 +92,73 @@
                         </div>
                         <div class="form-group">
                             <label for="ProjectType">Project Type</label>
-                            <asp:DropDownList ID="ddlProjectType" runat="server" CssClass="form-control">
+                            <asp:DropDownList ID="ddlProjectType" runat="server" CssClass="form-select">
                                 <asp:ListItem>Green Energy</asp:ListItem>
                                 <asp:ListItem>Sustainable Agriculture</asp:ListItem>
                                 <asp:ListItem>Water Conservation</asp:ListItem>
                                 <asp:ListItem>Soil Health</asp:ListItem>
                             </asp:DropDownList>
                         </div>
+                        <div class="form-group">
+                            <label for="StartDate">Project Start Date</label>
+                            <asp:TextBox ID = "txtStartDate" runat = "server" CssClass = "form-control" TextMode = "Date" />
+                        </div>
+                        <div class="form-group">
+                            <label for="EndDate">Project End Date</label>
+                            <asp:TextBox ID = "txtEndDate" runat = "server" CssClass = "form-control" TextMode = "Date" />
+                        </div>  
+                        <div class="form-group">
+                            <label for="ProjectLeaderName">Project Leader Name</label>
+                            <asp:TextBox ID="txtProjectLeaderName" runat="server" CssClass="form-control" placeholder="Enter the name of the project leader." />
+                            <div>
+                                 <!--- Message for success-->
+                                 <asp:Label ID="lblSuccessMessage" runat="server" CssClass="text-success" />
+                            </div>
+                        </div>
                         <asp:Button ID="btnAddProject" runat="server" Text="Add Project" CssClass="btn btn-primary" OnClick="btnAddProject_Click" />
                     </div>
                 </div>
             </div>
 
-            <!-- Project Listings Section -->
-            <div class="mb-5">
-                <h2>Current Projects</h2>
-                <div class="row" id="projectList">
-                    <!-- Project Item -->
-                    <%-- Repeat this block for each project --%>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">ProjectName</h5>
-                                <p class="card-text">ProjectDescription</p>
-                                <p class="card-text"><small class="text-muted">Type: ProjectType</small></p>
-                                <a href="ProjectDetails.aspx?projectId=ProjectID" class="btn btn-primary">View Details</a>
-                                <a href="JoinProject.aspx?projectId=ProjectID" class="btn btn-success">Join Project</a>
+            <!-- Project Repeater -->
+               <div class="mt-5">
+                    <h2>Available Projects</h2>
+                    <asp:Repeater ID="ProductsRepeater" runat="server">
+                        <ItemTemplate>
+                            <div class="card mb-3">
+                                <div class="row no-gutters">                                    
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%# Eval("ProjectName") %></h5>
+                                            <p class="card-text"><%# Eval("Description") %></p>
+                                            <p class="card-text"><small class="text-muted">Category: <%# Eval("ProjectType") %></small></p>
+                                            <p class="card-text">Start Date: <%# Eval("StartDate") %></p>
+                                            <p class="card-text">End Date: <%# Eval("EndDate") %></p>
+                                            <p class="card-text">Project Leader: <%# Eval("ProjectLeaderName") %></p>
+                                            <asp:Button ID="btnJoin" runat="server" Text="Join Project" CommandArgument='<%# Eval("ProjectID") %>' OnClick="btnJoinProject_Click" CssClass="btn btn-primary" />
+                                            <asp:Button ID="btnFund" runat="server" Text="Fund Project" CommandArgument='<%# Eval("Project ID") %>' OnClick="btnFundProject_Click" CssClass="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <%-- End Repeat --%>
-                </div>
+                    </ItemTemplate>
+                </asp:Repeater>                   
             </div>
-
-            <!-- Grants and Funding Section -->
-            <div class="mb-5">
-                <h2>Grants and Funding Opportunities</h2>
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Grant Name</h5>
-                        <p class="card-text">Grant Description</p>
-                        <a href="GrantDetails.aspx?grantId=GrantID" class="btn btn-info">View Details</a>
-                        <a href="FundProject.aspx?projectId=ProjectID" class="btn btn-warning">Fund Project</a>
-                    </div>
+            <!-- Grants and Funding Repeater -->
+                <div class="mb-5">
+                    <h2>Grants and Funding Opportunities</h2>
+                    <asp:Repeater ID="GrantsRepeater" runat="server">
+                        <ItemTemplate>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%# Eval("GrantName") %></h5>
+                                    <p class="card-text"><%# Eval("GrantDescription") %></p> 
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </div>
-            </div>
         </div>
     </form>
      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

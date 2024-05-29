@@ -106,7 +106,6 @@ namespace ProgPoeAgriEnergyPortal
         }
         /// <summary>
         /// Add the transaction to the database
-        /// </summary>
         /// <param name="productId"></param>
         /// <param name="productName"></param>
         /// <param name="category"></param>
