@@ -72,8 +72,7 @@ namespace ProgPoeAgriEnergyPortal
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO Products (ProductName, Description, FarmerName, Product_Price, Quantity, Category, ProductDate, Product_Image, Farmer_ID) " +
-                        "VALUES (@Name, @Description, @FarmerName, @Price, @Quantity, @Category, @ProductDate, @Product_Image, @Farmer_ID)";
+                    string query = "INSERT INTO Products (ProductName, Description, FarmerName, Product_Price, Quantity, Category, ProductDate, Product_Image, Farmer_ID) VALUES (@Name, @Description, @FarmerName, @Price, @Quantity, @Category, @ProductDate, @Product_Image, @Farmer_ID)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Name", name);
@@ -133,7 +132,18 @@ namespace ProgPoeAgriEnergyPortal
             }
         }
         //-----------------------------------Add product in the green market place-----------------------------------//
-        // Method to add a new product to in the green market table
+        /// <summary>
+        /// Method to add a new product to in the green market table
+        /// </summary>
+        /// <param name="GnproductName"></param>
+        /// <param name="Gnquantity"></param>
+        /// <param name="Gncategory"></param>
+        /// <param name="GnPrice"></param>
+        /// <param name="farmer_Id"></param>
+        /// <param name="Gnproduct_Image"></param>
+        /// <param name="Gndescription"></param>
+        /// <param name="GnfarmerName"></param>
+        /// <returns></returns>
         private bool AddGreenProduct(string GnproductName, int Gnquantity, string Gncategory, decimal GnPrice, int farmer_Id, string Gnproduct_Image, string Gndescription, string GnfarmerName)
         {
             try

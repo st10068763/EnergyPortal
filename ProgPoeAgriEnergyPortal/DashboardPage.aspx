@@ -135,8 +135,8 @@
                 </asp:Repeater>                   
             </div>
                <!-------------------------------Repeater for the green products----------------------------------> 
-            <div class="accordion-body"> 
-                  <h2 style="color: #008000; font-style: normal; font-weight: bolder; font-size: 25px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-decoration: underline overline blink; font-variant: normal; text-transform: uppercase; position: absolute">Green Energy Market</h2>
+            <div class="mt-5"> 
+                <h2>Green Products</h2>                 
                      <asp:Repeater ID="GreenRepeater" runat="server">
                         <ItemTemplate>
                                 <div class="card mb-3">

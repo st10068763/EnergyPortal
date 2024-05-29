@@ -50,7 +50,7 @@
             </div>
         </nav>
 
-        <!--------------------------------- Education Hub Content---------------------------------->
+        <!-- Education Hub Content -->
         <div class="container mt-5">
             <div class="jumbotron text-center">
                 <h1 class="display-4">Education Hub</h1>
@@ -64,6 +64,7 @@
                         <div class="card-header">Create New Event</div>
                         <div class="card-body">
                             <asp:Label ID="lblMessage" runat="server" Text="" CssClass="text-danger"></asp:Label>
+                            <asp:Label ID="CorrectMessage" runat="server" Text="" CssClass="alert-info"></asp:Label>
                             <asp:TextBox ID="txtEventName" runat="server" CssClass="form-control" Placeholder="Event Name"></asp:TextBox><br />
                             <asp:TextBox ID="txtEventDescription" runat="server" CssClass="form-control" Placeholder="Event Description"></asp:TextBox><br />
                             <asp:DropDownList ID="ddlEventType" runat="server" CssClass="form-control">
@@ -88,15 +89,17 @@
                     <ItemTemplate>
                         <div class="col-md-4">
                             <div class="card">
+                                
                                 <img src='<%# Eval("Event_Image") %>' class="card-img-top" alt="Event Image" />
                                 <div class="card-body">
                                     <h5 class="card-title"><%# Eval("Event_Name") %></h5>
                                     <p class="card-text"><%# Eval("Description") %></p>
                                     <p class="card-text"><small class="text-muted">Type: <%# Eval("Category") %></small></p>
                                     <p class="card-text"><small class="text-muted">Date: <%# Eval("EventDate") %></small></p>
-                                    <p class="card-text"><%# Eval("Product_Price") %></p>
-                                    <p class="card-text"><%# Eval("FarmerName") %></p>
-                                    <a href="RegisterEvent.aspx?eventId=<%# Eval("EventID") %>" class="btn btn-success">Register</a>
+                                    <p class="card-text"><small class="text-muted">Price: <%# Eval("Product_Price") %></small></p>
+                                    <p class="card-text"><small class="text-muted">Lecturer: <%# Eval("FarmerName") %></small></p>
+                                    <asp:Button ID="EnrollBtn" runat="server" Text="Enroll" CommandArgument='<%# Eval("Event_ID") %>' CssClass="btn btn-primary" OnClick="EnrollBtn_Click" />
+                                    <asp:Label ID="lblMessage" runat="server" Text="" CssClass="text-danger"></asp:Label>
                                 </div>
                             </div>
                         </div>

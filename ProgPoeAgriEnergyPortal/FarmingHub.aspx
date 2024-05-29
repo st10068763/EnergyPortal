@@ -5,42 +5,9 @@
 <head runat="server">
     <title>Farming Hub</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-     <link rel="stylesheet" href="~/CSS/mySheet.css" />
+    <link rel="stylesheet" href="~/CSS/mySheet.css" />
     <style>
-        
-        .jumbotron {
-            background-color: #f8f9fa;
-            padding: 80px 0;
-        }
-        .card {
-            margin-bottom: 20px;
-        }
-        .forum-post {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .forum-post .post-title {
-            font-weight: bold;
-            color: #007bff;
-        }
-        .forum-post .post-content {
-            margin-top: 10px;
-        }
-        .post-reply {
-            margin-left: 30px;
-            margin-top: 10px;
-            color: #6c757d;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
+        /* Add your custom CSS styles here */
     </style>
 </head>
 <body>
@@ -53,21 +20,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="DashboardPage.aspx">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="GreenEnergyMarket.aspx">Green Energy Market</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="TransactionsPage.aspx">Transactions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="CommunicationHub.aspx">Communication Hub</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="LoginPage.aspx">Logout</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="DashboardPage.aspx">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="GreenEnergyMarket.aspx">Green Energy Market</a></li>
+                    <li class="nav-item"><a class="nav-link" href="TransactionsPage.aspx">Transactions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="CommunicationHub.aspx">Communication Hub</a></li>
+                    <li class="nav-item"><a class="nav-link" href="LoginPage.aspx">Logout</a></li>
                 </ul>
             </div>
         </nav>
@@ -79,14 +36,16 @@
                 <p class="lead">A resource center for sharing best practices in sustainable farming.</p>
             </div>
 
-            <!-- Forum Section -->
-            <div class="row">
+            <!-- Create New Post Section -->
+            <div class="row mt-4">
                 <div class="col-md-8 mx-auto">
                     <div class="card">
+                        <div class="card-header">Create New Post</div>
                         <div class="card-body">
-                            <h2 class="card-title">Interactive Forums</h2>
-                            <p class="card-text">Join the discussion on sustainable farming techniques, water conservation, and soil health maintenance.</p>
-                            <a href="#" class="btn btn-primary">Explore Forums</a>
+                            <asp:Label ID="lblMessage" runat="server" Text="" CssClass="text-danger"></asp:Label>
+                            <asp:TextBox ID="txtPostTitle" runat="server" CssClass="form-control" Placeholder="Post Title"></asp:TextBox><br />
+                            <asp:TextBox ID="txtPostContent" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="5" Placeholder="Post Content"></asp:TextBox><br />
+                            <asp:Button ID="btnCreatePost" runat="server" Text="Create Post" CssClass="btn btn-primary" OnClick="btnCreatePost_Click" />
                         </div>
                     </div>
                 </div>
@@ -96,24 +55,16 @@
             <div class="row mt-4">
                 <div class="col-md-8 mx-auto">
                     <h2 class="text-center">Latest Posts</h2>
-                    <!-- Sample Forum Post -->
-                    <div class="forum-post">
-                        <h3 class="post-title">Organic Farming Techniques</h3>
-                        <p class="post-content">Learn about the benefits of organic farming and share your experiences.</p>
-                        <p class="post-reply">12 replies</p>
-                    </div>
-                    <!-- Sample Forum Post -->
-                    <div class="forum-post">
-                        <h3 class="post-title">Water Conservation Methods</h3>
-                        <p class="post-content">Discuss innovative ways to conserve water in agriculture.</p>
-                        <p class="post-reply">8 replies</p>
-                    </div>
-                    <!-- Sample Forum Post -->
-                    <div class="forum-post">
-                        <h3 class="post-title">Soil Health Maintenance</h3>
-                        <p class="post-content">Share tips on maintaining soil health for sustainable farming.</p>
-                        <p class="post-reply">5 replies</p>
-                    </div>
+                    <asp:Repeater ID="PostsRepeater" runat="server">
+                        <ItemTemplate>
+                            <div class="forum-post">
+                                <h3 class="post-title"><%# Eval("Title") %></h3>
+                                <p class="post-content"><%# Eval("Content") %></p>
+                                <p class="post-date">Created on: <%# Eval("DateCreated", "{0:MMMM dd, yyyy}") %></p>
+                                <p class="post-reply"><%# Eval("ReplyCount") %> replies</p>
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
                     <a href="#" class="btn btn-primary btn-block mt-3">View More Posts</a>
                 </div>
             </div>
