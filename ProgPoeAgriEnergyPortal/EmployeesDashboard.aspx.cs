@@ -213,5 +213,10 @@ namespace ProgPoeAgriEnergyPortal
             // Display the success message
             ClientScript.RegisterStartupScript(this.GetType(), "MyAlert", "alert('" + message + "');", true);
         }
+
+        protected void btnAddGrant_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

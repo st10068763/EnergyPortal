@@ -62,6 +62,27 @@
                 </div>
                 <asp:Button ID="btnAddFarmer" runat="server" Text="Add Farmer" CssClass="btn btn-primary" OnClick="btnAddFarmer_Click" />
             </div>
+            <!------------------------------------- Add Grant form ---------------------------------------------->
+            <div class="selection m-4"
+                <h2>Add New Grant</h2>
+                <div class="form-group">
+                    <label for="txtGrantName">Grant Name</label>
+                    <asp:TextBox ID="txtGrantName" runat="server" CssClass="form-control" placeholder="Grant Name"></asp:TextBox>
+                </div>
+                <div class="form-group">
+                    <label for="txtGrantDescription">Grant description</label>
+                    <asp:TextBox ID="txtGrantDescription" runat="server" CssClass="form-control" placeholder="Grant Description"></asp:TextBox>
+                    <asp:Button ID="btnAddGrant" runat="server" Text="Add Grant" CssClass="btn-outline-primary" OnClick="btnAddGrant_Click" />
+                </div>
+                <div>
+                    <label for="grantGroup">Grant group</label>
+                    <asp:DropDownList ID="ddlGrantGroup" runat="server" CssClass="form-control">
+                        <asp:ListItem Value="1">Farmers</asp:ListItem>
+                        <asp:ListItem Value="2">Employees</asp:ListItem>
+                        </asp:DropDownList>
+                </div>
+            </div>
+
             <!--Product table binds the data from the database to the employee table -->
             <div class="section mb-4">
                 <h2>Search Products</h2>

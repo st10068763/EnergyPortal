@@ -78,6 +78,42 @@ namespace ProgPoeAgriEnergyPortal
         protected global::System.Web.UI.WebControls.Button btnAddFarmer;
 
         /// <summary>
+        /// txtGrantName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtGrantName;
+
+        /// <summary>
+        /// txtGrantDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtGrantDescription;
+
+        /// <summary>
+        /// btnAddGrant control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddGrant;
+
+        /// <summary>
+        /// ddlGrantGroup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlGrantGroup;
+
+        /// <summary>
         /// txtSearchProduct control.
         /// </summary>
         /// <remarks>
