@@ -80,7 +80,7 @@
                     <div class="card-body">
                         <div>
                              <!-- Message for error-->
-                            <asp:Label ID="lblErrorMessage" runat="server" CssClass="text-danger" />
+                        <asp:Label ID="lblErrorMessage" runat="server" CssClass="text-danger" />
                         </div>
                         <div class="form-group">
                             <label for="ProjectName">Project Name</label>
@@ -154,6 +154,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title"><%# Eval("GrantName") %></h5>
                                     <p class="card-text"><%# Eval("GrantDescription") %></p> 
+                                    <p class="card-text"><small class="text-md-center">Grant group: <%# Eval("GrantGroup") %></small></p> 
                                 </div>
                             </div>
                         </ItemTemplate>

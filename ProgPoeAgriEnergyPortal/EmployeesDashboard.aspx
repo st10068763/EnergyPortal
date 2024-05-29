@@ -65,6 +65,14 @@
             <!------------------------------------- Add Grant form ---------------------------------------------->
             <div class="selection m-4"
                 <h2>Add New Grant</h2>
+                <!--- Error Message -->
+                <div>
+                    <asp:Label ID="GrantErrorMessage" runat="server" CssClass="text-danger" />
+                </div>
+                    <!-- Success Message -->
+                <div>
+                    <asp:Label ID="GrantSuccessMessage" runat="server" CssClass="text-success" />
+                 </div>
                 <div class="form-group">
                     <label for="txtGrantName">Grant Name</label>
                     <asp:TextBox ID="txtGrantName" runat="server" CssClass="form-control" placeholder="Grant Name"></asp:TextBox>

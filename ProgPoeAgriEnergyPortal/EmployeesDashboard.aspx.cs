@@ -30,8 +30,22 @@ namespace ProgPoeAgriEnergyPortal
             string email = txtFarmerEmail.Text;
             string password = txtFarmerPassword.Text;
 
+            // validates the contact number to ensure its 9 number
+            if(contact.Length != 9)
+            {
+                ShowSuccess("Please enter 9 digits for contact number, exclude the country code");
+                return;
+            }
+            // validates email
+            if(email.Contains("@") == false)
+            {
+                ShowSuccess("Please enter a valid email address");
+                return;
+            }  
             // Calls the AddFarmer method to add the farmer to the database
             AddFarmer(name, contact, location, email, password);
+            // Cleans the form
+            cleanForms();
         }
         //----------------------------------ADD NEW FARMER--------------------------------------//
         // Method to add a new farmer to the database
@@ -83,13 +97,7 @@ namespace ProgPoeAgriEnergyPortal
                     // Message to display that the farmer has been added successfully
                     ShowSuccess("A new farmer has been added in the database");
                     // cleans the forms
-                    txtFarmerContact.Text = "";
-                    txtFarmerEmail.Text = "";
-                    txtFarmerLocation.Text = "";
-                    txtFarmerName.Text = "";
-                    txtFarmerPassword.Text = "";
-                    // Method that will display the farmers added by the employee based on the employee id
-                    //********LATER********//
+                                 
                 }
                 // Will display a message if any error occurs
                 catch (Exception ex)
@@ -129,7 +137,6 @@ namespace ProgPoeAgriEnergyPortal
         /// <param name="e"></param>
         protected void btnSearchFarmer_Click(object sender, EventArgs e)
         {
-            // Logic to search farmers
             string query = txtSearchFarmer.Text;
             // Perform search and bind results to GridViewFarmers
             DataTable farmers = SearchFarmers(query);
@@ -204,7 +211,6 @@ namespace ProgPoeAgriEnergyPortal
                     }
                 }
             }
-           // return new DataTable();
         }
 
         // Method to display the success message
@@ -216,7 +222,62 @@ namespace ProgPoeAgriEnergyPortal
 
         protected void btnAddGrant_Click(object sender, EventArgs e)
         {
+            string grantName = txtGrantName.Text;
+            string grantDescription = txtGrantDescription.Text;
+            string grantGroup = ddlGrantGroup.SelectedValue;
 
+            // Adds a new grants
+            AddGrant(grantName, grantDescription, grantGroup);
+            // Cleans the forms
+            cleanForms();
+        }
+
+        private bool AddGrant(string grantName, string grantDescription, string grantGroup)
+        {
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction transaction = null;
+                try
+                {
+                    transaction = conn.BeginTransaction();
+                    string query = "INSERT INTO Grants (GrantName, GrantDescription, GrantGroup) VALUES (@GrantName, @GrantDescription, @GrantGroup)";
+                    using (SqlCommand command = new SqlCommand(query, conn, transaction))
+                    {
+                        command.Parameters.AddWithValue("@GrantName", grantName);
+                        command.Parameters.AddWithValue("@GrantDescription", grantDescription);
+                        command.Parameters.AddWithValue("@GrantGroup", grantGroup);
+                        int rowsAffected = command.ExecuteNonQuery();
+                    }
+                    transaction.Commit();
+                    GrantSuccessMessage.Text= "A new grant has been added in the database";                    
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    GrantErrorMessage.Text= "Error: " + ex.Message;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// Cleans the forms
+        /// </summary>
+        private void cleanForms()
+        {
+            txtGrantName.Text = "";
+            txtGrantDescription.Text = "";
+            ddlGrantGroup.SelectedIndex = 0;
+            txtFarmerContact.Text = "";
+            txtFarmerEmail.Text = "";
+            txtFarmerLocation.Text = "";
+            txtFarmerName.Text = "";
+            txtFarmerPassword.Text = "";
         }
     }
 }

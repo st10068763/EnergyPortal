@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace ProgPoeAgriEnergyPortal
 {
@@ -15,6 +16,7 @@ namespace ProgPoeAgriEnergyPortal
             if (!IsPostBack)
             {
                 BindEvent();
+                BindGrantsRepeater();
             }
         }
 
@@ -39,8 +41,19 @@ namespace ProgPoeAgriEnergyPortal
                 return;
             }
 
-            // calls the create project method
-            CreateProject(projectName, description, projectType, startDate, endDate, projectLeaderName);
+            if(string.IsNullOrEmpty(projectName) || string.IsNullOrEmpty(description) || string.IsNullOrEmpty(projectLeaderName))
+            {
+                lblErrorMessage.Text = "Please fill in all the fields";
+                return;
+            }
+
+            if (CreateProject(projectName, description, projectType, startDate, endDate, projectLeaderName))
+            {
+                lblErrorMessage.Text = "A new project has been added successfully";
+                ClearFormFields();
+                BindEvent();
+            }
+                        
         }
 
         // Inserts project data in the database
@@ -73,6 +86,30 @@ namespace ProgPoeAgriEnergyPortal
             return false;
         }
 
+        private void BindGrantsRepeater()
+        {
+            try
+            {
+                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+                //string connectionString = ConfigurationManager.ConnectionStrings["AgriEnergyDB"].ConnectionString;
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM Grants";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    GrantsRepeater.DataSource = reader;
+                    GrantsRepeater.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Message to display if an error occurs
+                lblErrorMessage.Text = "An error occured: " + ex;
+            }            
+        }
+
+
         private void BindEvent()
         {
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
@@ -98,7 +135,17 @@ namespace ProgPoeAgriEnergyPortal
             }
 
         }
-
+        /// <summary>
+        /// Clears the form fields
+        /// </summary>
+        private void ClearFormFields()
+        {
+            txtProjectLeaderName.Text = "";
+            txtProjectName.Text = "";
+            txtProjectDescription.Text = "";
+            txtStartDate.Text = "";
+            txtEndDate.Text = "";
+        }
 
         protected void btnJoinProject_Click(object sender, EventArgs e)
         {
