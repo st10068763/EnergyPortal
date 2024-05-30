@@ -100,10 +100,10 @@
                     <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control" placeholder="Search Product..."></asp:TextBox>
                 </div>
                 <asp:Button ID="btnSearchProduct" runat="server" Text="Search" CssClass="btn btn-primary mb-3" OnClick="btnSearchProduct_Click" />
-                
+                <!--Drop down list values-->
                 <div class="form-group">
-                    <label for="ddlSortOptions">Sort By</label>
-                    <asp:DropDownList ID="ddlSortOptions" runat="server" CssClass="form-control">
+                    <label for="ddlSortOptions">Sort Search By</label>
+                    <asp:DropDownList ID="ddlSortOptions" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlSortOptions_SelectedIndexChanged" CssClass="form-control">
                         <asp:ListItem Value="ProductName ASC">Product Name (A-Z)</asp:ListItem>
                         <asp:ListItem Value="ProductName DESC">Product Name (Z-A)</asp:ListItem>
                         <asp:ListItem Value="Product_Price ASC">Price (Lowest to Highest)</asp:ListItem>

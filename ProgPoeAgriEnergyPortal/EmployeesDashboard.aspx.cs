@@ -139,40 +139,49 @@ namespace ProgPoeAgriEnergyPortal
 
         private void BindProductRepeater(string searchQuery = "")
         {
-            // Get the search query and sort option
-            string sortOption = ddlSortOptions.SelectedValue;
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            // Open the connection to the database
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                conn.Open();
-                string query = "SELECT ProductName, Quantity, Category, Product_Price, Product_Image, Description, ProductDate, FarmerName FROM Products";
-                // Add the search query to the query
-                if (!string.IsNullOrEmpty(searchQuery))
+                // Get the search query and sort option
+                string sortOption = ddlSortOptions.SelectedValue;
+                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+                // Open the connection to the database
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    query += " WHERE ProductName LIKE @SearchQuery OR Category LIKE @SearchQuery";
-                }
-                // Add the sort option to the query
-                if (!string.IsNullOrEmpty(sortOption))
-                {
-                    query += $" ORDER BY {sortOption}";
-                }
-                // Execute the query entered by the user
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    // Add the search query to the parameters
+                    conn.Open();
+                    string query = "SELECT ProductName, Quantity, Category, Product_Price, Product_Image, Description, ProductDate, FarmerName FROM Products";
+                    // Add the search query to the query
                     if (!string.IsNullOrEmpty(searchQuery))
                     {
-                        cmd.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+                        query += " WHERE ProductName LIKE @SearchQuery OR Category LIKE @SearchQuery";
                     }
-                    // Execute the query
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    // Add the sort option to the query
+                    if (!string.IsNullOrEmpty(sortOption))
                     {
-                        RepeaterProducts.DataSource = reader;
-                        RepeaterProducts.DataBind();
+                        query += $" ORDER BY {sortOption}";
+                    }
+                    // Execute the query entered by the user
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        // Add the search query to the parameters
+                        if (!string.IsNullOrEmpty(searchQuery))
+                        {
+                            cmd.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+                        }
+                        // Execute the query
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {                            
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+                            RepeaterProducts.DataSource = dt;
+                            RepeaterProducts.DataBind();
+                        }
                     }
                 }
             }
+            catch (Exception)
+            {
+                GrantErrorMessage.Text = "Error: Failed to retrieve products";
+            }           
         }
 
         /// <summary>
@@ -231,7 +240,6 @@ namespace ProgPoeAgriEnergyPortal
             string grantName = txtGrantName.Text;
             string grantDescription = txtGrantDescription.Text;
             string grantGroup = ddlGrantGroup.SelectedValue;
-
             // Adds a new grants
             AddGrant(grantName, grantDescription, grantGroup);
             // Cleans the forms
@@ -284,6 +292,12 @@ namespace ProgPoeAgriEnergyPortal
             txtFarmerLocation.Text = "";
             txtFarmerName.Text = "";
             txtFarmerPassword.Text = "";
+        }
+
+        protected void ddlSortOptions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindProductRepeater(txtSearchProduct.Text);
+          
         }
     }
 }
