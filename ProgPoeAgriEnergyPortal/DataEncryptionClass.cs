@@ -61,7 +61,35 @@ namespace ProgPoeAgriEnergyPortal
             Array.Copy(hash, 0, hashBytes, 16, 20);
             // return the hashed password
             return Convert.ToBase64String(hashBytes);
-
         }
+        // Method to verify the password
+        public static bool VerifyPassword(string password, string hashedPassword)
+        {
+            try
+            {
+                byte[] hashBytes = Convert.FromBase64String(hashedPassword);
+
+                byte[] salt = new byte[16];
+                Array.Copy(hashBytes, 0, salt, 0, 16);
+
+                var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+                byte[] hash = pbkdf2.GetBytes(20);
+
+                for (int i = 0; i < 20; i++)
+                {
+                    if (hashBytes[i + 16] != hash[i])
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (FormatException)
+            {
+                // Handle the case where the stored hashed password is not a valid base64 string
+                return false;
+            }
+        }
+
     }
 }

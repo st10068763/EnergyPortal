@@ -24,9 +24,8 @@ namespace ProgPoeAgriEnergyPortal
             // Check if the user is a farmer or an employee based on the email entered by the user if the user id has the email and the role is farmer then redirect to the farmers page
             string email = txtEmail.Text;
             string password = txtPassword.Text;
-
             // Calls the VerifyUser method to check if the user exists in the database
-           var userInfo = VerifyUser(email, password);
+            var userInfo = VerifyUser(email, password);
 
             // Redirects the user to the appropriate page based on the role
            if (userInfo != null)
@@ -51,92 +50,41 @@ namespace ProgPoeAgriEnergyPortal
         private (string UserID, string Role)? VerifyUser(string email, string password)
         {
             (string UserID, string Role)? userInfo = null;
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
 
             try
             {
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    //// checks in the farmers table if the user exists
-                    //string farmerQuery = "SELECT Farmer_ID AS UserID, 'Farmer' AS Role FROM Farmer WHERE Email = @Email AND Password = @Password";
-                    //using (SqlCommand farmerCmd = new SqlCommand(farmerQuery, conn))
-                    //{
-                    //    farmerCmd.Parameters.AddWithValue("@Email", email);
-                    //    farmerCmd.Parameters.AddWithValue("@Password", password);
 
-                    //    using (SqlDataReader farmerReader = farmerCmd.ExecuteReader())
-                    //    {
-                    //        if (farmerReader.Read())
-                    //        {
-                    //            userInfo = (farmerReader["UserID"].ToString(), farmerReader["Role"].ToString());
-                    //            return userInfo;
-                    //        }
-                    //    }
-                    //}
-
-                    // checks in the farmers table if the user exists
-                    string farmerQuery = "SELECT User_ID AS UserID, 'Farmer' AS Role FROM Users WHERE Email = @Email AND Password = @Password";
-                    using (SqlCommand farmerCmd = new SqlCommand(farmerQuery, conn))
+                    string query = "SELECT User_ID AS UserID, Role, Password FROM Users WHERE Email = @Email";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        farmerCmd.Parameters.AddWithValue("@Email", email);
-                        farmerCmd.Parameters.AddWithValue("@Password", password);
+                        cmd.Parameters.AddWithValue("@Email", email);
 
-                        using (SqlDataReader farmerReader = farmerCmd.ExecuteReader())
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            if (farmerReader.Read())
+                            if (reader.Read())
                             {
-                                userInfo = (farmerReader["UserID"].ToString(), farmerReader["Role"].ToString());
-                                return userInfo;
+                                string storedHash = reader["Password"].ToString();
+                                if (DataEncryptionClass.VerifyPassword(password, storedHash))
+                                {
+                                    userInfo = (reader["UserID"].ToString(), reader["Role"].ToString());
+                                }
                             }
                         }
                     }
-
-                    // checks in the userTable table if the user exists
-                    string query = "SELECT User_ID AS UserID, 'Employee' AS Role FROM Users WHERE Email = @Email AND Password = @Password";
-                    using (SqlCommand employeeCmd = new SqlCommand(query, conn))
-                    {
-                        employeeCmd.Parameters.AddWithValue("@Email", email);
-                        employeeCmd.Parameters.AddWithValue("@Password", password);
-
-                        using (SqlDataReader employeeReader = employeeCmd.ExecuteReader())
-                        {
-                            if (employeeReader.Read())
-                            {
-                                userInfo = (employeeReader["UserID"].ToString(), employeeReader["Role"].ToString());
-
-                            }
-                        }
-                    }
-
-                    //// checks in the employees table if the user exists
-                    //string employeeQuery = "SELECT Employee_ID AS UserID, 'Employee' AS Role FROM Employee WHERE Email = @Email AND Password = @Password";
-                    //using (SqlCommand employeeCmd = new SqlCommand(employeeQuery, conn))
-                    //{
-                    //    employeeCmd.Parameters.AddWithValue("@Email", email);
-                    //    employeeCmd.Parameters.AddWithValue("@Password", password);
-
-                    //    using (SqlDataReader employeeReader = employeeCmd.ExecuteReader())
-                    //    {
-                    //        if (employeeReader.Read())
-                    //        {
-                    //            userInfo = (employeeReader["UserID"].ToString(), employeeReader["Role"].ToString());
-
-                    //        }
-                    //    }
-                    //}
-
                 }
             }
             catch (Exception ex)
             {
-               // displays an error message if an error occurs
                 Response.Write("<script>alert('Error: " + ex.Message + "');</script>");
+            }
 
-            }            
             return userInfo;
-            
-        }        
-       //---------------------------------------END VERIFY USER------------------------------------------------//
+        }
+
+        //---------------------------------------END VERIFY USER------------------------------------------------//
     }
 }//-------------------------------------------***dingDONG END OF CODE***-----------------------------------------//

@@ -49,7 +49,7 @@ namespace ProgPoeAgriEnergyPortal
             // Validate the product price to ensure that the user uses an dot to separate the decimal
             if (!double.TryParse(txtPrice.Text, out productPrice))
             {
-                lblMessage.Text = "Please enter a valid price";
+                lblMessage.Text = "Please enter a valid price. Use dot'.' as decimal separator";
                 return;
             }
             

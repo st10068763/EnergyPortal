@@ -114,15 +114,6 @@ namespace ProgPoeAgriEnergyPortal
         protected global::System.Web.UI.WebControls.TextBox txtGrantDescription;
 
         /// <summary>
-        /// btnAddGrant control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddGrant;
-
-        /// <summary>
         /// ddlGrantGroup control.
         /// </summary>
         /// <remarks>
@@ -130,6 +121,15 @@ namespace ProgPoeAgriEnergyPortal
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlGrantGroup;
+
+        /// <summary>
+        /// btnAddGrant control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddGrant;
 
         /// <summary>
         /// txtSearchProduct control.
@@ -150,13 +150,22 @@ namespace ProgPoeAgriEnergyPortal
         protected global::System.Web.UI.WebControls.Button btnSearchProduct;
 
         /// <summary>
-        /// GridViewProducts control.
+        /// ddlSortOptions control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridViewProducts;
+        protected global::System.Web.UI.WebControls.DropDownList ddlSortOptions;
+
+        /// <summary>
+        /// RepeaterProducts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RepeaterProducts;
 
         /// <summary>
         /// txtSearchFarmer control.

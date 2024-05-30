@@ -38,7 +38,7 @@
     <form id="form1" runat="server">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Agri-Energy Portal</a>
+            <a class="navbar-brand" href="DashboardPage.aspx">Agri-Energy Portal</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -136,7 +136,7 @@
                                             <p class="card-text">End Date: <%# Eval("EndDate") %></p>
                                             <p class="card-text">Project Leader: <%# Eval("ProjectLeaderName") %></p>
                                             <asp:Button ID="btnJoin" runat="server" Text="Join Project" CommandArgument='<%# Eval("ProjectID") %>' OnClick="btnJoinProject_Click" CssClass="btn btn-primary" />
-                                            <asp:Button ID="btnFund" runat="server" Text="Fund Project" CommandArgument='<%# Eval("Project ID") %>' OnClick="btnFundProject_Click" CssClass="btn btn-primary" />
+                                            <asp:Button ID="btnFund" runat="server" Text="Fund Project" CommandArgument='<%# Eval("ProjectID") %>' OnClick="btnFundProject_Click" CssClass="btn btn-primary" />
                                         </div>
                                     </div>
                                 </div>

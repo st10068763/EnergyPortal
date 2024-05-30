@@ -37,7 +37,7 @@
         <div class="container mt-5">
             <h1>Welcome to the Employees Dashboard</h1>
             
-            <!------------------------------------- Add farmer form ---------------------------------------------->
+            <!-- Add farmer form -->
             <div class="section mb-4">
                 <h2>Add New Farmer</h2>
                 <div class="form-group">
@@ -62,17 +62,18 @@
                 </div>
                 <asp:Button ID="btnAddFarmer" runat="server" Text="Add Farmer" CssClass="btn btn-primary" OnClick="btnAddFarmer_Click" />
             </div>
-            <!------------------------------------- Add Grant form ---------------------------------------------->
-            <div class="selection m-4"
+            
+            <!-- Add Grant form -->
+            <div class="section m-4">
                 <h2>Add New Grant</h2>
-                <!--- Error Message -->
+                <!-- Error Message -->
                 <div>
                     <asp:Label ID="GrantErrorMessage" runat="server" CssClass="text-danger" />
                 </div>
-                    <!-- Success Message -->
+                <!-- Success Message -->
                 <div>
                     <asp:Label ID="GrantSuccessMessage" runat="server" CssClass="text-success" />
-                 </div>
+                </div>
                 <div class="form-group">
                     <label for="txtGrantName">Grant Name</label>
                     <asp:TextBox ID="txtGrantName" runat="server" CssClass="form-control" placeholder="Grant Name"></asp:TextBox>
@@ -80,18 +81,18 @@
                 <div class="form-group">
                     <label for="txtGrantDescription">Grant description</label>
                     <asp:TextBox ID="txtGrantDescription" runat="server" CssClass="form-control" placeholder="Grant Description"></asp:TextBox>
-                    <asp:Button ID="btnAddGrant" runat="server" Text="Add Grant" CssClass="btn-outline-primary" OnClick="btnAddGrant_Click" />
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="grantGroup">Grant group</label>
                     <asp:DropDownList ID="ddlGrantGroup" runat="server" CssClass="form-control">
                         <asp:ListItem Value="1">Farmers</asp:ListItem>
                         <asp:ListItem Value="2">Employees</asp:ListItem>
-                        </asp:DropDownList>
+                    </asp:DropDownList>
                 </div>
+                <asp:Button ID="btnAddGrant" runat="server" Text="Add Grant" CssClass="btn-outline-primary" OnClick="btnAddGrant_Click" />
             </div>
 
-            <!--Product table binds the data from the database to the employee table -->
+            <!-- Product filter section -->
             <div class="section mb-4">
                 <h2>Search Products</h2>
                 <div class="form-group">
@@ -99,16 +100,55 @@
                     <asp:TextBox ID="txtSearchProduct" runat="server" CssClass="form-control" placeholder="Search Product..."></asp:TextBox>
                 </div>
                 <asp:Button ID="btnSearchProduct" runat="server" Text="Search" CssClass="btn btn-primary mb-3" OnClick="btnSearchProduct_Click" />
-                <asp:GridView ID="GridViewProducts" runat="server" AutoGenerateColumns="false" CssClass="table table-striped">
-                    <Columns>
-                        <asp:BoundField DataField="ProductName" HeaderText="Product Name" />
-                        <asp:BoundField DataField="Quantity" HeaderText="Stock Available" />
-                        <asp:BoundField DataField="Category" HeaderText="Category" />
-                        <asp:BoundField DataField="Product_Price" HeaderText="Price" />
-                        <asp:BoundField DataField="Product_Image" HeaderText="Product Image" />
-                        <asp:BoundField DataField="Description" HeaderText="Product Description" />
-                    </Columns>
-                </asp:GridView>
+                
+                <div class="form-group">
+                    <label for="ddlSortOptions">Sort By</label>
+                    <asp:DropDownList ID="ddlSortOptions" runat="server" CssClass="form-control">
+                        <asp:ListItem Value="ProductName ASC">Product Name (A-Z)</asp:ListItem>
+                        <asp:ListItem Value="ProductName DESC">Product Name (Z-A)</asp:ListItem>
+                        <asp:ListItem Value="Product_Price ASC">Price (Lowest to Highest)</asp:ListItem>
+                        <asp:ListItem Value="Product_Price DESC">Price (Highest to Lowest)</asp:ListItem>
+                        <asp:ListItem Value="ProductDate ASC">Creation Date (Oldest to Newest)</asp:ListItem>
+                        <asp:ListItem Value="ProductDate DESC">Creation Date (Newest to Oldest)</asp:ListItem>
+                        <asp:ListItem Value="FarmerName ASC">Farmer Name (A-Z)</asp:ListItem>
+                        <asp:ListItem Value="FarmerName DESC">Farmer Name (Z-A)</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+
+                <asp:Repeater ID="RepeaterProducts" runat="server">
+                    <HeaderTemplate>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Image</th>
+                                    <th>Description</th>
+                                    <th>Creation Date</th>
+                                    <th>Farmer Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <tr>
+                            <td><%# Eval("ProductName") %></td>
+                            <td><%# Eval("Quantity") %></td>
+                            <td><%# Eval("Category") %></td>
+                            <td><%# Eval("Product_Price") %></td>
+                            <td><%# Eval("Product_Image") %></td>
+                            <td><%# Eval("Description") %></td>
+                            <td><%# Eval("ProductDate", "{0:yyyy-MM-dd}") %></td>
+                            <td><%# Eval("FarmerName") %></td>
+                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                            </tbody>
+                        </table>
+                    </FooterTemplate>
+                </asp:Repeater>
             </div>
 
             <div class="section">

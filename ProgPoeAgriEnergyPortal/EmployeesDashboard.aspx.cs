@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -31,16 +32,16 @@ namespace ProgPoeAgriEnergyPortal
             string password = txtFarmerPassword.Text;
             string role = "Farmer";
 
-            // validates the contact number to ensure its 9 number
-            if(contact.Length != 9)
+            // validates the contact number to ensure its 10 number
+            if(contact.Length != 10)
             {
-                ShowSuccess("Please enter 9 digits for contact number, exclude the country code");
+                GrantErrorMessage.Text = "Please enter 10 digits for contact number, exclude the country code";
                 return;
             }
             // validates email
             if(email.Contains("@") == false)
             {
-                ShowSuccess("Please enter a valid email address");
+                GrantErrorMessage.Text = "Please enter a valid email address";
                 return;
             }  
             // Calls the AddFarmer method to add the farmer to the database
@@ -97,9 +98,7 @@ namespace ProgPoeAgriEnergyPortal
                     // Commit the transaction
                     transaction.Commit();
                     // Message to display that the farmer has been added successfully
-                    ShowSuccess("A new farmer has been added in the database");
-                    // cleans the forms
-                                 
+                   GrantSuccessMessage.Text = "A new farmer has been added in the database";
                 }
                 // Will display a message if any error occurs
                 catch (Exception ex)
@@ -107,7 +106,7 @@ namespace ProgPoeAgriEnergyPortal
                     // Rollback the transaction if an error occurs
                     transaction.Rollback();
                     // Display the error message
-                  ShowSuccess("Error: " + ex.Message);
+                    GrantErrorMessage.Text = "Error: " + ex.Message;
                 }
                 // closes the connection to the database
                 finally
@@ -125,13 +124,57 @@ namespace ProgPoeAgriEnergyPortal
         /// <param name="e"></param>
         protected void btnSearchProduct_Click(object sender, EventArgs e)
         {
-            // Logic to search products
-            string query = txtSearchProduct.Text;
-            // Perform search and bind results to GridViewProducts
-            DataTable products = SearchProducts(query);
-            GridViewProducts.DataSource = products;
-            GridViewProducts.DataBind();
+            // Bind the products to the repeater
+            if (string.IsNullOrEmpty(txtSearchProduct.Text))
+            {
+                // if the search query is empty, a message will display
+                GrantErrorMessage.Text = "Please enter a value in the search field";
+                //BindProductRepeater();
+            }
+            else
+            {
+                BindProductRepeater(txtSearchProduct.Text);
+            }
         }
+
+        private void BindProductRepeater(string searchQuery = "")
+        {
+            // Get the search query and sort option
+            string sortOption = ddlSortOptions.SelectedValue;
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            // Open the connection to the database
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT ProductName, Quantity, Category, Product_Price, Product_Image, Description, ProductDate, FarmerName FROM Products";
+                // Add the search query to the query
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    query += " WHERE ProductName LIKE @SearchQuery OR Category LIKE @SearchQuery";
+                }
+                // Add the sort option to the query
+                if (!string.IsNullOrEmpty(sortOption))
+                {
+                    query += $" ORDER BY {sortOption}";
+                }
+                // Execute the query entered by the user
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    // Add the search query to the parameters
+                    if (!string.IsNullOrEmpty(searchQuery))
+                    {
+                        cmd.Parameters.AddWithValue("@SearchQuery", "%" + searchQuery + "%");
+                    }
+                    // Execute the query
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        RepeaterProducts.DataSource = reader;
+                        RepeaterProducts.DataBind();
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// search button to search for farmers in the database
         /// </summary>
@@ -146,39 +189,7 @@ namespace ProgPoeAgriEnergyPortal
             GridViewFarmers.DataBind();
         }
         //------------------------------SEARCH METHODS-----------------------------------//
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
-        private DataTable SearchProducts(string query)
-        {
-            var searchQuery = "%" + query + "%";
-            // connection string to connect to the database
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                // open the connection to the database
-                conn.Open();
-                // Sql query to search for products in the database
-                // string sqlQuery = "SELECT * FROM Products WHERE ProductName LIKE @SearchQuery OR Description LIKE @SearchQuery";
-
-                string sqlQuery = "SELECT ProductName, Quantity, Category, Product_Price, Product_Image, Description FROM Products " +
-                                  "WHERE ProductName LIKE @SearchQuery OR Quantity LIKE @SearchQuery OR Category LIKE @SearchQuery " +
-                                  "OR Description LIKE @SearchQuery";
-                using (SqlCommand command = new SqlCommand(sqlQuery, conn))
-                {
-                    command.Parameters.AddWithValue("@SearchQuery", searchQuery);
-                    // execute the query
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-                    {
-                        DataTable products = new DataTable();
-                        adapter.Fill(products);
-                        return products;
-                    }
-                }
-            }           
-        }
+      
         /// <summary>
         /// Method to search for farmers in the database
         /// </summary>
@@ -213,13 +224,6 @@ namespace ProgPoeAgriEnergyPortal
                     }
                 }
             }
-        }
-
-        // Method to display the success message
-        private void ShowSuccess(string message)
-        {
-            // Display the success message
-            ClientScript.RegisterStartupScript(this.GetType(), "MyAlert", "alert('" + message + "');", true);
         }
 
         protected void btnAddGrant_Click(object sender, EventArgs e)
