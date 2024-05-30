@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.EnterpriseServices;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -28,7 +29,7 @@ namespace ProgPoeAgriEnergyPortal
             string eventName = txtEventName.Text;
             DateTime eventDate;
             string farmerName = txtLectureName.Text;
-            float productPrice = float.Parse(txtPrice.Text);
+            double productPrice ;
             string eventDescription = txtEventDescription.Text;
             string category = ddlEventType.SelectedValue;
             string eventImage = txtEventImage.Text;
@@ -45,6 +46,13 @@ namespace ProgPoeAgriEnergyPortal
                 lblMessage.Text = "Please fill in all the fields";
                 return;
             }
+            // Validate the product price to ensure that the user uses an dot to separate the decimal
+            if (!double.TryParse(txtPrice.Text, out productPrice))
+            {
+                lblMessage.Text = "Please enter a valid price";
+                return;
+            }
+            
             // Get the farmer id from the session
             int farmerId = Convert.ToInt32(Session["Farmer_ID"]);
 
@@ -62,7 +70,6 @@ namespace ProgPoeAgriEnergyPortal
             }
         }
 
-
         private void DisplayMessage(string message)
         {
             Response.Write("<script>alert('" + message + "');</script>");
@@ -70,7 +77,7 @@ namespace ProgPoeAgriEnergyPortal
 
 
         // method to create an event
-        public bool CreateEvent(string eventName, string category, float productPrice, int farmerId, string eventImage, string eventDescription, string farmerName, DateTime eventDate)
+        public bool CreateEvent(string eventName, string category, double productPrice, int farmerId, string eventImage, string eventDescription, string farmerName, DateTime eventDate)
         {
             try
             {

@@ -29,6 +29,7 @@ namespace ProgPoeAgriEnergyPortal
             string location = txtFarmerLocation.Text;
             string email = txtFarmerEmail.Text;
             string password = txtFarmerPassword.Text;
+            string role = "Farmer";
 
             // validates the contact number to ensure its 9 number
             if(contact.Length != 9)
@@ -43,13 +44,13 @@ namespace ProgPoeAgriEnergyPortal
                 return;
             }  
             // Calls the AddFarmer method to add the farmer to the database
-            AddFarmer(name, contact, location, email, password);
+            AddFarmer(name, contact, location, email, password, role);
             // Cleans the form
             cleanForms();
         }
         //----------------------------------ADD NEW FARMER--------------------------------------//
         // Method to add a new farmer to the database
-        private bool AddFarmer(string name, string contact, string location, string email, string password)
+        private bool AddFarmer(string name, string contact, string location, string email, string password, string role)
         {
            // connection string to connect to the database
            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
@@ -66,7 +67,7 @@ namespace ProgPoeAgriEnergyPortal
                     // Begin a transaction
                      transaction = conn.BeginTransaction();
                     // Sql query to insert the new farmer into the database
-                    string query = "INSERT INTO Farmer (FarmerName, CellphoneNumber, Location, Email, Password) VALUES (@Name, @CellphoneNumber, @Location, @Email, @Password)";
+                    string query = "INSERT INTO Farmer (FarmerName, CellphoneNumber, Location, Email, Password, Role) VALUES (@Name, @CellphoneNumber, @Location, @Email, @Password,@Role)";
                     using (SqlCommand command = new SqlCommand(query, conn, transaction))
                     {
                         command.Parameters.AddWithValue("@Name", name);
@@ -74,6 +75,7 @@ namespace ProgPoeAgriEnergyPortal
                         command.Parameters.AddWithValue("@Location", location);
                         command.Parameters.AddWithValue("@Email", email);
                         command.Parameters.AddWithValue("@Password", password);
+                        command.Parameters.AddWithValue("Role", role);
                         // execute the query
                         int rowsAffected = command.ExecuteNonQuery();                       
                     }
@@ -86,7 +88,7 @@ namespace ProgPoeAgriEnergyPortal
                         userCommand.Parameters.AddWithValue("@Email", email);
                         userCommand.Parameters.AddWithValue("@PhoneNumber", contact);
                         userCommand.Parameters.AddWithValue("@Password", password);
-                        userCommand.Parameters.AddWithValue("@Role", "Farmer");
+                        userCommand.Parameters.AddWithValue("@Role", role);
                         userCommand.Parameters.AddWithValue("@Location", location);
                         // Execute the query
                         userCommand.ExecuteNonQuery();

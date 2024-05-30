@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="~/CSS/mySheet.css" />
     <style>
         /* Add your custom CSS styles here */
+        .reply {
+            margin-left: 20px;
+            padding-left: 15px;
+            border-left: 2px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -42,6 +47,9 @@
                     <div class="card">
                         <div class="card-header">Create New Post</div>
                         <div class="card-body">
+                            <div>
+                                 <asp:Label ID="PostMessageSuccess" runat="server" Text="" CssClass="alert-success"></asp:Label>
+                            </div>
                             <asp:Label ID="lblMessage" runat="server" Text="" CssClass="text-danger"></asp:Label>
                             <asp:TextBox ID="txtPostTitle" runat="server" CssClass="form-control" Placeholder="Post Title"></asp:TextBox><br />
                             <asp:TextBox ID="txtPostContent" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="5" Placeholder="Enter the post content here..."></asp:TextBox><br />
@@ -55,14 +63,26 @@
             <div class="row mt-4">
                 <div class="col-md-8 mx-auto">
                     <h2 class="text-center">Latest Posts</h2>
-                    <asp:Repeater ID="PostsRepeater" runat="server">
+                    <asp:Repeater ID="PostsRepeater" runat="server" OnItemDataBound="PostsRepeater_ItemDataBound">
                         <ItemTemplate>
-                             <div class="forum-post">
+                            <div class="forum-post">
+                                
                                 <h3 class="post-title"><%# Eval("Title") %></h3>
                                 <p class="post-content"><%# Eval("Content") %></p>
                                 <p class="post-date">Created on: <%# Eval("DateCreated", "{0:MMMM dd, yyyy}") %></p>
-                                <p class="post-content">Posted by: <%# Eval("CreatedBy")%></p>
+                                <p class="post-content">Posted by: <%# Eval("CreatedBy") %></p>
                                 <p class="post-reply"><%# Eval("ReplyCount") %> replies</p>
+                                <!-- Repeater for the post's replies -->
+                                <asp:Repeater ID="ReplyRepeater" runat="server">
+                                    <ItemTemplate>
+                                        <div class="reply">
+                                            <p class="post-reply"><%# Eval("Content") %></p>
+                                            <p class="reply-author">Reply by: <%# Eval("CreatedBy") %></p>
+                                            <p class="post-date">Created on: <%# Eval("DateCreated", "{0:MMMM dd, yyyy}") %></p>
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                                <!-- End of repeater for replies -->
                                 <asp:TextBox ID="txtReply" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" Placeholder="Reply..."></asp:TextBox>
                                 <asp:Button ID="btnReply" runat="server" Text="Reply" CssClass="btn btn-primary" CommandArgument='<%# Eval("PostID") %>' OnClick="btnReply_Click" />
                             </div>

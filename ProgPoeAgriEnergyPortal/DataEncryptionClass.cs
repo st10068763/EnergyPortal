@@ -15,10 +15,13 @@ namespace ProgPoeAgriEnergyPortal
         // Ensure that the key and IV are of the appropriate length for AES (256-bit key, 128-bit IV)
         private static readonly byte[] Key = Encoding.UTF8.GetBytes("12345678901234567890123456789012");
         private static readonly byte[] IV = Encoding.UTF8.GetBytes("1234567890123456");
-
+        /// <summary>
+        /// method to encrypt the card number
+        /// </summary>
+        /// <param name="cardNumber"></param>
+        /// <returns></returns>
         public static string EncryptCardNumber(string cardNumber)
         {
-            
             using (Aes aesAlg = Aes.Create())
             {
                 aesAlg.Key = Key;
@@ -40,8 +43,8 @@ namespace ProgPoeAgriEnergyPortal
             }
         }
 
-            // Method to hash the password
-            public static string HashPassword(string password)
+        // Method to hash the password
+        public static string HashPassword(string password)
         {
             // using salt to hash the password
             byte[] salt = new byte[16];
@@ -58,6 +61,7 @@ namespace ProgPoeAgriEnergyPortal
             Array.Copy(hash, 0, hashBytes, 16, 20);
             // return the hashed password
             return Convert.ToBase64String(hashBytes);
+
         }
     }
 }

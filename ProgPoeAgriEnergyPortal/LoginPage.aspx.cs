@@ -14,7 +14,6 @@ namespace ProgPoeAgriEnergyPortal
         {
 
         }
-
         /// <summary>
         /// Login button that will check the user's credentials and redirect them to the appropriate page,farmers page or employees page
         /// </summary>
@@ -59,8 +58,25 @@ namespace ProgPoeAgriEnergyPortal
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
+                    //// checks in the farmers table if the user exists
+                    //string farmerQuery = "SELECT Farmer_ID AS UserID, 'Farmer' AS Role FROM Farmer WHERE Email = @Email AND Password = @Password";
+                    //using (SqlCommand farmerCmd = new SqlCommand(farmerQuery, conn))
+                    //{
+                    //    farmerCmd.Parameters.AddWithValue("@Email", email);
+                    //    farmerCmd.Parameters.AddWithValue("@Password", password);
+
+                    //    using (SqlDataReader farmerReader = farmerCmd.ExecuteReader())
+                    //    {
+                    //        if (farmerReader.Read())
+                    //        {
+                    //            userInfo = (farmerReader["UserID"].ToString(), farmerReader["Role"].ToString());
+                    //            return userInfo;
+                    //        }
+                    //    }
+                    //}
+
                     // checks in the farmers table if the user exists
-                    string farmerQuery = "SELECT Farmer_ID AS UserID, 'Farmer' AS Role FROM Farmer WHERE Email = @Email AND Password = @Password";
+                    string farmerQuery = "SELECT User_ID AS UserID, 'Farmer' AS Role FROM Users WHERE Email = @Email AND Password = @Password";
                     using (SqlCommand farmerCmd = new SqlCommand(farmerQuery, conn))
                     {
                         farmerCmd.Parameters.AddWithValue("@Email", email);
@@ -76,9 +92,9 @@ namespace ProgPoeAgriEnergyPortal
                         }
                     }
 
-                    // checks in the employees table if the user exists
-                    string employeeQuery = "SELECT Employee_ID AS UserID, 'Employee' AS Role FROM Employee WHERE Email = @Email AND Password = @Password";
-                    using (SqlCommand employeeCmd = new SqlCommand(employeeQuery, conn))
+                    // checks in the userTable table if the user exists
+                    string query = "SELECT User_ID AS UserID, 'Employee' AS Role FROM Users WHERE Email = @Email AND Password = @Password";
+                    using (SqlCommand employeeCmd = new SqlCommand(query, conn))
                     {
                         employeeCmd.Parameters.AddWithValue("@Email", email);
                         employeeCmd.Parameters.AddWithValue("@Password", password);
@@ -92,6 +108,23 @@ namespace ProgPoeAgriEnergyPortal
                             }
                         }
                     }
+
+                    //// checks in the employees table if the user exists
+                    //string employeeQuery = "SELECT Employee_ID AS UserID, 'Employee' AS Role FROM Employee WHERE Email = @Email AND Password = @Password";
+                    //using (SqlCommand employeeCmd = new SqlCommand(employeeQuery, conn))
+                    //{
+                    //    employeeCmd.Parameters.AddWithValue("@Email", email);
+                    //    employeeCmd.Parameters.AddWithValue("@Password", password);
+
+                    //    using (SqlDataReader employeeReader = employeeCmd.ExecuteReader())
+                    //    {
+                    //        if (employeeReader.Read())
+                    //        {
+                    //            userInfo = (employeeReader["UserID"].ToString(), employeeReader["Role"].ToString());
+
+                    //        }
+                    //    }
+                    //}
 
                 }
             }

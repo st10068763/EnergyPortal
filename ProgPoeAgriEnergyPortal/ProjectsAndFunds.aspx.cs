@@ -149,12 +149,27 @@ namespace ProgPoeAgriEnergyPortal
 
         protected void btnJoinProject_Click(object sender, EventArgs e)
         {
+            Button btn = (Button)sender;
+            int projectId = int.Parse(btn.CommandArgument);
+            int userId = Convert.ToInt32(Session["User_ID"]);
 
+            string connectionString = ConfigurationManager.ConnectionStrings["AgriEnergyDB"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "INSERT INTO ProjectParticipants (ProjectID, UserID) VALUES (@ProjectID, @UserID)";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@ProjectID", projectId);
+                cmd.Parameters.AddWithValue("@UserID", userId);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
         }
 
         protected void btnFundProject_Click(object sender, EventArgs e)
         {
-
+            Button btn = (Button)sender;
+            int projectId = int.Parse(btn.CommandArgument);
+            Response.Redirect($"FundProject.aspx?projectId={projectId}");
         }
     }
 }

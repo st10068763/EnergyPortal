@@ -22,7 +22,7 @@
     <form id="form1" runat="server">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Agri-Energy Portal</a>
+            <a class="navbar-brand" href="DashboardPage.aspx">Agri-Energy Portal</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -64,10 +64,10 @@
                         <div class="card-header">Create New Event</div>
                         <div class="card-body">
                             <asp:Label ID="lblMessage" runat="server" Text="" CssClass="text-danger"></asp:Label>
-                            <asp:Label ID="CorrectMessage" runat="server" Text="" CssClass="alert-info"></asp:Label>
+                            <asp:Label ID="CorrectMessage" runat="server" Text="" CssClass="alert-success"></asp:Label>
                             <asp:TextBox ID="txtEventName" runat="server" CssClass="form-control" Placeholder="Event Name"></asp:TextBox><br />
                             <asp:TextBox ID="txtEventDescription" runat="server" CssClass="form-control" Placeholder="Event Description"></asp:TextBox><br />
-                            <asp:DropDownList ID="ddlEventType" runat="server" CssClass="form-control">
+                            <asp:DropDownList ID="ddlEventType" runat="server" CssClass="dropdown">
                                 <asp:ListItem Text="Select Event Type" Value="" />
                                 <asp:ListItem Text="Online Course" Value="Online Course" />
                                 <asp:ListItem Text="Webinar" Value="Webinar" />
