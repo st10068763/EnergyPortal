@@ -1,0 +1,908 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AgriEnergyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Employee_ID" />
+          </Key>
+          <Property Name="Employee_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Farmer_ID" Type="int" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="EventEnrollments">
+          <Key>
+            <PropertyRef Name="EnrollmentID" />
+          </Key>
+          <Property Name="EnrollmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Event_ID" Type="int" Nullable="false" />
+          <Property Name="Farmer_ID" Type="int" />
+          <Property Name="Employee_ID" Type="int" />
+          <Property Name="EnrollmentDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EventsTB">
+          <Key>
+            <PropertyRef Name="Event_ID" />
+          </Key>
+          <Property Name="Event_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Event_Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Product_Price" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Farmer_ID" Type="int" Nullable="false" />
+          <Property Name="Event_Image" Type="varchar" MaxLength="5500" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="FarmerName" Type="varchar" MaxLength="255" />
+          <Property Name="EventDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Farmer">
+          <Key>
+            <PropertyRef Name="Farmer_ID" />
+          </Key>
+          <Property Name="Farmer_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FarmerName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="CellphoneNumber" Type="int" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Grants">
+          <Key>
+            <PropertyRef Name="GrantID" />
+          </Key>
+          <Property Name="GrantID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GrantName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="GrantDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="GrantGroup" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GreenMarket">
+          <Key>
+            <PropertyRef Name="GreenMarket_ID" />
+          </Key>
+          <Property Name="GreenMarket_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product_Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Product_Price" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Farmer_ID" Type="int" Nullable="false" />
+          <Property Name="Product_Image" Type="varchar" MaxLength="5500" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="FarmerName" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SenderId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ReceiverId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MessageText" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PostsTB">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReplyCount" Type="int" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Category" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Product_Price" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="ProductDate" Type="datetime" />
+          <Property Name="Farmer_ID" Type="int" Nullable="false" />
+          <Property Name="Product_Image" Type="varchar" MaxLength="5500" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="FarmerName" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="1000" />
+          <Property Name="ProjectType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="ProjectLeaderName" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RepliesTB">
+          <Key>
+            <PropertyRef Name="ReplyID" />
+          </Key>
+          <Property Name="ReplyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostID" Type="int" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductionDate" Type="date" Nullable="false" />
+          <Property Name="BuyerName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BuyerEmail" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BuyerAddress" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CardNumber" Type="varchar" MaxLength="255" />
+          <Property Name="TransactionDate" Type="datetime" />
+          <Property Name="CVV" Type="varchar" MaxLength="250" />
+          <Property Name="User_ID" Type="int" />
+          <Property Name="FarmerName" Type="varchar" MaxLength="155" />
+          <Property Name="GreenMarketID" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="PhoneNumber" Type="int" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Employee__Farmer__6754599E">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Farmer_ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Farmer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EventsTB__Farmer__778AC167">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+          <End Role="EventsTB" Type="Self.EventsTB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Farmer_ID" />
+            </Principal>
+            <Dependent Role="EventsTB">
+              <PropertyRef Name="Farmer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GreenMark__Farme__74AE54BC">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+          <End Role="GreenMarket" Type="Self.GreenMarket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Farmer_ID" />
+            </Principal>
+            <Dependent Role="GreenMarket">
+              <PropertyRef Name="Farmer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__Farmer__6383C8BA">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Farmer_ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="Farmer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RepliesTB__PostI__114A936A">
+          <End Role="PostsTB" Type="Self.PostsTB" Multiplicity="1" />
+          <End Role="RepliesTB" Type="Self.RepliesTB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PostsTB">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="RepliesTB">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventEnrollments_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="EventEnrollments" Type="Self.EventEnrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Employee_ID" />
+            </Principal>
+            <Dependent Role="EventEnrollments">
+              <PropertyRef Name="Employee_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventEnrollments_EventsTB">
+          <End Role="EventsTB" Type="Self.EventsTB" Multiplicity="1" />
+          <End Role="EventEnrollments" Type="Self.EventEnrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventsTB">
+              <PropertyRef Name="Event_ID" />
+            </Principal>
+            <Dependent Role="EventEnrollments">
+              <PropertyRef Name="Event_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventEnrollments_Farmer">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="0..1" />
+          <End Role="EventEnrollments" Type="Self.EventEnrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Farmer_ID" />
+            </Principal>
+            <Dependent Role="EventEnrollments">
+              <PropertyRef Name="Farmer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_GreenMarket">
+          <End Role="GreenMarket" Type="Self.GreenMarket" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GreenMarket">
+              <PropertyRef Name="GreenMarket_ID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="GreenMarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AgriEnergyDBModelStoreContainer">
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventEnrollments" EntityType="Self.EventEnrollments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventsTB" EntityType="Self.EventsTB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Farmer" EntityType="Self.Farmer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Grants" EntityType="Self.Grants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GreenMarket" EntityType="Self.GreenMarket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostsTB" EntityType="Self.PostsTB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RepliesTB" EntityType="Self.RepliesTB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Employee__Farmer__6754599E" Association="Self.FK__Employee__Farmer__6754599E">
+            <End Role="Farmer" EntitySet="Farmer" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EventsTB__Farmer__778AC167" Association="Self.FK__EventsTB__Farmer__778AC167">
+            <End Role="Farmer" EntitySet="Farmer" />
+            <End Role="EventsTB" EntitySet="EventsTB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GreenMark__Farme__74AE54BC" Association="Self.FK__GreenMark__Farme__74AE54BC">
+            <End Role="Farmer" EntitySet="Farmer" />
+            <End Role="GreenMarket" EntitySet="GreenMarket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__Farmer__6383C8BA" Association="Self.FK__Products__Farmer__6383C8BA">
+            <End Role="Farmer" EntitySet="Farmer" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RepliesTB__PostI__114A936A" Association="Self.FK__RepliesTB__PostI__114A936A">
+            <End Role="PostsTB" EntitySet="PostsTB" />
+            <End Role="RepliesTB" EntitySet="RepliesTB" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventEnrollments_Employee" Association="Self.FK_EventEnrollments_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EventEnrollments" EntitySet="EventEnrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventEnrollments_EventsTB" Association="Self.FK_EventEnrollments_EventsTB">
+            <End Role="EventsTB" EntitySet="EventsTB" />
+            <End Role="EventEnrollments" EntitySet="EventEnrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventEnrollments_Farmer" Association="Self.FK_EventEnrollments_Farmer">
+            <End Role="Farmer" EntitySet="Farmer" />
+            <End Role="EventEnrollments" EntitySet="EventEnrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_GreenMarket" Association="Self.FK_Transactions_GreenMarket">
+            <End Role="GreenMarket" EntitySet="GreenMarket" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_Users" Association="Self.FK_Transactions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AgriEnergyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Employee_ID" />
+          </Key>
+          <Property Name="Employee_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Farmer_ID" Type="Int32" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Farmer" Relationship="Self.FK__Employee__Farmer__6754599E" FromRole="Employee" ToRole="Farmer" />
+          <NavigationProperty Name="EventEnrollments" Relationship="Self.FK_EventEnrollments_Employee" FromRole="Employee" ToRole="EventEnrollments" />
+        </EntityType>
+        <EntityType Name="EventEnrollment">
+          <Key>
+            <PropertyRef Name="EnrollmentID" />
+          </Key>
+          <Property Name="EnrollmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Event_ID" Type="Int32" Nullable="false" />
+          <Property Name="Farmer_ID" Type="Int32" />
+          <Property Name="Employee_ID" Type="Int32" />
+          <Property Name="EnrollmentDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EventEnrollments_Employee" FromRole="EventEnrollments" ToRole="Employee" />
+          <NavigationProperty Name="EventsTB" Relationship="Self.FK_EventEnrollments_EventsTB" FromRole="EventEnrollments" ToRole="EventsTB" />
+          <NavigationProperty Name="Farmer" Relationship="Self.FK_EventEnrollments_Farmer" FromRole="EventEnrollments" ToRole="Farmer" />
+        </EntityType>
+        <EntityType Name="EventsTB">
+          <Key>
+            <PropertyRef Name="Event_ID" />
+          </Key>
+          <Property Name="Event_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Event_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Product_Price" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Farmer_ID" Type="Int32" Nullable="false" />
+          <Property Name="Event_Image" Type="String" MaxLength="5500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FarmerName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EventDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="EventEnrollments" Relationship="Self.FK_EventEnrollments_EventsTB" FromRole="EventsTB" ToRole="EventEnrollments" />
+          <NavigationProperty Name="Farmer" Relationship="Self.FK__EventsTB__Farmer__778AC167" FromRole="EventsTB" ToRole="Farmer" />
+        </EntityType>
+        <EntityType Name="Farmer">
+          <Key>
+            <PropertyRef Name="Farmer_ID" />
+          </Key>
+          <Property Name="Farmer_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FarmerName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CellphoneNumber" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__Farmer__6754599E" FromRole="Farmer" ToRole="Employee" />
+          <NavigationProperty Name="EventEnrollments" Relationship="Self.FK_EventEnrollments_Farmer" FromRole="Farmer" ToRole="EventEnrollments" />
+          <NavigationProperty Name="EventsTBs" Relationship="Self.FK__EventsTB__Farmer__778AC167" FromRole="Farmer" ToRole="EventsTB" />
+          <NavigationProperty Name="GreenMarkets" Relationship="Self.FK__GreenMark__Farme__74AE54BC" FromRole="Farmer" ToRole="GreenMarket" />
+          <NavigationProperty Name="Products" Relationship="Self.FK__Products__Farmer__6383C8BA" FromRole="Farmer" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Grant">
+          <Key>
+            <PropertyRef Name="GrantID" />
+          </Key>
+          <Property Name="GrantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GrantName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GrantDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="GrantGroup" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GreenMarket">
+          <Key>
+            <PropertyRef Name="GreenMarket_ID" />
+          </Key>
+          <Property Name="GreenMarket_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Product_Price" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="Farmer_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_Image" Type="String" MaxLength="5500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FarmerName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Farmer" Relationship="Self.FK__GreenMark__Farme__74AE54BC" FromRole="GreenMarket" ToRole="Farmer" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transactions_GreenMarket" FromRole="GreenMarket" ToRole="Transactions" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReceiverId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MessageText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="PostsTB">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReplyCount" Type="Int32" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RepliesTBs" Relationship="Self.FK__RepliesTB__PostI__114A936A" FromRole="PostsTB" ToRole="RepliesTB" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Product_Price" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="ProductDate" Type="DateTime" Precision="3" />
+          <Property Name="Farmer_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_Image" Type="String" MaxLength="5500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FarmerName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Farmer" Relationship="Self.FK__Products__Farmer__6383C8BA" FromRole="Products" ToRole="Farmer" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ProjectLeaderName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RepliesTB">
+          <Key>
+            <PropertyRef Name="ReplyID" />
+          </Key>
+          <Property Name="ReplyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostID" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PostsTB" Relationship="Self.FK__RepliesTB__PostI__114A936A" FromRole="RepliesTB" ToRole="PostsTB" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BuyerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BuyerEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BuyerAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CardNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionDate" Type="DateTime" Precision="3" />
+          <Property Name="CVV" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="User_ID" Type="Int32" />
+          <Property Name="FarmerName" Type="String" MaxLength="155" FixedLength="false" Unicode="false" />
+          <Property Name="GreenMarketID" Type="Int32" />
+          <NavigationProperty Name="GreenMarket" Relationship="Self.FK_Transactions_GreenMarket" FromRole="Transactions" ToRole="GreenMarket" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Transactions_Users" FromRole="Transactions" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumber" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transactions_Users" FromRole="Users" ToRole="Transactions" />
+        </EntityType>
+        <Association Name="FK__Employee__Farmer__6754599E">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Farmer_ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Farmer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventEnrollments_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="EventEnrollments" Type="Self.EventEnrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Employee_ID" />
+            </Principal>
+            <Dependent Role="EventEnrollments">
+              <PropertyRef Name="Employee_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventEnrollments_EventsTB">
+          <End Role="EventsTB" Type="Self.EventsTB" Multiplicity="1" />
+          <End Role="EventEnrollments" Type="Self.EventEnrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventsTB">
+              <PropertyRef Name="Event_ID" />
+            </Principal>
+            <Dependent Role="EventEnrollments">
+              <PropertyRef Name="Event_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventEnrollments_Farmer">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="0..1" />
+          <End Role="EventEnrollments" Type="Self.EventEnrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Farmer_ID" />
+            </Principal>
+            <Dependent Role="EventEnrollments">
+              <PropertyRef Name="Farmer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EventsTB__Farmer__778AC167">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+          <End Role="EventsTB" Type="Self.EventsTB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Farmer_ID" />
+            </Principal>
+            <Dependent Role="EventsTB">
+              <PropertyRef Name="Farmer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GreenMark__Farme__74AE54BC">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+          <End Role="GreenMarket" Type="Self.GreenMarket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Farmer_ID" />
+            </Principal>
+            <Dependent Role="GreenMarket">
+              <PropertyRef Name="Farmer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__Farmer__6383C8BA">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+          <End Role="Products" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Farmer_ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="Farmer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_GreenMarket">
+          <End Role="GreenMarket" Type="Self.GreenMarket" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GreenMarket">
+              <PropertyRef Name="GreenMarket_ID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="GreenMarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RepliesTB__PostI__114A936A">
+          <End Role="PostsTB" Type="Self.PostsTB" Multiplicity="1" />
+          <End Role="RepliesTB" Type="Self.RepliesTB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PostsTB">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="RepliesTB">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AgriEnergyDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="EventEnrollments" EntityType="Self.EventEnrollment" />
+          <EntitySet Name="EventsTBs" EntityType="Self.EventsTB" />
+          <EntitySet Name="Farmers" EntityType="Self.Farmer" />
+          <EntitySet Name="Grants" EntityType="Self.Grant" />
+          <EntitySet Name="GreenMarkets" EntityType="Self.GreenMarket" />
+          <EntitySet Name="Messages" EntityType="Self.Message" />
+          <EntitySet Name="PostsTBs" EntityType="Self.PostsTB" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="RepliesTBs" EntityType="Self.RepliesTB" />
+          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__Employee__Farmer__6754599E" Association="Self.FK__Employee__Farmer__6754599E">
+            <End Role="Farmer" EntitySet="Farmers" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventEnrollments_Employee" Association="Self.FK_EventEnrollments_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EventEnrollments" EntitySet="EventEnrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventEnrollments_EventsTB" Association="Self.FK_EventEnrollments_EventsTB">
+            <End Role="EventsTB" EntitySet="EventsTBs" />
+            <End Role="EventEnrollments" EntitySet="EventEnrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventEnrollments_Farmer" Association="Self.FK_EventEnrollments_Farmer">
+            <End Role="Farmer" EntitySet="Farmers" />
+            <End Role="EventEnrollments" EntitySet="EventEnrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EventsTB__Farmer__778AC167" Association="Self.FK__EventsTB__Farmer__778AC167">
+            <End Role="Farmer" EntitySet="Farmers" />
+            <End Role="EventsTB" EntitySet="EventsTBs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GreenMark__Farme__74AE54BC" Association="Self.FK__GreenMark__Farme__74AE54BC">
+            <End Role="Farmer" EntitySet="Farmers" />
+            <End Role="GreenMarket" EntitySet="GreenMarkets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__Farmer__6383C8BA" Association="Self.FK__Products__Farmer__6383C8BA">
+            <End Role="Farmer" EntitySet="Farmers" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_GreenMarket" Association="Self.FK_Transactions_GreenMarket">
+            <End Role="GreenMarket" EntitySet="GreenMarkets" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RepliesTB__PostI__114A936A" Association="Self.FK__RepliesTB__PostI__114A936A">
+            <End Role="PostsTB" EntitySet="PostsTBs" />
+            <End Role="RepliesTB" EntitySet="RepliesTBs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_Users" Association="Self.FK_Transactions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AgriEnergyDBModelStoreContainer" CdmEntityContainer="AgriEnergyDBEntities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Farmer_ID" ColumnName="Farmer_ID" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventEnrollments">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.EventEnrollment">
+              <MappingFragment StoreEntitySet="EventEnrollments">
+                <ScalarProperty Name="EnrollmentID" ColumnName="EnrollmentID" />
+                <ScalarProperty Name="Event_ID" ColumnName="Event_ID" />
+                <ScalarProperty Name="Farmer_ID" ColumnName="Farmer_ID" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="EnrollmentDate" ColumnName="EnrollmentDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventsTBs">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.EventsTB">
+              <MappingFragment StoreEntitySet="EventsTB">
+                <ScalarProperty Name="Event_ID" ColumnName="Event_ID" />
+                <ScalarProperty Name="Event_Name" ColumnName="Event_Name" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Product_Price" ColumnName="Product_Price" />
+                <ScalarProperty Name="Farmer_ID" ColumnName="Farmer_ID" />
+                <ScalarProperty Name="Event_Image" ColumnName="Event_Image" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FarmerName" ColumnName="FarmerName" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Farmers">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.Farmer">
+              <MappingFragment StoreEntitySet="Farmer">
+                <ScalarProperty Name="Farmer_ID" ColumnName="Farmer_ID" />
+                <ScalarProperty Name="FarmerName" ColumnName="FarmerName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="CellphoneNumber" ColumnName="CellphoneNumber" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Grants">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.Grant">
+              <MappingFragment StoreEntitySet="Grants">
+                <ScalarProperty Name="GrantID" ColumnName="GrantID" />
+                <ScalarProperty Name="GrantName" ColumnName="GrantName" />
+                <ScalarProperty Name="GrantDescription" ColumnName="GrantDescription" />
+                <ScalarProperty Name="GrantGroup" ColumnName="GrantGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GreenMarkets">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.GreenMarket">
+              <MappingFragment StoreEntitySet="GreenMarket">
+                <ScalarProperty Name="GreenMarket_ID" ColumnName="GreenMarket_ID" />
+                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Product_Price" ColumnName="Product_Price" />
+                <ScalarProperty Name="Farmer_ID" ColumnName="Farmer_ID" />
+                <ScalarProperty Name="Product_Image" ColumnName="Product_Image" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FarmerName" ColumnName="FarmerName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.Message">
+              <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />
+                <ScalarProperty Name="MessageText" ColumnName="MessageText" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostsTBs">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.PostsTB">
+              <MappingFragment StoreEntitySet="PostsTB">
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="ReplyCount" ColumnName="ReplyCount" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Product_Price" ColumnName="Product_Price" />
+                <ScalarProperty Name="ProductDate" ColumnName="ProductDate" />
+                <ScalarProperty Name="Farmer_ID" ColumnName="Farmer_ID" />
+                <ScalarProperty Name="Product_Image" ColumnName="Product_Image" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FarmerName" ColumnName="FarmerName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.Project">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="ProjectLeaderName" ColumnName="ProjectLeaderName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RepliesTBs">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.RepliesTB">
+              <MappingFragment StoreEntitySet="RepliesTB">
+                <ScalarProperty Name="ReplyID" ColumnName="ReplyID" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="ProductionDate" ColumnName="ProductionDate" />
+                <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
+                <ScalarProperty Name="BuyerEmail" ColumnName="BuyerEmail" />
+                <ScalarProperty Name="BuyerAddress" ColumnName="BuyerAddress" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="CVV" ColumnName="CVV" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="FarmerName" ColumnName="FarmerName" />
+                <ScalarProperty Name="GreenMarketID" ColumnName="GreenMarketID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="AgriEnergyDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
