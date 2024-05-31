@@ -82,14 +82,15 @@
                     <label for="txtGrantDescription">Grant description</label>
                     <asp:TextBox ID="txtGrantDescription" runat="server" CssClass="form-control" placeholder="Grant Description"></asp:TextBox>
                 </div>
-                <div class="form-group">
+
+                <div class="btn-group">
                     <label for="grantGroup">Grant group</label>
                     <asp:DropDownList ID="ddlGrantGroup" runat="server" CssClass="form-control">
                         <asp:ListItem Value="1">Farmers</asp:ListItem>
                         <asp:ListItem Value="2">Employees</asp:ListItem>
                     </asp:DropDownList>
                 </div>
-                <asp:Button ID="btnAddGrant" runat="server" Text="Add Grant" CssClass="btn-outline-primary" OnClick="btnAddGrant_Click" />
+                <asp:Button ID="btnAddGrant" type="button" runat="server" Text="Add Grant" class="btn btn-success" OnClick="btnAddGrant_Click" />
             </div>
 
             <!-- Product filter section -->

@@ -79,6 +79,8 @@ namespace ProgPoeAgriEnergyPortal
             string cvv = txtCVV.Text;
             // Encrypt the card number before storing it in the database
             string encryptedCardNumber = DataEncryptionClass.EncryptCardNumber(cardNumber);
+            // Encrypt the CVV number before storing it in the database
+            string encryptedCVV = DataEncryptionClass.EncryptVCCNumber(cvv);
 
             // validates the card number and cvv
             if (cardNumber.Length != 16)
@@ -92,8 +94,8 @@ namespace ProgPoeAgriEnergyPortal
                 return;
             }
 
-            // Add the transaction to the database
-            if (AddTransaction(productId, greenMarketId, productName, category,farmerName, productionDate, buyerName, buyerEmail, buyerAddress, cardNumber, cvv))
+            // Add the transaction to the database with the encrypted card number
+            if (AddTransaction(productId, greenMarketId, productName, category,farmerName, productionDate, buyerName, buyerEmail, buyerAddress, encryptedCardNumber, encryptedCVV))
             {
                 Response.Write("<script>alert('Thanks for shopping with us :)');</script>");
                 //Clear the form fields

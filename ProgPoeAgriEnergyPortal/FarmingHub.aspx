@@ -51,8 +51,8 @@
                                  <asp:Label ID="PostMessageSuccess" runat="server" Text="" CssClass="alert-success"></asp:Label>
                             </div>
                             <asp:Label ID="lblMessage" runat="server" Text="" CssClass="text-danger"></asp:Label>
-                            <asp:TextBox ID="txtPostTitle" runat="server" CssClass="form-control" Placeholder="Post Title"></asp:TextBox><br />
-                            <asp:TextBox ID="txtPostContent" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="5" Placeholder="Enter the post content here..."></asp:TextBox><br />
+                            <asp:TextBox ID="txtPostTitle" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="1" Placeholder="Post Title"></asp:TextBox><br />
+                            <asp:TextBox ID="txtPostContent" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="4" Placeholder="Enter the post content here..."></asp:TextBox><br />
                             <asp:Button ID="btnCreatePost" runat="server" Text="Create Post" CssClass="btn btn-primary" OnClick="btnCreatePost_Click" />
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>
-                    <a href="#" class="btn btn-primary btn-block mt-3">View More Posts</a>
+                    <a href="#" class="btn btn-primary btn-block mt-3">Recent Post</a>
                 </div>
             </div>
         </div>

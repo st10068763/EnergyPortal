@@ -43,6 +43,30 @@ namespace ProgPoeAgriEnergyPortal
             }
         }
 
+        // Method encrypt the CVV number
+        public static string EncryptVCCNumber(string cvvNumber)
+        {
+            using (Aes aesAlg = Aes.Create())
+            {
+                aesAlg.Key = Key;
+                aesAlg.IV = IV;
+
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+                using (var msEncrypt = new MemoryStream())
+                {
+                    using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (var swEncrypt = new StreamWriter(csEncrypt))
+                        {
+                            swEncrypt.Write(cvvNumber);
+                        }
+                        return Convert.ToBase64String(msEncrypt.ToArray());
+                    }
+                }
+            }
+        }
+
         // Method to hash the password
         public static string HashPassword(string password)
         {

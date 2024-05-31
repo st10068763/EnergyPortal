@@ -17,6 +17,7 @@ namespace ProgPoeAgriEnergyPortal
         {
 
         }
+        //-----------------------------___________BUTTONS____________-----------------------------//
         /// <summary>
         /// 
         /// </summary>
@@ -32,8 +33,10 @@ namespace ProgPoeAgriEnergyPortal
             string password = txtFarmerPassword.Text;
             string role = "Farmer";
 
+            // this will hash the password before storing it in the database, it passes the password to the HashPassword method in the DataEncryptionClass
+            string hashedPassword = DataEncryptionClass.HashPassword(password);
             // validates the contact number to ensure its 10 number
-            if(contact.Length != 10)
+            if (contact.Length != 10)
             {
                 GrantErrorMessage.Text = "Please enter 10 digits for contact number, exclude the country code";
                 return;
@@ -45,10 +48,59 @@ namespace ProgPoeAgriEnergyPortal
                 return;
             }  
             // Calls the AddFarmer method to add the farmer to the database
-            AddFarmer(name, contact, location, email, password, role);
+            AddFarmer(name, contact, location, email, hashedPassword, role);
             // Cleans the form
             cleanForms();
         }
+        /// <summary>
+        /// Search button to search for products in the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnSearchProduct_Click(object sender, EventArgs e)
+        {
+            // Bind the products to the repeater
+            if (string.IsNullOrEmpty(txtSearchProduct.Text))
+            {
+                // if the search query is empty, a message will display
+                GrantErrorMessage.Text = "Please enter a value in the search field";
+                //BindProductRepeater();
+            }
+            else
+            {
+                BindProductRepeater(txtSearchProduct.Text);
+            }
+        }
+        /// <summary>
+        /// search button to search for farmers in the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnSearchFarmer_Click(object sender, EventArgs e)
+        {
+            string query = txtSearchFarmer.Text;
+            // Perform search and bind results to GridViewFarmers
+            DataTable farmers = SearchFarmers(query);
+            GridViewFarmers.DataSource = farmers;
+            GridViewFarmers.DataBind();
+        }
+        /// <summary>
+        /// Button to add a new grant to the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnAddGrant_Click(object sender, EventArgs e)
+        {
+            string grantName = txtGrantName.Text;
+            string grantDescription = txtGrantDescription.Text;
+            string grantGroup = ddlGrantGroup.SelectedValue;
+            // Adds a new grants
+            AddGrant(grantName, grantDescription, grantGroup);
+            // Cleans the forms
+            cleanForms();
+        }
+        //-----------------------------___________METHODS____________-----------------------------//
+
         //----------------------------------ADD NEW FARMER--------------------------------------//
         // Method to add a new farmer to the database
         private bool AddFarmer(string name, string contact, string location, string email, string password, string role)
@@ -117,26 +169,11 @@ namespace ProgPoeAgriEnergyPortal
             // returns true if the farmer has been added successfully
             return true;          
         }
+        //----------------------------------BIND METHODS--------------------------------------//
         /// <summary>
-        /// Search button to search for products in the database
+        /// Method to bind the products to the repeater and search for products in the database
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnSearchProduct_Click(object sender, EventArgs e)
-        {
-            // Bind the products to the repeater
-            if (string.IsNullOrEmpty(txtSearchProduct.Text))
-            {
-                // if the search query is empty, a message will display
-                GrantErrorMessage.Text = "Please enter a value in the search field";
-                //BindProductRepeater();
-            }
-            else
-            {
-                BindProductRepeater(txtSearchProduct.Text);
-            }
-        }
-
+        /// <param name="searchQuery"></param>
         private void BindProductRepeater(string searchQuery = "")
         {
             try
@@ -182,23 +219,8 @@ namespace ProgPoeAgriEnergyPortal
             {
                 GrantErrorMessage.Text = "Error: Failed to retrieve products";
             }           
-        }
-
-        /// <summary>
-        /// search button to search for farmers in the database
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnSearchFarmer_Click(object sender, EventArgs e)
-        {
-            string query = txtSearchFarmer.Text;
-            // Perform search and bind results to GridViewFarmers
-            DataTable farmers = SearchFarmers(query);
-            GridViewFarmers.DataSource = farmers;
-            GridViewFarmers.DataBind();
-        }
-        //------------------------------SEARCH METHODS-----------------------------------//
-      
+        }       
+        //------------------------------SEARCH METHODS-----------------------------------//      
         /// <summary>
         /// Method to search for farmers in the database
         /// </summary>
@@ -233,19 +255,14 @@ namespace ProgPoeAgriEnergyPortal
                     }
                 }
             }
-        }
-
-        protected void btnAddGrant_Click(object sender, EventArgs e)
-        {
-            string grantName = txtGrantName.Text;
-            string grantDescription = txtGrantDescription.Text;
-            string grantGroup = ddlGrantGroup.SelectedValue;
-            // Adds a new grants
-            AddGrant(grantName, grantDescription, grantGroup);
-            // Cleans the forms
-            cleanForms();
-        }
-
+        }        
+        /// <summary>
+        /// Method to insert a new grant in the database
+        /// </summary>
+        /// <param name="grantName"></param>
+        /// <param name="grantDescription"></param>
+        /// <param name="grantGroup"></param>
+        /// <returns></returns>
         private bool AddGrant(string grantName, string grantDescription, string grantGroup)
         {
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
@@ -293,11 +310,14 @@ namespace ProgPoeAgriEnergyPortal
             txtFarmerName.Text = "";
             txtFarmerPassword.Text = "";
         }
-
+        /// <summary>
+        /// Select event that sorts the products in the repeater
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void ddlSortOptions_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindProductRepeater(txtSearchProduct.Text);
-          
+            BindProductRepeater(txtSearchProduct.Text);          
         }
     }
 }

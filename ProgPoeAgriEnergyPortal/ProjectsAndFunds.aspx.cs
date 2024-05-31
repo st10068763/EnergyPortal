@@ -153,7 +153,7 @@ namespace ProgPoeAgriEnergyPortal
             int projectId = int.Parse(btn.CommandArgument);
             int userId = Convert.ToInt32(Session["User_ID"]);
 
-            string connectionString = ConfigurationManager.ConnectionStrings["AgriEnergyDB"].ConnectionString;
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "INSERT INTO ProjectParticipants (ProjectID, UserID) VALUES (@ProjectID, @UserID)";
