@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -13,16 +14,23 @@ namespace ProgPoeAgriEnergyPortal
             {
                 if (Session["Farmer_ID"] == null)
                 {
-                    Response.Redirect("LoginPage.aspx");
+                    Response.Redirect("DashboardPage.aspx");
+                    // Message to display if the user is not an farmer
+                    DisplayMessage("You are not authorized to view this page");
                 }
                 else
                 {
                     int farmerId = Convert.ToInt32(Session["Farmer_ID"]);
                     DisplayProducts(farmerId);
+                    DisplayGreenMarket(farmerId);
                 }
             }
         }
-
+        /// <summary>
+        /// Button to add the products 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnAddProduct_Click(object sender, EventArgs e)
         {
             string name = txtProductName.Text;
@@ -100,7 +108,10 @@ namespace ProgPoeAgriEnergyPortal
                 }
             }
         }
-
+        /// <summary>
+        /// Method to displays all the products in the database entered by a particular farmer based on the farmer ID
+        /// </summary>
+        /// <param name="farmerId"></param>
         private void DisplayProducts(int farmerId)
         {
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
@@ -109,28 +120,54 @@ namespace ProgPoeAgriEnergyPortal
                 string query = "SELECT * FROM Products WHERE Farmer_ID = @Farmer_ID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
-                    conn.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    try
                     {
-                        ProductsTable.Rows.Clear();
-                        while (reader.Read())
+                        conn.Open();
+                        cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        if (dt.Rows.Count > 0)
                         {
-                            TableRow row = new TableRow();
-                            row.Cells.Add(new TableCell { Text = reader["ProductName"].ToString() });
-                            row.Cells.Add(new TableCell { Text = reader["Description"].ToString() });
-                            row.Cells.Add(new TableCell { Text = reader["Product_Price"].ToString() });
-                            row.Cells.Add(new TableCell { Text = reader["Quantity"].ToString() });
-                            row.Cells.Add(new TableCell { Text = reader["Category"].ToString() });
-                            row.Cells.Add(new TableCell { Text = reader["ProductDate"].ToString() });
-                            row.Cells.Add(new TableCell { Text = reader["Product_Image"].ToString() });
-                            row.Cells.Add(new TableCell { Text = reader["FarmerName"].ToString() });
-                            ProductsTable.Rows.Add(row);
+                            ProductsRepeater.DataSource = dt;
+                            ProductsRepeater.DataBind();
                         }
+                        else
+                        {
+                            DisplayMessage("No products found. Enter one now.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        DisplayMessage($"Error displaying products: {ex.Message}");
                     }
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="farmerId"></param>
+        private void DisplayGreenMarket(int farmerId)
+        {
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM GreenMarket WHERE Farmer_ID = @Farmer_ID";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    GreenRepeater.DataSource = dt;
+                    GreenRepeater.DataBind();
+                }
+            }
+        }
+
         //-----------------------------------Add product in the green market place-----------------------------------//
         /// <summary>
         /// Method to add a new product to in the green market table
@@ -246,8 +283,7 @@ namespace ProgPoeAgriEnergyPortal
             else
             {
                 DisplayMessage("Failed to add green product");
-            }
-            
+            }            
         }
     }
 }

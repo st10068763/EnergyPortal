@@ -105,24 +105,6 @@ namespace ProgPoeAgriEnergyPortal
         protected global::System.Web.UI.WebControls.Button btnAddProduct;
 
         /// <summary>
-        /// GridViewProducts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridViewProducts;
-
-        /// <summary>
-        /// ProductsTable control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Table ProductsTable;
-
-        /// <summary>
         /// txtGreenProductName control.
         /// </summary>
         /// <remarks>
@@ -195,12 +177,21 @@ namespace ProgPoeAgriEnergyPortal
         protected global::System.Web.UI.WebControls.Button btnAddGreenProduct;
 
         /// <summary>
-        /// Table1 control.
+        /// ProductsRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table Table1;
+        protected global::System.Web.UI.WebControls.Repeater ProductsRepeater;
+
+        /// <summary>
+        /// GreenRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater GreenRepeater;
     }
 }

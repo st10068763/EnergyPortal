@@ -15,6 +15,16 @@ namespace ProgPoeAgriEnergyPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                // checks if its an employee
+                if (Session["Employee_ID"] == null)
+                {
+                    Response.Redirect("DashboardPage.aspx");
+                    // pop up box message 
+                    Response.Write("<script>alert('You are not authorized to view this page');</script>");
+                }
+            }
 
         }
         //-----------------------------___________BUTTONS____________-----------------------------//

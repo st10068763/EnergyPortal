@@ -29,6 +29,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
+                         <li class="nav-item">
+                             <a class="nav-link" href="FarmersDashboard.aspx">Farmers Dashboard</a>
+                         </li>
+                         <li class="nav-item">
+                             <a class="nav-link" href="EmployeesDashboard.aspx">Employees Dashboard</a>
+                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="TransactionsPage.aspx">Transactions</a>
                         </li>

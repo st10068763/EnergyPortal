@@ -82,9 +82,10 @@
                     <label for="txtGrantDescription">Grant description</label>
                     <asp:TextBox ID="txtGrantDescription" runat="server" CssClass="form-control" placeholder="Grant Description"></asp:TextBox>
                 </div>
-
-                <div class="btn-group">
+                <div class="form-group">
                     <label for="grantGroup">Grant group</label>
+                </div>
+                <div class="form-group">                    
                     <asp:DropDownList ID="ddlGrantGroup" runat="server" CssClass="form-control">
                         <asp:ListItem Value="1">Farmers</asp:ListItem>
                         <asp:ListItem Value="2">Employees</asp:ListItem>
