@@ -13,6 +13,12 @@ namespace ProgPoeAgriEnergyPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["Farmer_ID"] == null)
+            {
+                Response.Redirect("DashboardPage.aspx");
+                // Message to display if the user is not an farmer
+                Response.Write("<script>alert('You are not authorized to view this page');</script>");
+            }
             if (!IsPostBack)
             {                
                 BindPosts();

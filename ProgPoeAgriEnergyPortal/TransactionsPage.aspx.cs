@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Security.Cryptography;
+using System.Data;
 
 namespace ProgPoeAgriEnergyPortal
 {
@@ -16,10 +17,12 @@ namespace ProgPoeAgriEnergyPortal
         {
             if (!IsPostBack)
             {
+                // Get the logged-in user's ID
+                int userId = Convert.ToInt32(Session["userId"]);
                 BindProductDetails();
                 BindGreenProductDetails();
                 // Display the transaction history
-                TransactionsHistory();
+                DisplayTransactions(userId);
             }
 
         }
@@ -165,24 +168,26 @@ namespace ProgPoeAgriEnergyPortal
             }
             return isSuccess;
         }
-
-
-        // method to display transaction history
-        private void TransactionsHistory()
+        /// <summary>
+        /// this method displays the transaction history
+        /// </summary>
+        /// <param name="userId"></param>
+        private void DisplayTransactions(int userId)
         {
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            // Get the logged-in user's ID
-            int userId = GetLoggedInUserId(); 
-            
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Transactions WHERE User_ID = @UserID";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@UserID", userId);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                PastTransactionsRepeater.DataSource = reader;
-                PastTransactionsRepeater.DataBind();
+                string query = "SELECT * FROM Transactions WHERE User_ID = @User_ID";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@User_ID", userId);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    PastTransactionsRepeater.DataSource = dt;
+                    PastTransactionsRepeater.DataBind();                    
+                }
             }
         }
         // cleans the form fields
@@ -198,15 +203,5 @@ namespace ProgPoeAgriEnergyPortal
             txtcardNumber.Text = string.Empty;
             txtCVV.Text = string.Empty;
         }
-
-        /// <summary>
-        /// Gets the ID of the logged-in user
-        /// </summary>
-        /// <returns></returns>
-        private int GetLoggedInUserId()
-        {
-            return Convert.ToInt32(Session["User_ID"]);
-        }
-
     }
 }
