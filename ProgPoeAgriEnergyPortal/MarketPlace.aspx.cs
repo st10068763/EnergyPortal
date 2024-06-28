@@ -19,8 +19,7 @@ namespace ProgPoeAgriEnergyPortal
         // Binds the green products to the repeater
         private void BindGreenProducts()
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 string query = "SELECT GreenMarket_ID, Product_Name, Quantity, Category, Product_Price, Product_Image, Description, FarmerName FROM GreenMarket";
@@ -39,8 +38,7 @@ namespace ProgPoeAgriEnergyPortal
         /// </summary>
         private void BindProducts()
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 string query = "SELECT Product_ID, ProductName, Quantity, Category, Product_Price, Product_Image, Description, FarmerName, ProductDate FROM Products";
@@ -66,8 +64,7 @@ namespace ProgPoeAgriEnergyPortal
             string productId = btn.CommandArgument;
 
             string query = $"SELECT Product_ID, ProductName, Category, ProductDate, FarmerName FROM Products WHERE Product_ID = @ProductId";
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -101,8 +98,7 @@ namespace ProgPoeAgriEnergyPortal
             string greenmarketID = btn.CommandArgument;
 
             string query = $"SELECT GreenMarket_ID, Product_Name, Category, FarmerName FROM GreenMarket WHERE GreenMarket_ID = @greenmarketID";
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();

@@ -71,7 +71,19 @@ namespace ProgPoeAgriEnergyPortal
                 DisplayMessage("Failed to add product");
             }
         }
-
+        /// <summary>
+        /// Method to insert the product into the database
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="category"></param>
+        /// <param name="description"></param>
+        /// <param name="farmerName"></param>
+        /// <param name="price"></param>
+        /// <param name="quantity"></param>
+        /// <param name="productDate"></param>
+        /// <param name="productImage"></param>
+        /// <param name="farmerId"></param>
+        /// <returns></returns>
         private bool AddProduct(string name, string category, string description, string farmerName, decimal price, int quantity, DateTime productDate, string productImage, int farmerId)
         {
             string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; 
@@ -196,10 +208,11 @@ namespace ProgPoeAgriEnergyPortal
                         cmd.Parameters.AddWithValue("@Quantity", Gnquantity);
                         cmd.Parameters.AddWithValue("@Category", Gncategory);
                         cmd.Parameters.AddWithValue("@Product_Price", GnPrice);
-                        cmd.Parameters.AddWithValue("@FarmerID", farmer_Id);
                         cmd.Parameters.AddWithValue("@Product_Image", Gnproduct_Image);
                         cmd.Parameters.AddWithValue("@Description", Gndescription);
                         cmd.Parameters.AddWithValue("@FarmerName", GnfarmerName);
+                        cmd.Parameters.AddWithValue("@FarmerID", farmer_Id);
+
                         conn.Open();
                         int rowsAffected = cmd.ExecuteNonQuery();
                         return rowsAffected > 0;
@@ -215,8 +228,7 @@ namespace ProgPoeAgriEnergyPortal
                     DisplayMessage($"Inner Exception: {ex.InnerException.Message}");
                 }
                 return false;
-            }
-          
+            }        
 
         }
 

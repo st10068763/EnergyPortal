@@ -136,15 +136,15 @@ namespace ProgPoeAgriEnergyPortal
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "INSERT INTO Transactions (ProductID, GreenMarketID, ProductName, Category, FarmerName, ProductionDate, BuyerName, BuyerEmail, BuyerAddress, CardNumber, CVV) " +
-                                   "VALUES (@ProductID, @GreenMarketID, @ProductName, @Category, @FarmerName, @ProductionDate, @BuyerName, @BuyerEmail, @BuyerAddress, @CardNumber, @CVV)";
+                    string query = "INSERT INTO Transactions (ProductID, GreenMarketID, ProductName, Category, FarmerName, ProductionDate, BuyerName, BuyerEmail, BuyerAddress, CardNumber, CVV, UserID) " +
+                                   "VALUES (@ProductID, @GreenMarketID, @ProductName, @Category, @FarmerName, @ProductionDate, @BuyerName, @BuyerEmail, @BuyerAddress, @CardNumber, @CVV, @userID)";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         // Add parameters for ProductID and GreenMarketID
                         cmd.Parameters.AddWithValue("@ProductID", string.IsNullOrEmpty(productId) ? DBNull.Value : (object)productId);
                         cmd.Parameters.AddWithValue("@GreenMarketID", string.IsNullOrEmpty(greenMarketId) ? DBNull.Value : (object)greenMarketId);
-                        // Add other parameters
+                  
                         cmd.Parameters.AddWithValue("@ProductName", productName);
                         cmd.Parameters.AddWithValue("@Category", category);
                         cmd.Parameters.AddWithValue("@FarmerName", farmerName);
@@ -154,6 +154,8 @@ namespace ProgPoeAgriEnergyPortal
                         cmd.Parameters.AddWithValue("@BuyerAddress", buyerAddress);
                         cmd.Parameters.AddWithValue("@CardNumber", cardNumber);
                         cmd.Parameters.AddWithValue("@CVV", cvv);
+                        // gets the user id from the session
+                        cmd.Parameters.AddWithValue("@userID", Convert.ToInt32(Session["userId"]));
 
                         int rows = cmd.ExecuteNonQuery();
                         isSuccess = rows > 0;
