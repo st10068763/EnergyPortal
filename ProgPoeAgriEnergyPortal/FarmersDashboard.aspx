@@ -144,7 +144,7 @@
                                         <p class="card-text">Stock available: <%# Eval("Quantity") %></p>
                                         <p class="card-text">Production Date: <%# Eval("ProductDate") %></p>
                                         <p class="card-text">Farmer Name: <%# Eval("FarmerName") %></p>
-                                        <p class="card-text">Farmer ID: <%# Eval("Farmer_ID") %></p>                                    
+                                        <p class="card-text">Farmer ID: <%# Eval("FarmerID") %></p>                                    
                                     </div>
                                 </div>
                             </div>

@@ -13,7 +13,7 @@ namespace ProgPoeAgriEnergyPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["Farmer_ID"] == null)
+            if (Session["FarmerID"] == null)
             {
                 Response.Redirect("DashboardPage.aspx");
                 // Message to display if the user is not an farmer
@@ -42,9 +42,8 @@ namespace ProgPoeAgriEnergyPortal
         {
             string postTitle = txtPostTitle.Text;
             string postContent = txtPostContent.Text;
-            //gets the user ID of the logged in user
             // Change to "User_ID"
-            int userId = Convert.ToInt32(Session["Farmer_ID"]);
+            int userId = Convert.ToInt32(Session["FarmerID"]);
             
 
             if (string.IsNullOrEmpty(postTitle) || string.IsNullOrEmpty(postContent))
@@ -71,8 +70,7 @@ namespace ProgPoeAgriEnergyPortal
             
             try
             {
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-
+                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     string query = "INSERT INTO PostsTB (Title, Content, DateCreated, CreatedBy) VALUES (@Title, @Content, @DateCreated, @CreatedBy)";
@@ -81,7 +79,7 @@ namespace ProgPoeAgriEnergyPortal
                         cmd.Parameters.AddWithValue("@Title", postTitle);
                         cmd.Parameters.AddWithValue("@Content", postContent);
                         cmd.Parameters.AddWithValue("@DateCreated", DateTime.Now);
-                        cmd.Parameters.AddWithValue("@CreatedBy", Session["Farmer_ID"]);
+                        cmd.Parameters.AddWithValue("@CreatedBy", Session["FarmerID"]);
 
                         conn.Open();
                         int rows = cmd.ExecuteNonQuery();
@@ -99,8 +97,7 @@ namespace ProgPoeAgriEnergyPortal
         private void BindPosts()
         {
             List<Post> posts = new List<Post>();
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -142,8 +139,7 @@ namespace ProgPoeAgriEnergyPortal
                 Repeater replyRepeater = (Repeater)e.Item.FindControl("ReplyRepeater");
                 int postId = (int)DataBinder.Eval(e.Item.DataItem, "PostID");
 
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     string query = "SELECT * FROM RepliesTB WHERE PostID = @PostID ORDER BY DateCreated ASC";
                     SqlCommand cmd = new SqlCommand(query, conn);
@@ -173,8 +169,7 @@ namespace ProgPoeAgriEnergyPortal
                 return;
             }
 
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "INSERT INTO RepliesTB (PostID, Content, DateCreated, CreatedBy) VALUES (@PostID, @Content, @DateCreated, @CreatedBy)";
                 SqlCommand cmd = new SqlCommand(query, conn);

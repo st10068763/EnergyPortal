@@ -8,14 +8,14 @@ namespace ProgPoeAgriEnergyPortal
 {
     public partial class CommunicationHub : Page
     {
-        private string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+        private string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 // Check if either an employee or a farmer is logged in
-                if (Session["Employee_ID"] == null && Session["Farmer_ID"] == null)
+                if (Session["EmployeeID"] == null && Session["FarmerID"] == null)
                 {
                     Response.Redirect("LoginPage.aspx");
                 }
@@ -32,9 +32,9 @@ namespace ProgPoeAgriEnergyPortal
         /// </summary>
         private void LoadUsers()
         {
-            string query = @"SELECT Employee_ID AS UserID, EmployeeName AS UserName FROM Employee
+            string query = @"SELECT EmployeeID AS UserID, EmployeeName AS UserName FROM Employee
                 UNION
-                SELECT Farmer_ID AS UserID, FarmerName AS UserName FROM Farmer";
+                SELECT FarmerID AS UserID, FarmerName AS UserName FROM Farmer";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -85,7 +85,7 @@ namespace ProgPoeAgriEnergyPortal
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 // Query to get all the messages from the database and order them by time it was sent
-                string query = @"SELECT m.MessageText, m.Timestamp, u.UserName AS SenderName FROM Messages m JOIN Users u ON m.SenderId = u.User_ID
+                string query = @"SELECT m.MessageText, m.Timestamp, u.UserName AS SenderName FROM Messages m JOIN Users u ON m.SenderId = u.UserID
                                  ORDER BY m.Timestamp";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 conn.Open();
@@ -115,7 +115,7 @@ namespace ProgPoeAgriEnergyPortal
             // Get the message from the text box
             string message = txtMessage.Text.Trim();
             // Get the sender ID from the session (either Employee_ID or Farmer_ID)
-            string senderId = Session["Employee_ID"] != null ? Session["Employee_ID"].ToString() : Session["Farmer_ID"].ToString();
+            string senderId = Session["EmployeeID"] != null ? Session["EmployeeID"].ToString() : Session["FarmerID"].ToString();
             string receiverId = ddlReceiver.SelectedValue;
             // Check if the message is not empty if its not empty save the message in the database and displays it in the chat box
             if (!string.IsNullOrEmpty(message))

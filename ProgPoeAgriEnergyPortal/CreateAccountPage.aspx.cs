@@ -65,8 +65,7 @@ namespace ProgPoeAgriEnergyPortal
 
         private bool IsEmailInUse(string email)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            bool isEmailInUse = false;
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; bool isEmailInUse = false;
 
             try
             {
@@ -99,8 +98,7 @@ namespace ProgPoeAgriEnergyPortal
         /// <returns></returns>
         private bool CreateUserAccount(string name, string email, string phone, string password, string role, string location)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007"; 
-            bool isSuccess = false;
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; bool isSuccess = false;
 
             try
             {              

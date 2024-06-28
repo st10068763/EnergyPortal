@@ -129,8 +129,7 @@ namespace ProgPoeAgriEnergyPortal
                 return false;
             }
 
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            bool isSuccess = false;
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; bool isSuccess = false;
 
             try
             {
@@ -174,14 +173,14 @@ namespace ProgPoeAgriEnergyPortal
         /// <param name="userId"></param>
         private void DisplayTransactions(int userId)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Transactions WHERE User_ID = @User_ID";
+                string query = "SELECT * FROM Transactions WHERE UserID = @UserID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     conn.Open();
-                    cmd.Parameters.AddWithValue("@User_ID", userId);
+                    cmd.Parameters.AddWithValue("@UserID", userId);
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     da.Fill(dt);

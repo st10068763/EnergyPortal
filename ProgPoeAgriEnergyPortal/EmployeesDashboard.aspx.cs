@@ -18,7 +18,7 @@ namespace ProgPoeAgriEnergyPortal
             if (!IsPostBack)
             {
                 // checks if its an employee
-                if (Session["Employee_ID"] == null)
+                if (Session["EmployeeID"] == null)
                 {
                     Response.Redirect("DashboardPage.aspx");
                     // pop up box message 
@@ -116,7 +116,7 @@ namespace ProgPoeAgriEnergyPortal
         private bool AddFarmer(string name, string contact, string location, string email, string password, string role)
         {
            // connection string to connect to the database
-           string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+           string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -190,8 +190,7 @@ namespace ProgPoeAgriEnergyPortal
             {
                 // Get the search query and sort option
                 string sortOption = ddlSortOptions.SelectedValue;
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-                // Open the connection to the database
+                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";                // Open the connection to the database
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
@@ -241,8 +240,7 @@ namespace ProgPoeAgriEnergyPortal
             // the % are used to search for the query in the database
             var searchQuery = "%" + query + "%";
             // connection string to connect to the database
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 // open the connection to the database
                 conn.Open();
@@ -275,8 +273,7 @@ namespace ProgPoeAgriEnergyPortal
         /// <returns></returns>
         private bool AddGrant(string grantName, string grantDescription, string grantGroup)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 SqlTransaction transaction = null;

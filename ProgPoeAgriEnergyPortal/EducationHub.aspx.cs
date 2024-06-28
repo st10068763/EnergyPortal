@@ -54,7 +54,7 @@ namespace ProgPoeAgriEnergyPortal
             }
             
             // Get the farmer id from the session
-            int farmerId = Convert.ToInt32(Session["Farmer_ID"]);
+            int farmerId = Convert.ToInt32(Session["FarmerID"]);
 
 
             //calling method that creates event
@@ -83,8 +83,8 @@ namespace ProgPoeAgriEnergyPortal
             {
                 string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
 
-                string query = "INSERT INTO EventsTB(Event_Name, Category, Product_Price, Farmer_ID, Event_Image, Description, FarmerName, EventDate) " +
-                                             "VALUES (@Event_Name, @Category, @Product_Price, @Farmer_ID, @Event_Image, @Description, @FarmerName, @EventDate)";
+                string query = "INSERT INTO EventsTB(Event_Name, Category, Product_Price, FarmerID, Event_Image, Description, FarmerName, EventDate) " +
+                                             "VALUES (@Event_Name, @Category, @Product_Price, @FarmerID, @Event_Image, @Description, @FarmerName, @EventDate)";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
@@ -93,7 +93,7 @@ namespace ProgPoeAgriEnergyPortal
                         cmd.Parameters.AddWithValue("@Event_Name", eventName);
                         cmd.Parameters.AddWithValue("@Category", category);
                         cmd.Parameters.AddWithValue("@Product_Price", productPrice);
-                        cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
+                        cmd.Parameters.AddWithValue("@FarmerID", farmerId);
                         cmd.Parameters.AddWithValue("@Event_Image", eventImage);
                         cmd.Parameters.AddWithValue("@Description", eventDescription);
                         cmd.Parameters.AddWithValue("@FarmerName", farmerName);
@@ -115,7 +115,7 @@ namespace ProgPoeAgriEnergyPortal
 
         private void BindEvent()
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
 
             try
             {
@@ -144,10 +144,10 @@ namespace ProgPoeAgriEnergyPortal
             // Get the event id from the hidden field
             int eventId = Convert.ToInt32(((Button)sender).CommandArgument);
             // Get the farmer id from the session
-            int farmerId = Convert.ToInt32(Session["Farmer_ID"]);
+            int farmerId = Convert.ToInt32(Session["FarmerID"]);
 
 
-            int employee = Convert.ToInt32(Session["Employee_ID"]);           
+            int employee = Convert.ToInt32(Session["EmployeeID"]);           
             // verifies if the user has already enrolled for the event
             if (VerifyEnrollment(eventId, farmerId))
             {
@@ -172,14 +172,14 @@ namespace ProgPoeAgriEnergyPortal
             try
             {
                 string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-                string query = "SELECT * FROM EventEnrollments WHERE Event_ID = @Event_ID AND Farmer_ID = @Farmer_ID";
+                string query = "SELECT * FROM EventEnrollments WHERE Event_ID = @Event_ID AND FarmerID = @FarmerID";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Event_ID", eventId);
-                        cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
+                        cmd.Parameters.AddWithValue("@FarmerID", farmerId);
                         conn.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
                         return reader.HasRows;
@@ -197,15 +197,15 @@ namespace ProgPoeAgriEnergyPortal
         {
             try
             {
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-                string query = "INSERT INTO EventEnrollments (Event_ID, Farmer_ID) VALUES (@Event_ID, @Farmer_ID)";
+                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+                string query = "INSERT INTO EventEnrollments (Event_ID, FarmerID) VALUES (@Event_ID, @FarmerID)";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Event_ID", eventId);
-                        cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
+                        cmd.Parameters.AddWithValue("@FarmerID", farmerId);
                         conn.Open();
                         int rows = cmd.ExecuteNonQuery();
                         return rows > 0;

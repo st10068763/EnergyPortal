@@ -259,6 +259,7 @@
     </Content>
     <None Include="packages.config" />
     <Content Include="Site1.Master" />
+    <None Include="Properties\PublishProfiles\AgriEnergyPortal2024 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\CldvPoePartOne20240527110409 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PoeAgriEnergyPortal - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ProgPoeAgriEnergyPortal20240531205253 - Web Deploy.pubxml" />

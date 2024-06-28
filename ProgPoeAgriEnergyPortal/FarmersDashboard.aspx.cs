@@ -12,15 +12,15 @@ namespace ProgPoeAgriEnergyPortal
         {
             if (!IsPostBack)
             {
-                if (Session["Farmer_ID"] == null)
+                if (Session["FarmerID"] == null)
                 {
                     Response.Redirect("DashboardPage.aspx");
                     // Message to display if the user is not an farmer
-                    DisplayMessage("You are not authorized to view this page");
+                    Response.Write("<script>alert('You are not authorized to view this page');</script>");
                 }
                 else
                 {
-                    int farmerId = Convert.ToInt32(Session["Farmer_ID"]);
+                    int farmerId = Convert.ToInt32(Session["FarmerID"]);
                     DisplayProducts(farmerId);
                     DisplayGreenMarket(farmerId);
                 }
@@ -44,7 +44,7 @@ namespace ProgPoeAgriEnergyPortal
 
             if (!decimal.TryParse(txtProductPrice.Text, out price))
             {
-                DisplayMessage("Please enter a valid price");
+                DisplayMessage("Please enter a valid price, use comma " + "," + " for decimal separator.");
                 return;
             }
             if (!int.TryParse(txtProductQuantity.Text, out quantity))
@@ -58,7 +58,7 @@ namespace ProgPoeAgriEnergyPortal
                 return;
             }
 
-            int farmerId = Convert.ToInt32(Session["Farmer_ID"]);
+            int farmerId = Convert.ToInt32(Session["FarmerID"]);
 
             if (AddProduct(name, category, description, farmerName, price, quantity, productDate, productImage, farmerId))
             {
@@ -74,13 +74,13 @@ namespace ProgPoeAgriEnergyPortal
 
         private bool AddProduct(string name, string category, string description, string farmerName, decimal price, int quantity, DateTime productDate, string productImage, int farmerId)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 try
                 {
                     conn.Open();
-                    string query = "INSERT INTO Products (ProductName, Description, FarmerName, Product_Price, Quantity, Category, ProductDate, Product_Image, Farmer_ID) VALUES (@Name, @Description, @FarmerName, @Price, @Quantity, @Category, @ProductDate, @Product_Image, @Farmer_ID)";
+                    string query = "INSERT INTO Products (ProductName, Quantity, Category, Product_Price, Product_Image, Description, FarmerName, ProductDate, FarmerID) VALUES (@Name, @Quantity, @Category, @Price, @Product_Image, @Description, @FarmerName, @ProductDate, @FarmerID)";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Name", name);
@@ -91,7 +91,7 @@ namespace ProgPoeAgriEnergyPortal
                         cmd.Parameters.AddWithValue("@Category", category);
                         cmd.Parameters.AddWithValue("@ProductDate", productDate);
                         cmd.Parameters.AddWithValue("@Product_Image", productImage);
-                        cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);                        
+                        cmd.Parameters.AddWithValue("@FarmerID", farmerId);                        
 
                         int rowsAffected = cmd.ExecuteNonQuery();
                         return rowsAffected > 0;
@@ -114,16 +114,15 @@ namespace ProgPoeAgriEnergyPortal
         /// <param name="farmerId"></param>
         private void DisplayProducts(int farmerId)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Products WHERE Farmer_ID = @Farmer_ID";
+                string query = "SELECT * FROM Products WHERE FarmerID = @FarmerID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     try
                     {
                         conn.Open();
-                        cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
+                        cmd.Parameters.AddWithValue("@FarmerID", farmerId);
                         SqlDataAdapter da = new SqlDataAdapter(cmd);
                         DataTable dt = new DataTable();
                         da.Fill(dt);
@@ -151,14 +150,13 @@ namespace ProgPoeAgriEnergyPortal
         /// <param name="farmerId"></param>
         private void DisplayGreenMarket(int farmerId)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM GreenMarket WHERE Farmer_ID = @Farmer_ID";
+                string query = "SELECT * FROM GreenMarket WHERE FarmerID = @FarmerID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     conn.Open();
-                    cmd.Parameters.AddWithValue("@Farmer_ID", farmerId);
+                    cmd.Parameters.AddWithValue("@FarmerID", farmerId);
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
@@ -186,9 +184,9 @@ namespace ProgPoeAgriEnergyPortal
             try
             {
                 // Add the product to the database
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-                string query = "INSERT INTO GreenMarket (Product_Name, Quantity, Category, Product_Price, Farmer_ID, Product_Image, Description, FarmerName)" +
-                    " VALUES (@Product_Name, @Quantity, @Category, @Product_Price, @Farmer_ID, @Product_Image, @Description, @FarmerName)";
+                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+                string query = "INSERT INTO GreenMarket (Product_Name, Quantity, Category, Product_Price, Product_Image, Description, FarmerName, FarmerID)" +
+                    " VALUES (@Product_Name, @Quantity, @Category, @Product_Price, @Product_Image,  @Description , @FarmerName, @FarmerID)";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
@@ -198,7 +196,7 @@ namespace ProgPoeAgriEnergyPortal
                         cmd.Parameters.AddWithValue("@Quantity", Gnquantity);
                         cmd.Parameters.AddWithValue("@Category", Gncategory);
                         cmd.Parameters.AddWithValue("@Product_Price", GnPrice);
-                        cmd.Parameters.AddWithValue("@Farmer_ID", farmer_Id);
+                        cmd.Parameters.AddWithValue("@FarmerID", farmer_Id);
                         cmd.Parameters.AddWithValue("@Product_Image", Gnproduct_Image);
                         cmd.Parameters.AddWithValue("@Description", Gndescription);
                         cmd.Parameters.AddWithValue("@FarmerName", GnfarmerName);
@@ -256,7 +254,7 @@ namespace ProgPoeAgriEnergyPortal
             int Gnquantity;
             string Gncategory = CategoryDL.SelectedValue;
             decimal GnPrice;
-            int farmer_Id = Convert.ToInt32(Session["Farmer_ID"]);
+            int farmer_Id = Convert.ToInt32(Session["FarmerID"]);
             string Gnproduct_Image = GreenproductImage.Text;
             string Gndescription = GreenProductDescription.Text;
             string GnfarmerName = GreenFarmerName.Text;
@@ -271,7 +269,7 @@ namespace ProgPoeAgriEnergyPortal
                 DisplayMessage("Please enter a valid quantity for the Green energy product");
                 return;
             }
-            int farmerId = Convert.ToInt32(Session["Farmer_ID"]);
+            int farmerId = Convert.ToInt32(Session["FarmerID"]);
 
             // calls the method to add the green product to the green market place           
             if (AddGreenProduct(GnproductName, Gnquantity, Gncategory, GnPrice, farmer_Id, Gnproduct_Image, Gndescription, GnfarmerName))

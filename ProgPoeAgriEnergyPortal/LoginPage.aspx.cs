@@ -32,12 +32,12 @@ namespace ProgPoeAgriEnergyPortal
             {
                 if (userInfo.Value.Role == "Farmer")
                 {
-                    Session["Farmer_ID"] = userInfo.Value.UserID;
+                    Session["FarmerID"] = userInfo.Value.UserID;
                     Response.Redirect("FarmersDashboard.aspx");
                 }
                 else if (userInfo.Value.Role == "Employee")
                 {
-                    Session["Employee_ID"] = userInfo.Value.UserID;
+                    Session["EmployeeID"] = userInfo.Value.UserID;
                     Response.Redirect("EmployeesDashboard.aspx");
                 }
             }
@@ -50,7 +50,7 @@ namespace ProgPoeAgriEnergyPortal
         private (string UserID, string Role)? VerifyUser(string email, string password)
         {
             (string UserID, string Role)? userInfo = null;
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AgriEnergyDB;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
 
             try
             {
@@ -58,7 +58,7 @@ namespace ProgPoeAgriEnergyPortal
                 {
                     conn.Open();
 
-                    string query = "SELECT User_ID AS UserID, Role, Password FROM Users WHERE Email = @Email";
+                    string query = "SELECT UserID AS UserID, Role, Password FROM Users WHERE Email = @Email";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Email", email);
