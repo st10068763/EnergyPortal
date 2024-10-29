@@ -8,6 +8,9 @@ namespace ProgPoeAgriEnergyPortal
 {
     public partial class FarmersDashboard : System.Web.UI.Page
     {
+        //Connection string 
+        string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\AEPDatabase.mdf;Integrated Security=True";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -85,8 +88,7 @@ namespace ProgPoeAgriEnergyPortal
         /// <param name="farmerId"></param>
         /// <returns></returns>
         private bool AddProduct(string name, string category, string description, string farmerName, decimal price, int quantity, DateTime productDate, string productImage, int farmerId)
-        {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; 
+        {            
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 try
@@ -126,7 +128,7 @@ namespace ProgPoeAgriEnergyPortal
         /// <param name="farmerId"></param>
         private void DisplayProducts(int farmerId)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT * FROM Products WHERE FarmerID = @FarmerID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -162,7 +164,7 @@ namespace ProgPoeAgriEnergyPortal
         /// <param name="farmerId"></param>
         private void DisplayGreenMarket(int farmerId)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT * FROM GreenMarket WHERE FarmerID = @FarmerID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -196,7 +198,6 @@ namespace ProgPoeAgriEnergyPortal
             try
             {
                 // Add the product to the database
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
                 string query = "INSERT INTO GreenMarket (Product_Name, Quantity, Category, Product_Price, Product_Image, Description, FarmerName, FarmerID)" +
                     " VALUES (@Product_Name, @Quantity, @Category, @Product_Price, @Product_Image,  @Description , @FarmerName, @FarmerID)";
 
@@ -261,7 +262,7 @@ namespace ProgPoeAgriEnergyPortal
         /// <param name="e"></param>
         protected void btnAddGreenProduct_Click(object sender, EventArgs e)
         {
-            // change all fild to green product
+            // change all field to green product
             string GnproductName = txtGreenProductName.Text;
             int Gnquantity;
             string Gncategory = CategoryDL.SelectedValue;

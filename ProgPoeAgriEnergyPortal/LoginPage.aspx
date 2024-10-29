@@ -38,7 +38,13 @@
 <body>
     <!-------------------------------------------------Login form------------------------------------------------------------>
     <form id="form1" runat="server">
+       
+        
         <div class="login-container">
+                    <!-- Error Message -->
+                <div>
+                    <asp:Label ID="lblErrorMessage" runat="server" ForeColor="Red" Visible="false"></asp:Label>
+                </div>
             <h2>Login</h2>
             <div class="form-group">
                 <label for="email">Email address</label>
@@ -56,7 +62,8 @@
 
             <div class="form-group">
                 <a href="CreateAccountPage.aspx">Create an account</a>            
-        </div>
+             </div>
+            </div>
     </form>
     <!------------------------------------------------------------------------------------------------------------->
 

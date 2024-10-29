@@ -13,6 +13,9 @@ namespace ProgPoeAgriEnergyPortal
 {
     public partial class TransactionsPage : System.Web.UI.Page
     {
+        //Connection string 
+        string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\AEPDatabase.mdf;Integrated Security=True";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -129,7 +132,7 @@ namespace ProgPoeAgriEnergyPortal
                 return false;
             }
 
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; bool isSuccess = false;
+             bool isSuccess = false;
 
             try
             {
@@ -174,8 +177,7 @@ namespace ProgPoeAgriEnergyPortal
         /// </summary>
         /// <param name="userId"></param>
         private void DisplayTransactions(int userId)
-        {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; 
+        {            
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT * FROM Transactions WHERE UserID = @UserID";

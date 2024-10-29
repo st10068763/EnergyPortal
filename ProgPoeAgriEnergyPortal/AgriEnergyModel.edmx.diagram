@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1778136f3e5b4ccd88d9479427b98a7f" Name="Diagram1">
+      <Diagram DiagramId="1778136f3e5b4ccd88d9479427b98a7f" Name="Diagram1" ZoomLevel="71">
         <EntityTypeShape EntityType="AgriEnergyDBModel.Employee" Width="1.5" PointX="3" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AgriEnergyDBModel.EventEnrollment" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AgriEnergyDBModel.EventsTB" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />

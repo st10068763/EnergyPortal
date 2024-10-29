@@ -85,6 +85,7 @@
       <DependentUpon>AgriEnergyModel.edmx</DependentUpon>
       <LastGenOutput>AgriEnergyModel.cs</LastGenOutput>
     </Content>
+    <Content Include="App_Data\AEPDatabase.mdf" />
     <Content Include="CommunicationHub.aspx" />
     <Content Include="CreateAccountPage.aspx" />
     <Content Include="CSS\mySheet.css" />

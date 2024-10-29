@@ -8,7 +8,8 @@ namespace ProgPoeAgriEnergyPortal
 {
     public partial class CommunicationHub : Page
     {
-        private string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+        //Connection string 
+        string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\AEPDatabase.mdf;Integrated Security=True";
 
         protected void Page_Load(object sender, EventArgs e)
         {

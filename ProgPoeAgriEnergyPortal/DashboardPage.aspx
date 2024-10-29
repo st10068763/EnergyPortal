@@ -127,7 +127,7 @@
                                             <h5 class="card-title"><%# Eval("ProductName") %></h5>
                                             <p class="card-text"><%# Eval("Description") %></p>
                                             <p class="card-text"><small class="text-muted">Category: <%# Eval("Category") %></small></p>
-                                            <p class="card-text">Price: R<%# Eval("Product_Price") %></p>
+                                            <p class="card-text">Price: R<%# Eval("Price") %></p>
                                             <p class="card-text">Stock available: <%# Eval("Quantity") %></p>
                                             <p class="card-text">Production Date: <%# Eval("ProductDate") %></p>
                                             <p class="card-text">Farmer Name: <%# Eval("FarmerName") %></p>

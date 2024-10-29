@@ -11,6 +11,9 @@ namespace ProgPoeAgriEnergyPortal
 {
     public partial class CreateAccountPage : System.Web.UI.Page
     {
+        //Connection string 
+        string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\AEPDatabase.mdf;Integrated Security=True";
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -65,7 +68,7 @@ namespace ProgPoeAgriEnergyPortal
 
         private bool IsEmailInUse(string email)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; bool isEmailInUse = false;
+            bool isEmailInUse = false;
 
             try
             {
@@ -98,7 +101,7 @@ namespace ProgPoeAgriEnergyPortal
         /// <returns></returns>
         private bool CreateUserAccount(string name, string email, string phone, string password, string role, string location)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; bool isSuccess = false;
+            bool isSuccess = false;
 
             try
             {              
@@ -120,7 +123,7 @@ namespace ProgPoeAgriEnergyPortal
                         }
                         else if (role == "Employee")
                         {
-                            query = "INSERT INTO Employee (EmployeeName, Email, PhoneNumber, Password, Location, Role) VALUES (@Name, @Email, @Phone, @Password, @Location, @Role)";
+                            query = "INSERT INTO Employee (EmployeeName, Email, Password,PhoneNumber , Role, Location) VALUES (@Name, @Email, @Password, @Phone, @Role, @Location)";
                             cmd = new SqlCommand(query, conn, transaction);
                             cmd.Parameters.AddWithValue("@Name", name);
                             cmd.Parameters.AddWithValue("@Email", email);
@@ -132,7 +135,7 @@ namespace ProgPoeAgriEnergyPortal
                             cmd.ExecuteNonQuery();
 
                             // query to insert the user details in the users table
-                            string query2 = "INSERT INTO Users (UserName, Role, Email, Password, PhoneNumber, Location) VALUES (@UserName, @Role, @Email, @Password,@PhoneNumber, @Location)";
+                            string query2 = "INSERT INTO Users (UserName, Email,Password,Role ,PhoneNumber, Location) VALUES (@UserName, @Role, @Email, @Password,@PhoneNumber, @Location)";
                             SqlCommand cmd2 = new SqlCommand(query2, conn, transaction);
                             cmd2.Parameters.AddWithValue("@UserName", name);
                             cmd2.Parameters.AddWithValue("@Role", role);

@@ -12,6 +12,9 @@ namespace ProgPoeAgriEnergyPortal
 {
     public partial class EducationHub : System.Web.UI.Page
     {
+        //Connection string 
+        string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\AEPDatabase.mdf;Integrated Security=True";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -80,9 +83,7 @@ namespace ProgPoeAgriEnergyPortal
         public bool CreateEvent(string eventName, string category, double productPrice, int farmerId, string eventImage, string eventDescription, string farmerName, DateTime eventDate)
         {
             try
-            {             
-
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+            {    
                 string query = "INSERT INTO EventsTB(Event_Name, Category, Product_Price, FarmerID, Event_Image, Description, FarmerName, EventDate) " +
                                              "VALUES (@Event_Name, @Category, @Product_Price, @FarmerID, @Event_Image, @Description, @FarmerName, @EventDate)";
 
@@ -121,8 +122,7 @@ namespace ProgPoeAgriEnergyPortal
 
 
         private void BindEvent()
-        {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
+        {            
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -177,7 +177,7 @@ namespace ProgPoeAgriEnergyPortal
         {
             try
             {
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; string query = "SELECT * FROM EventEnrollments WHERE Event_ID = @Event_ID AND FarmerID = @FarmerID";
+               string query = "SELECT * FROM EventEnrollments WHERE Event_ID = @Event_ID AND FarmerID = @FarmerID";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
@@ -202,7 +202,7 @@ namespace ProgPoeAgriEnergyPortal
         {
             try
             {
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; string query = "INSERT INTO EventEnrollments (Event_ID, FarmerID) VALUES (@Event_ID, @FarmerID)";
+                string query = "INSERT INTO EventEnrollments (Event_ID, FarmerID) VALUES (@Event_ID, @FarmerID)";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {

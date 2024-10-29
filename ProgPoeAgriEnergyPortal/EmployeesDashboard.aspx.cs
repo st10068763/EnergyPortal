@@ -13,6 +13,9 @@ namespace ProgPoeAgriEnergyPortal
 {
     public partial class EmployeesDashboard : System.Web.UI.Page
     {
+        //Connection string 
+        string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\AEPDatabase.mdf;Integrated Security=True";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -115,9 +118,6 @@ namespace ProgPoeAgriEnergyPortal
         // Method to add a new farmer to the database
         private bool AddFarmer(string name, string contact, string location, string email, string password, string role)
         {
-           // connection string to connect to the database
-           string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";
-
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 // using a transaction to ensure that the data is added to the database 
@@ -144,7 +144,7 @@ namespace ProgPoeAgriEnergyPortal
                     }
 
                     // SQL query to insert the new user into the Users table
-                    string userQuery = "INSERT INTO Users (UserName, Email, PhoneNumber, Password, Role, Location) VALUES (@UserName, @Email, @PhoneNumber, @Password, @Role, @Location)";
+                    string userQuery = "INSERT INTO User (UserName, Email, PhoneNumber, Password, Role, Location) VALUES (@UserName, @Email, @PhoneNumber, @Password, @Role, @Location)";
                     using (SqlCommand userCommand = new SqlCommand(userQuery, conn, transaction))
                     {
                         userCommand.Parameters.AddWithValue("@UserName", name);
@@ -189,12 +189,11 @@ namespace ProgPoeAgriEnergyPortal
             try
             {
                 // Get the search query and sort option
-                string sortOption = ddlSortOptions.SelectedValue;
-                string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007";                // Open the connection to the database
+                string sortOption = ddlSortOptions.SelectedValue;               
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT ProductName, Quantity, Category, Product_Price, Product_Image, Description, ProductDate, FarmerName FROM Products";
+                    string query = "SELECT ProductName, Quantity, Category, Product_Price, Product_Image, Description, ProductDate, FarmerName FROM Product";
                     // Add the search query to the query
                     if (!string.IsNullOrEmpty(searchQuery))
                     {
@@ -240,7 +239,7 @@ namespace ProgPoeAgriEnergyPortal
             // the % are used to search for the query in the database
             var searchQuery = "%" + query + "%";
             // connection string to connect to the database
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 // open the connection to the database
                 conn.Open();
@@ -273,14 +272,14 @@ namespace ProgPoeAgriEnergyPortal
         /// <returns></returns>
         private bool AddGrant(string grantName, string grantDescription, string grantGroup)
         {
-            string connectionString = "Data Source=agrisqlserver.database.windows.net;Initial Catalog=AEPDatabase;Persist Security Info=True;User ID=st10068763;Password=MyName007"; using (SqlConnection conn = new SqlConnection(connectionString))
+             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 SqlTransaction transaction = null;
                 try
                 {
                     transaction = conn.BeginTransaction();
-                    string query = "INSERT INTO Grants (GrantName, GrantDescription, GrantGroup) VALUES (@GrantName, @GrantDescription, @GrantGroup)";
+                    string query = "INSERT INTO GrantTB (GrantName, GrantDescription, GrantGroup) VALUES (@GrantName, @GrantDescription, @GrantGroup)";
                     using (SqlCommand command = new SqlCommand(query, conn, transaction))
                     {
                         command.Parameters.AddWithValue("@GrantName", grantName);
